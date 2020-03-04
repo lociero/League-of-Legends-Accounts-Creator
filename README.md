@@ -1,42 +1,24 @@
-> [Supports multithread now!](https://ibb.co/yd7G94z)
+> ![Example](https://i.ibb.co/K6k8Vc9/acc-creator-react.jpg)
 
 ### Requirements:
 
-1. [NodeJS](https://nodejs.org/en/)
-2. [2Captcha Subscription](http://2captcha.com/?from=8859803)
+1. [2Captcha Subscription](http://2captcha.com/?from=8859803)
 
-### How to install and use:
+### How to use:
 
+1. [Download archive.](https://github.com/lociero/League-of-Legends-Accounts-Creator/releases/tag/crator)
+2. Unzip and run `acc-creator-react.exe`
+
+### What you can change
+
+1. Server. Supported: EUW, EUNE, NA, BR, TR, RU, OCE, LAN, LAS.
+2. Email mask. It's `username`+`@gmail.com` by default, you can use anything you want, for example `username`+`_lol@hotmail.info`.
+3. Date of Birth.
+4. Number of accounts. Program uses multithread.
+
+### Nickname generator used in creator
+Randomly generates a nickname from 7 to 10 length:
 ```
-$ git clone git@github.com:lociero/League-of-Legends-Accounts-Creator.git
-$ cd League-of-Legends-Accounts-Creator
-$ make install
-$ make start
-```
-
-### For Windows 10 users:
-
-1. ![step1](https://i.ibb.co/SwfjmKG/step1ubuntu.jpg) It will ask you to reboot PC, do it.
-2. Install Ubuntu from Microsoft Store, launch it, wait a little bit and create user.
-3. For not wasting your time on setup git, download repository manually (Download ZIP).
-4. Open Linux shell from the League-of-Legends-Accounts-Creator folder by **holding** Shift.
-![step4](https://i.ibb.co/MVTWwmD/image.png)
-5. Type this one by one:
-```
-$ sudo apt update
-$ sudo apt install curl
-$ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-$ sudo apt install -y nodejs
-$ sudo apt install make
-
-$ make install
-$ make start
-```
-
-### Nickname generator used in creator:
-```
-$ make nickname
-
 // => Giotilangi
 // => Jaccori
 // => Korewereed
