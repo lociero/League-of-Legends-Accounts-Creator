@@ -3,6 +3,7 @@
 ### Requirements:
 
 1. [2Captcha Subscription](http://2captcha.com/?from=8859803)
+2. * Tested only on Win10 x64.
 
 ### How to use:
 
