@@ -16,6 +16,8 @@
 3. Date of Birth.
 4. Number of accounts. Program uses multithread.
 
+### BTW:
+It's not 100% that all amount of accounts will be registered, it's all about pretty simple name generation and also email (it can match with riot db), also captcha recognition. Usually it's about 60% of the total.
 ### Nickname generator used in creator
 Randomly generates a nickname from 7 to 10 length:
 ```
