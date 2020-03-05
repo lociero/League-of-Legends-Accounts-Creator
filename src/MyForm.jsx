@@ -5,7 +5,13 @@ import solveCaptcha from './captcha2';
 import getLink from './servers';
 import requestRiotSignup from './riotApi';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+// import { shell } from 'electron';
 // import saveAcc from './write';
+
+// const Link = props => {
+//   const { children, href } = props;
+//   return <span onClick={shell.openItem(href)}>{children}</span>;
+// };
 
 export default class MyForm extends React.Component {
   constructor(props) {
@@ -121,7 +127,8 @@ export default class MyForm extends React.Component {
         <div className="form-row">
           <div className="form-group col-md-6">
             <label htmlFor="input2captcha" className="col-form-label">
-              2Captcha API Key <a href='https://2captcha.com?from=8859803'>sign up</a>
+              2Captcha API Key{' '}
+              <a href="https://2captcha.com?from=8859803">sign up</a>
             </label>
             <input
               type="text"
@@ -255,6 +262,9 @@ export default class MyForm extends React.Component {
             <a style={this.styles.link} href="https://paypal.me/lociero">
               <i className="fab fa-paypal"></i>
             </a>
+            {/* <Link href="https://paypal.me/lociero">
+              <i className="fab fa-paypal"></i>
+            </Link> */}
           </span>
         </div>
       </form>

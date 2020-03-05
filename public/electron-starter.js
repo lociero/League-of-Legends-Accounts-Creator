@@ -13,7 +13,13 @@ let mainWindow;
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 1000, height: 600 });
+  mainWindow = new BrowserWindow({
+    width: 1000,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  });
 
   // and load the index.html of the app.
   const startUrl =
@@ -56,4 +62,17 @@ app.on('activate', function() {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+app.on('web-contents-created', (e, contents) => {
+  contents.on('new-window', (e, url) => {
+    e.preventDefault();
+    require('open')(url);
+  });
+  contents.on('will-navigate', (e, url) => {
+    if (url !== contents.getURL()) {
+      e.preventDefault();
+      require('open')(url);
+    }
+  });
 });
