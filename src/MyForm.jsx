@@ -4,6 +4,7 @@ import generateNick from './nameGen';
 import solveCaptcha from './captcha2';
 import getLink from './servers';
 import requestRiotSignup from './riotApi';
+import saveAccs from './write';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export default class MyForm extends React.Component {
@@ -82,7 +83,7 @@ export default class MyForm extends React.Component {
       const firstLine = `Successfully registered [${registeredUsers.length}/${amount}]`;
       const registeredPlain = registeredUsers.join('\n');
       const lastLine = "Don't forget to copy and save them!";
-      // await saveAcc(registeredPlain);
+      await saveAccs(registeredPlain);
       const resultOutput = `${firstLine}\n${registeredPlain}\n${lastLine}`;
       this.setState({
         accounts: resultOutput,

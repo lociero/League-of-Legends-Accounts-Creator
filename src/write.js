@@ -1,18 +1,26 @@
-import { promises as fs } from 'fs';
+// const jetpack = require('fs-jetpack');
+const app = window.require('electron').remote.app;
 
-const saveAccs = async (newAccounts) => {
+var app2 = window.require('electron').remote;
+const fs = app2.require('fs').promises;
+
+const saveAccs = async newAccounts => {
+  const currDir = app.getAppPath();
   const accounts = await fs
-    .readFile(`${__dirname}/../generatedAccounts.txt`, 'utf-8')
+    .readFile(`${currDir}/generatedAccounts.txt`, 'utf-8')
     .catch(() => undefined);
   if (!accounts) {
-    console.log('Creating generatedAccounts.txt');
-    await fs.writeFile(`${__dirname}/../generatedAccounts.txt`, newAccounts, 'utf-8');
+    await fs.writeFile(
+      `${currDir}/generatedAccounts.txt`,
+      newAccounts,
+      'utf-8'
+    );
     return;
   }
   await fs.writeFile(
-    `${__dirname}/../generatedAccounts.txt`,
+    `${currDir}/generatedAccounts.txt`,
     `${accounts}\n${newAccounts}`,
-    'utf-8',
+    'utf-8'
   );
 };
 
