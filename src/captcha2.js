@@ -4,7 +4,7 @@ function sleep(ms) {
 
 const solveRecaptchaV2 = async (APIKey, googlekey, pageUrl) => {
   // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-  const requestUrl = `http://2captcha.com/in.php?key=${APIKey}&method=userrecaptcha&googlekey=${googlekey}&pageurl=${pageUrl}`;
+  const requestUrl = `http://2captcha.com/in.php?key=${APIKey}&method=userrecaptcha&googlekey=${googlekey}&pageurl=${pageUrl}&soft_id=2622`;
   const response = await fetch(/*proxyUrl + */ requestUrl, {
     method: 'POST'
   });
@@ -12,7 +12,7 @@ const solveRecaptchaV2 = async (APIKey, googlekey, pageUrl) => {
   const captchaIDres = await response.text();
   const captchaID = captchaIDres.split('|')[1]; // remove 'OK|'
 
-  const requestTokenUrl = `http://2captcha.com/res.php?key=${APIKey}&action=get&id=${captchaID}`;
+  const requestTokenUrl = `http://2captcha.com/res.php?key=${APIKey}&action=get&id=${captchaID}&soft_id=2622`;
   let token = await fetch(/*proxyUrl + */ requestTokenUrl, {
     method: 'GET'
   });
