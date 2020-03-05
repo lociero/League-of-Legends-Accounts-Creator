@@ -19753,7 +19753,7 @@ const alphalow = index => String.fromCharCode(97 + index);
 const alphaup = index => String.fromCharCode(65 + index);
 const rnd = ceiling => Math.floor(Math.random() * ceiling);
 
-const genName = (len = getRandom(7, 10)) => {
+const genName = (len = getRandom(8, 12)) => {
   const { letters, letters2 } = generateLetters();
   const namelen = len;
   const curchar = rnd(26);
