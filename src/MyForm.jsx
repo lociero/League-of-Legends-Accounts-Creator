@@ -82,7 +82,7 @@ export default class MyForm extends React.Component {
     if (registeredUsers.length > 0) {
       const firstLine = `Successfully registered [${registeredUsers.length}/${amount}]`;
       const registeredPlain = registeredUsers.join('\n');
-      const lastLine = "Don't forget to copy and save them!";
+      const lastLine = "Check ./generatedAccounts.txt!";
       await saveAccs(registeredPlain);
       const resultOutput = `${firstLine}\n${registeredPlain}\n${lastLine}`;
       this.setState({

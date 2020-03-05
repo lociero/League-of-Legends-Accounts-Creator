@@ -7,18 +7,18 @@ const fs = app2.require('fs').promises;
 const saveAccs = async newAccounts => {
   const currDir = app.getAppPath();
   const accounts = await fs
-    .readFile(`${currDir}/generatedAccounts.txt`, 'utf-8')
+    .readFile(`${currDir}/../../generatedAccounts.txt`, 'utf-8')
     .catch(() => undefined);
   if (!accounts) {
     await fs.writeFile(
-      `${currDir}/generatedAccounts.txt`,
+      `${currDir}/../../generatedAccounts.txt`,
       newAccounts,
       'utf-8'
     );
     return;
   }
   await fs.writeFile(
-    `${currDir}/generatedAccounts.txt`,
+    `${currDir}/../../generatedAccounts.txt`,
     `${accounts}\n${newAccounts}`,
     'utf-8'
   );

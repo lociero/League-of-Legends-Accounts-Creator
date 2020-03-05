@@ -19,7 +19,7 @@
 
 ### BTW:
 - It's not 100% that all amount of accounts will be registered, it's all about pretty simple name generation and also email (it can match with riot db), also captcha recognition. Usually it's about 70% of the total.
-- It doesn't save accs in .txt, don't forget to copy them to save. (I'll try to add this later).
+- ~~It doesn't save accs in .txt, don't forget to copy them to save. (I'll try to add this later).~~ Accounts are saving in generatedAccounts.txt now!
 - ~~Don't open links in the right corner (git and pp) when accounts are generating, due to some bug, you can't step back to genereate form (will try to fix it one day =))~~ FIXED
 
 ### Nickname generator used in creator
