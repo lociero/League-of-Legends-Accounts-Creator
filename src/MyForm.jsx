@@ -1,17 +1,10 @@
 import React from 'react';
-import generatePassword from 'password-generator';
+import generatePassword from './passwordGen';
 import generateNick from './nameGen';
 import solveCaptcha from './captcha2';
 import getLink from './servers';
 import requestRiotSignup from './riotApi';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-// import { shell } from 'electron';
-// import saveAcc from './write';
-
-// const Link = props => {
-//   const { children, href } = props;
-//   return <span onClick={shell.openItem(href)}>{children}</span>;
-// };
 
 export default class MyForm extends React.Component {
   constructor(props) {
@@ -44,7 +37,7 @@ export default class MyForm extends React.Component {
   genAccount = () => {
     const { emailmask } = this.state;
     const username = generateNick();
-    const password = generatePassword(10, false, /[0-9a-zA-Z]/);
+    const password = generatePassword();
     const email = `${username}${emailmask}`;
     return { username, password, email };
   };
