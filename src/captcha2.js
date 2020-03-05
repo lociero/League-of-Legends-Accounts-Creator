@@ -1,6 +1,3 @@
-// const fetch = require('node-fetch');
-// const axios = require('axios');
-
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -11,9 +8,9 @@ const solveRecaptchaV2 = async (APIKey, googlekey, pageUrl) => {
   const response = await fetch(/*proxyUrl + */ requestUrl, {
     method: 'POST'
   });
-  // const response = await axios.post(requestUrl);
-  const captchaIDres = await response.text(); // .split('|')[1]
-  const captchaID = captchaIDres.split('|')[1];
+
+  const captchaIDres = await response.text();
+  const captchaID = captchaIDres.split('|')[1]; // remove 'OK|'
 
   const requestTokenUrl = `http://2captcha.com/res.php?key=${APIKey}&action=get&id=${captchaID}`;
   let token = await fetch(/*proxyUrl + */ requestTokenUrl, {
@@ -30,7 +27,7 @@ const solveRecaptchaV2 = async (APIKey, googlekey, pageUrl) => {
     token = await token.text();
   }
 
-  token = token.split('|')[1];
+  token = token.split('|')[1]; // remove 'OK|'
   return token;
 };
 
