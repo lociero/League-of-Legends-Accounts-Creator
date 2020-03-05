@@ -1,12 +1,20 @@
-import generator from 'generate-password';
+import getRandomInt from './utils';
 
-const genPassword = () => {
-  const password = generator.generate({
-    length: 10,
-    numbers: true,
-    excludeSimilarCharacters: true
-  });
-  return password;
+const hasNumber = string => /[A-Za-z]/.test(string);
+const hasDigit = string => /\d/.test(string);
+
+const genPass = (length = 12) => {
+  const dictionary = 'QWERTYUPASDFGHJKLZXCVBNMqwertyupasdfghjkzxcvbnm23456789';
+  let pass = '';
+  for (let i = 0; i < length; i += 1) {
+    const index = getRandomInt(0, 54);
+    pass += dictionary[index];
+  }
+  if (hasNumber(pass) && hasDigit(pass)) {
+    return pass;
+  }
+
+  return genPass(length);
 };
 
-export default genPassword;
+export default genPass;
