@@ -13,7 +13,7 @@ export default class MyForm extends React.Component {
     this.state = {
       emailmask: '@gmail.com',
       amount: '10',
-      accounts: '',
+      logs: '',
       apikey: '',
       server: '',
       birth: '2000-01-01',
@@ -47,7 +47,7 @@ export default class MyForm extends React.Component {
     const { server, birth } = this.state;
     const { username, password, email } = this.genAccount();
     const token = await solveCaptcha(apikey, googlekey, url);
-    if (!token) return null;
+    // if (!token) return null;
     const res = await requestRiotSignup(
       token,
       username,
@@ -56,10 +56,12 @@ export default class MyForm extends React.Component {
       region,
       birth
     );
-    if (res.ok) {
-      return `${server}:${username}:${password}:${email}`;
+    if (res.status === 200) {
+      return `${server}:${username}:${password}:${email} success!`;
     }
-    return null;
+    return `${server}:${username}:${password}:${email} error: ${JSON.stringify(
+      res.response.data.fields
+    )}`;
   };
 
   onSubmit = async e => {
@@ -72,39 +74,32 @@ export default class MyForm extends React.Component {
     }, 1000);
     this.setState({ isGenerating: !isGenerating });
     const { url, region } = getLink(server);
-    const promises = [];
-    for (let i = 0; i < Number(amount); i += 1) {
-      promises.push(this.registerAccount(googlekey, apikey, url, region));
-    }
-    const [...users] = await Promise.all(promises);
+    const requests = new Array(Number(amount))
+      .fill(null)
+      .map(() => this.registerAccount(googlekey, apikey, url, region));
+    const [...users] = await Promise.all(requests);
     clearInterval(this.myInterval);
-    const registeredUsers = users.filter(Boolean);
-    if (registeredUsers.length > 0) {
-      const firstLine = `Successfully registered [${registeredUsers.length}/${amount}]`;
-      const registeredPlain = registeredUsers.join('\n');
-      const lastLine = "Check ./generatedAccounts.txt!";
-      await saveAccs(registeredPlain);
-      const resultOutput = `${firstLine}\n${registeredPlain}\n${lastLine}`;
-      this.setState({
-        accounts: resultOutput,
-        isGenerating: false,
-        timer: 300
-      });
-    } else {
-      this.setState({
-        accounts:
-          'Something went wrong!\nCaptcha not recognized correctly, or username/email match',
-        isGenerating: false,
-        timer: 300
-      });
-    }
+    const registeredUsers = users.filter(string => !string.includes('error'));
+
+    const info1 = `Successfully registered [${registeredUsers.length}/${amount}]`;
+    const normalizedRegisteredUsers = registeredUsers
+      .map(string => string.slice(0, -9))
+      .join('\n');
+    const info2 = 'Check ./generatedAccounts.txt!';
+    if (registeredUsers.length > 0) await saveAccs(normalizedRegisteredUsers);
+    const resultOutput = `${info1}\n${users.join('\n')}\n${info2}`;
+    this.setState({
+      logs: resultOutput,
+      isGenerating: false,
+      timer: 300
+    });
   };
 
   renderForm = () => {
     const {
       emailmask,
       amount,
-      accounts,
+      logs,
       apikey,
       server,
       birth,
@@ -216,11 +211,11 @@ export default class MyForm extends React.Component {
           <textarea
             type="text"
             className="form-control"
-            name="accounts"
+            name="logs"
             id="inputAccounts"
             placeholder="Registered accounts will be here"
             rows={5}
-            value={accounts}
+            value={logs}
             onChange={this.handleChange}
             readOnly
           />

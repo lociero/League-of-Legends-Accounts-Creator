@@ -7,6 +7,9 @@ const solveRecaptchaV2 = async (APIKey, googlekey, pageUrl) => {
   const requestUrl = `http://2captcha.com/in.php?key=${APIKey}&method=userrecaptcha&googlekey=${googlekey}&pageurl=${pageUrl}&soft_id=2622`;
   const response = await fetch(/*proxyUrl + */ requestUrl, {
     method: 'POST'
+  }).catch(err => {
+    console.log(err);
+    return err;
   });
 
   const captchaIDres = await response.text();
@@ -15,6 +18,9 @@ const solveRecaptchaV2 = async (APIKey, googlekey, pageUrl) => {
   const requestTokenUrl = `http://2captcha.com/res.php?key=${APIKey}&action=get&id=${captchaID}&soft_id=2622`;
   let token = await fetch(/*proxyUrl + */ requestTokenUrl, {
     method: 'GET'
+  }).catch(err => {
+    console.log(err);
+    return err;
   });
   token = await token.text();
   let attempt = 1;
@@ -23,6 +29,9 @@ const solveRecaptchaV2 = async (APIKey, googlekey, pageUrl) => {
     attempt = attempt + 1;
     token = await fetch(/*proxyUrl + */ requestTokenUrl, {
       method: 'GET'
+    }).catch(err => {
+      console.log(err);
+      return err;
     });
     token = await token.text();
   }
