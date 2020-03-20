@@ -6,7 +6,7 @@ const requestRiotSignup = async (
   password,
   email,
   region,
-  birth
+  birth,
 ) => {
   const requestBody = {
     username,
@@ -19,25 +19,16 @@ const requestRiotSignup = async (
     region,
     campaign: 'league_of_legends',
     locale: 'en',
-    token: `Captcha ${token}`
+    token: `Captcha ${token}`,
   };
 
   // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
   const apiUrl = 'https://signup-api.leagueoflegends.com/v1/accounts';
-  //   const response = await fetch(/*proxyUrl + */ apiUrl, {
-  //     method: 'POST',
-  //     body: JSON.stringify(requestBody),
-  //     headers: { 'Content-Type': 'application/json' },
-  //   });
   const response = await axios
     .post(apiUrl, requestBody, {
-      //body: JSON.stringify(requestBody),
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     })
-    .catch(err => {
-      console.log(err);
-      return err;
-    });
+    .catch(err => err);
 
   return response;
 };

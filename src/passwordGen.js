@@ -5,8 +5,8 @@ const hasDigit = string => /\d/.test(string);
 
 const genPass = (length = 10) => {
   const password = generator.generate({
-    length: length,
-    numbers: true
+    length,
+    numbers: true,
   });
   if (hasNumber(password) && hasDigit(password)) {
     return password;

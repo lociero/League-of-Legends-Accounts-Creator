@@ -1,8 +1,8 @@
 // const jetpack = require('fs-jetpack');
-const app = window.require('electron').remote.app;
+const { app } = window.require('electron').remote;
 
-var app2 = window.require('electron').remote;
-const fs = app2.require('fs').promises;
+const { remote } = window.require('electron');
+const fs = remote.require('fs').promises;
 
 const saveAccs = async newAccounts => {
   const currDir = app.getAppPath();
@@ -13,14 +13,14 @@ const saveAccs = async newAccounts => {
     await fs.writeFile(
       `${currDir}/../../generatedAccounts.txt`,
       newAccounts,
-      'utf-8'
+      'utf-8',
     );
     return;
   }
   await fs.writeFile(
     `${currDir}/../../generatedAccounts.txt`,
     `${accounts}\n${newAccounts}`,
-    'utf-8'
+    'utf-8',
   );
 };
 

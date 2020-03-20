@@ -1,15 +1,19 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import MyForm from './MyForm';
-// import $ from 'jquery';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducers from './reducers/index';
+import App from './components/App';
 
-// const shell = require('electron').shell;
-// //open links externally by default
-// $(document).on('click', 'a[href^="http"]', function(event) {
-//     event.preventDefault();
-//     shell.openExternal(this.href);
-// });
+const store = createStore(
+  reducers,
+  // eslint-disable-next-line no-underscore-dangle
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
+
 ReactDOM.render(
-  <MyForm />,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('container'),
 );
