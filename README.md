@@ -1,4 +1,4 @@
-> ![Example](https://i.ibb.co/K6k8Vc9/acc-creator-react.jpg)
+> ![Example](https://i.ibb.co/tPXSTc6/image.png)
 
 ### Requirements:
 
