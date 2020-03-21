@@ -2,24 +2,34 @@ import generatePassword from './passwordGen';
 import generateNick from './nameGen';
 import solveCaptcha from './captcha2';
 import requestRiotSignup from './riotApi';
+import getRandomEmailMask from './getRandomEmailMask';
 
-const genAccountData = (emailmask, userName = 'random') => {
-  const username = userName === 'random' ? generateNick() : userName;
-  const password = generatePassword();
-  const email = `${username}${emailmask}`;
-  return { username, password, email };
+const genAccountData = async (emailmask, isCheckedEmail, username) => {
+  const generatedUsername = !username ? generateNick() : username;
+  const generatedPassword = generatePassword();
+  const emailMask = isCheckedEmail ? await getRandomEmailMask() : emailmask;
+  const generatedEmail = `${generatedUsername}${emailMask}`;
+  return {
+    username: generatedUsername,
+    password: generatedPassword,
+    email: generatedEmail,
+  };
 };
 
 const registerAccount = async (
   server,
   dateOfBirth,
   emailmask,
+  isCheckedEmail,
   googlekey,
   apikey,
   url,
   region,
 ) => {
-  const { username, password, email } = genAccountData(emailmask);
+  const { username, password, email } = await genAccountData(
+    emailmask,
+    isCheckedEmail,
+  );
   const token = await solveCaptcha(apikey, googlekey, url);
   const res = await requestRiotSignup(
     token,

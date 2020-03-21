@@ -12,6 +12,7 @@ const startGenerate = (
   resetTimer,
   dateOfBirth,
   emailMask,
+  isCheckedEmail,
 ) => async () => {
   const googleKey = '6Lc3HAsUAAAAACsN7CgY9MMVxo2M09n_e4heJEiZ';
   const timerInterval = setInterval(tickTimer, 1000);
@@ -24,6 +25,7 @@ const startGenerate = (
         serverName,
         dateOfBirth,
         emailMask,
+        isCheckedEmail,
         googleKey,
         apiKey,
         url,

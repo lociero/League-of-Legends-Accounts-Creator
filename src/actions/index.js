@@ -9,3 +9,4 @@ export const updateOutputResults = createAction('OUTPUT_RESULTS_UPDATE');
 export const toggleGenerate = createAction('TOGGLE_GENERATE');
 export const tickTimer = createAction('TIMER_TICK');
 export const resetTimer = createAction('TIMER_RESET');
+export const toggleEmailCheckBox = createAction('TOGGLE_EMAIL_CHECKBOX');

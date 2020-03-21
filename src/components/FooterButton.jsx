@@ -14,6 +14,7 @@ const mapStateToProps = state => {
     timer,
     emailMask,
     dateOfBirth,
+    isCheckedEmail,
   } = state;
   return {
     apiKey,
@@ -23,6 +24,7 @@ const mapStateToProps = state => {
     timer,
     emailMask,
     dateOfBirth,
+    isCheckedEmail,
   };
 };
 
@@ -52,10 +54,11 @@ const FooterButton = props => {
     resetTimer,
     dateOfBirth,
     emailMask,
+    isCheckedEmail,
   } = props;
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <div className="d-flex justify-content-between">
       <div>
         {!isGenerating ? (
           <button
@@ -71,6 +74,7 @@ const FooterButton = props => {
               resetTimer,
               dateOfBirth,
               emailMask,
+              isCheckedEmail,
             )}
           >
             Generate

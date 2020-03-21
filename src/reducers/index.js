@@ -76,6 +76,15 @@ const timer = handleActions(
   },
   300,
 );
+
+const isCheckedEmail = handleActions(
+  {
+    [actions.toggleEmailCheckBox](state) {
+      return !state;
+    },
+  },
+  false,
+);
 export default combineReducers({
   apiKey,
   serverName,
@@ -85,4 +94,5 @@ export default combineReducers({
   outputResults,
   isGenerating,
   timer,
+  isCheckedEmail,
 });
