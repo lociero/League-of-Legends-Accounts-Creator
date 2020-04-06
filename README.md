@@ -1,4 +1,4 @@
-> ![Example](https://i.ibb.co/tPXSTc6/image.png)
+> ![Example](https://i.ibb.co/2q8fXMV/creator-review.jpg)
 
 ### Requirements:
 
@@ -8,24 +8,16 @@
 ### How to use:
 
 1. [Download last release archive.](https://github.com/lociero/League-of-Legends-Accounts-Creator/releases)
-2. Unzip and run `acc-creator-react.exe`
+2. Unzip and run `creator.exe`
 
 ### What you can change
 
 1. Server. Supported: EUW, EUNE, NA, BR, TR, RU, OCE, LAN, LAS.
-2. Email mask. It's `<username>@rito.pls` by default, you can use anything you want, for example `<username>_lol@gmail.me`. Or you can set random mask for every account, you can change them in ./emailMasks.txt;
-3. Date of Birth.
-4. Number of accounts. Program uses multithread.
-
-### BTW:
-
-- It's not 100% that all amount of accounts will be registered, it's all about pretty simple name generation and also email (it can match with riot db), also captcha recognition. Usually it's about 70% of the total.
-- ~~It doesn't save accs in .txt, don't forget to copy them to save. (I'll try to add this later).~~ Accounts are saving in generatedAccounts.txt now!
-- ~~Don't open links in the right corner (git and pp) when accounts are generating, due to some bug, you can't step back to genereate form (will try to fix it one day =))~~ FIXED
-
-### Nickname generator used in creator
-
-Randomly generates a nickname from 8 to 12 length
+2. Email mask. It's `<username>@rito.plz` by default, you can use anything you want, for example `<username>_lol@gmail.me`. Or you can set random mask for every account, you can change them in ./emailMasks.txt;
+3. Username length.
+4. Password length.
+5. Date of Birth.
+6. Number of accounts.
 
 ### Contacts:
 
