@@ -4,6 +4,10 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from './reducers/index';
 import App from './components/App';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootswatch/dist/superhero/bootstrap.min.css';
+import './css/tooltips.css';
+import './index.css';
 
 const store = createStore(
   reducers,

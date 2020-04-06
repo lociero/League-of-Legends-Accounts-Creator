@@ -1,24 +1,32 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
-// import * as actions from '../actions/index';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import * as actions from '../actions/index';
 import startGenerate from '../mainGeneration';
 
 const mapStateToProps = state => {
   const {
-    apiKey,
-    amount,
-    serverName,
+    data: {
+      usernameMinLength,
+      usernameMaxLength,
+      passwordLength,
+      apiKey,
+      amount,
+      serverName,
+      emailMask,
+      dateOfBirth,
+      isCheckedEmail,
+    },
     isGenerating,
     timer,
-    emailMask,
-    dateOfBirth,
-    isCheckedEmail,
   } = state;
   return {
+    usernameMinLength: Number(usernameMinLength),
+    usernameMaxLength: Number(usernameMaxLength),
+    passwordLength: Number(passwordLength),
     apiKey,
-    amount,
+    amount: Number(amount),
     serverName,
     isGenerating,
     timer,
@@ -33,13 +41,17 @@ const actionCreators = {
   updateOutputResults: actions.updateOutputResults,
   tickTimer: actions.tickTimer,
   resetTimer: actions.resetTimer,
+  updateProgressBar: actions.updateProgressBar,
 };
 
 const style = {
-  color: 'black',
+  color: '#EBEBEB',
   ':hover': {
     textDecoration: 'none',
   },
+  border: 'none',
+  padding: 0,
+  background: 'none',
 };
 
 const FooterButton = props => {
@@ -50,11 +62,15 @@ const FooterButton = props => {
     serverName,
     toggleGenerate,
     updateOutputResults,
+    updateProgressBar,
     tickTimer,
     resetTimer,
     dateOfBirth,
     emailMask,
     isCheckedEmail,
+    usernameMinLength,
+    usernameMaxLength,
+    passwordLength,
   } = props;
 
   return (
@@ -70,11 +86,15 @@ const FooterButton = props => {
               serverName,
               toggleGenerate,
               updateOutputResults,
+              updateProgressBar,
               tickTimer,
               resetTimer,
               dateOfBirth,
               emailMask,
               isCheckedEmail,
+              usernameMinLength,
+              usernameMaxLength,
+              passwordLength,
             )}
           >
             Generate
@@ -95,6 +115,16 @@ const FooterButton = props => {
       </div>
       <span>
         <span className="font-weight-light">by megaded</span>{' '}
+        <span
+          className="tooltipped tooltipped-nw tooltipped-no-delay"
+          aria-label="Click to copy Discord name"
+        >
+          <CopyToClipboard text="megaded#1529">
+            <button style={style} type="button">
+              <i className="fab fa-discord" />
+            </button>
+          </CopyToClipboard>
+        </span>{' '}
         <a
           style={style}
           href="https://github.com/lociero/League-of-Legends-Accounts-Creator"

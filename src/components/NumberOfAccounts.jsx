@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 
 const mapStateToProps = state => {
-  const { amount } = state;
+  const {
+    data: { amount },
+  } = state;
   return { amount };
 };
 
@@ -22,7 +24,7 @@ const NumberOfAccounts = props => {
   };
 
   return (
-    <div className="form-group col-md-4">
+    <div className="form-group col-md-6">
       <label htmlFor="inputAmount4" className="col-form-label">
         Number of accounts
       </label>

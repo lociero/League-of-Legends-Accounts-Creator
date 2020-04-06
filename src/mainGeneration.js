@@ -8,20 +8,26 @@ const startGenerate = (
   serverName,
   toggleGenerate,
   updateOutputResults,
+  updateProgressBar,
   tickTimer,
   resetTimer,
   dateOfBirth,
   emailMask,
   isCheckedEmail,
+  usernameMinLength,
+  usernameMaxLength,
+  passwordLength,
 ) => async () => {
   const googleKey = '6Lc3HAsUAAAAACsN7CgY9MMVxo2M09n_e4heJEiZ';
   const timerInterval = setInterval(tickTimer, 1000);
   toggleGenerate({ phase: 'start' });
   const { url, region } = getLink(serverName);
-  const requests = new Array(Number(amount))
+  let progress = 0;
+  updateProgressBar({ value: 0 });
+  const requests = Array(amount)
     .fill(null)
-    .map(() =>
-      registerAccount(
+    .map(async () => {
+      const acc = await registerAccount(
         serverName,
         dateOfBirth,
         emailMask,
@@ -30,12 +36,18 @@ const startGenerate = (
         apiKey,
         url,
         region,
-      ),
-    );
+        usernameMinLength,
+        usernameMaxLength,
+        passwordLength,
+      );
+      progress += 1;
+      updateProgressBar({ value: (progress / amount) * 100 });
+      return acc;
+    });
   const [...users] = await Promise.all(requests);
   clearInterval(timerInterval);
   resetTimer();
-  const registeredUsers = users.filter(string => !string.includes('error'));
+  const registeredUsers = users.filter(string => !string.includes('ERROR'));
 
   const info1 = `Successfully registered [${registeredUsers.length}/${amount}]`;
   const normalizedRegisteredUsers = registeredUsers

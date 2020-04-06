@@ -2,58 +2,59 @@ import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
 import * as actions from '../actions/index';
 
-const apiKey = handleActions(
+const data = handleActions(
   {
     [actions.update2Captcha](state, { payload }) {
-      return payload.value;
+      return { ...state, apiKey: payload.value };
     },
-  },
-  '',
-);
-
-const serverName = handleActions(
-  {
     [actions.updateServer](state, { payload }) {
-      return payload.value;
+      return { ...state, serverName: payload.value };
     },
-  },
-  'EUW',
-);
-
-const emailMask = handleActions(
-  {
     [actions.updateEmail](state, { payload }) {
-      return payload.value;
+      return { ...state, emailMask: payload.value };
     },
-  },
-  '@rito.pls',
-);
-
-const amount = handleActions(
-  {
     [actions.updateAmount](state, { payload }) {
-      return payload.value;
+      return { ...state, amount: payload.value };
     },
-  },
-  '10',
-);
-
-const dateOfBirth = handleActions(
-  {
     [actions.updateDateOfBirth](state, { payload }) {
-      return payload.value;
+      return { ...state, dateOfBirth: payload.value };
     },
-  },
-  '2000-01-01',
-);
-
-const outputResults = handleActions(
-  {
     [actions.updateOutputResults](state, { payload }) {
-      return payload.value;
+      return { ...state, outputResults: payload.value };
+    },
+    [actions.toggleEmailCheckBox](state) {
+      return { ...state, isCheckedEmail: !state.isCheckedEmail };
+    },
+    [actions.updatePasswordLength](state, { payload }) {
+      return { ...state, passwordLength: payload.value };
+    },
+    [actions.generatePassword](state, { payload }) {
+      return { ...state, passwordCheck: payload.value };
+    },
+    [actions.updateUsernameMinLength](state, { payload }) {
+      return { ...state, usernameMinLength: payload.value };
+    },
+    [actions.updateUsernameMaxLength](state, { payload }) {
+      return { ...state, usernameMaxLength: payload.value };
+    },
+    [actions.generateUsername](state, { payload }) {
+      return { ...state, usernameCheck: payload.value };
     },
   },
-  '',
+  {
+    apiKey: '',
+    serverName: 'EUW',
+    emailMask: '@rito.plz',
+    amount: '10',
+    dateOfBirth: '2000-01-01',
+    outputResults: '',
+    isCheckedEmail: false,
+    passwordLength: 10,
+    passwordCheck: '',
+    usernameMinLength: '8',
+    usernameMaxLength: '12',
+    usernameCheck: '',
+  },
 );
 
 const isGenerating = handleActions(
@@ -77,22 +78,18 @@ const timer = handleActions(
   300,
 );
 
-const isCheckedEmail = handleActions(
+const progressBarPercentage = handleActions(
   {
-    [actions.toggleEmailCheckBox](state) {
-      return !state;
+    [actions.updateProgressBar](state, { payload }) {
+      return payload.value;
     },
   },
-  false,
+  0,
 );
+
 export default combineReducers({
-  apiKey,
-  serverName,
-  emailMask,
-  amount,
-  dateOfBirth,
-  outputResults,
+  data,
   isGenerating,
   timer,
-  isCheckedEmail,
+  progressBarPercentage,
 });

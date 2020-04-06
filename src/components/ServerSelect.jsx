@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 
 const mapStateToProps = state => {
-  const { serverName } = state;
+  const {
+    data: { serverName },
+  } = state;
   return { serverName };
 };
 

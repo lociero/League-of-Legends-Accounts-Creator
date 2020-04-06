@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 
 const mapStateToProps = state => {
-  const { apiKey } = state;
+  const {
+    data: { apiKey },
+  } = state;
   return { apiKey };
 };
 

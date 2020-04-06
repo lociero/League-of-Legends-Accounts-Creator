@@ -4,9 +4,15 @@ import solveCaptcha from './captcha2';
 import requestRiotSignup from './riotApi';
 import getRandomEmailMask from './getRandomEmailMask';
 
-const genAccountData = async (emailmask, isCheckedEmail, username) => {
-  const generatedUsername = !username ? generateNick() : username;
-  const generatedPassword = generatePassword();
+const genAccountData = async (
+  emailmask,
+  isCheckedEmail,
+  usernameMinLength,
+  usernameMaxLength,
+  passwordLength,
+) => {
+  const generatedUsername = generateNick(usernameMinLength, usernameMaxLength);
+  const generatedPassword = generatePassword(passwordLength);
   const emailMask = isCheckedEmail ? await getRandomEmailMask() : emailmask;
   const generatedEmail = `${generatedUsername}${emailMask}`;
   return {
@@ -25,10 +31,16 @@ const registerAccount = async (
   apikey,
   url,
   region,
+  usernameMinLength,
+  usernameMaxLength,
+  passwordLength,
 ) => {
   const { username, password, email } = await genAccountData(
     emailmask,
     isCheckedEmail,
+    usernameMinLength,
+    usernameMaxLength,
+    passwordLength,
   );
   const token = await solveCaptcha(apikey, googlekey, url);
   const res = await requestRiotSignup(
@@ -40,9 +52,9 @@ const registerAccount = async (
     dateOfBirth,
   );
   if (res.status === 200) {
-    return `${server}:${username}:${password}:${email} success!`;
+    return `${server}:${username}:${password}:${email} SUCCESS!`;
   }
-  return `${server}:${username}:${password}:${email} error: ${JSON.stringify(
+  return `${server}:${username}:${password}:${email} ERROR: ${JSON.stringify(
     res.response.data.fields,
   )}`;
 };

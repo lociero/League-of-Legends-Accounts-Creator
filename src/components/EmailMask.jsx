@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 
 const mapStateToProps = state => {
-  const { emailMask, isCheckedEmail } = state;
+  const {
+    data: { emailMask, isCheckedEmail },
+  } = state;
   return { emailMask, isCheckedEmail };
 };
 
@@ -23,12 +25,12 @@ const EmailMask = props => {
   };
 
   return (
-    <div className="form-group col-md-4">
+    <div className="form-group col-md-6">
       <span className="d-flex justify-content-between">
-        <label htmlFor="inputEmail4" className="col-form-label">
+        <label htmlFor="inputEmail" className="col-form-label">
           Email mask
         </label>
-        <div className="custom-control custom-checkbox col-form-label">
+        <div className="custom-control custom-switch col-form-label">
           <input
             type="checkbox"
             className="custom-control-input"
@@ -36,14 +38,19 @@ const EmailMask = props => {
             checked={isCheckedEmail}
             onChange={toggleEmailCheckBox}
           />
-          <label className="custom-control-label" htmlFor="customCheck1">
-            Random for everyone
+          <label
+            className="custom-control-label"
+            htmlFor="customCheck1"
+            style={{ fontSize: '16px' }}
+          >
+            Random
           </label>{' '}
-          <i
-            className="fas fa-question-circle"
-            data-toggle="tooltip"
-            title="You can use your own masks. Change the file ./emailMasks.txt"
-          />
+          <span
+            className="tooltipped tooltipped-n tooltipped-no-delay"
+            aria-label="Random for everyone. You can use your own masks. Change the file ./emailMasks.txt"
+          >
+            <i className="fas fa-question-circle" />
+          </span>
         </div>
       </span>
       <div className="input-group">
@@ -54,7 +61,7 @@ const EmailMask = props => {
           type="text"
           name="emailmask"
           className="form-control"
-          id="inputEmail4"
+          id="inputEmail"
           placeholder="@hotmail.com"
           value={emailMask}
           onChange={handleChange}

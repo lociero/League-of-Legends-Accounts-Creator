@@ -16,11 +16,14 @@ let mainWindow;
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1010,
-    height: 605,
+    width: 995,
+    height: 720,
+    frame: false,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: true,
+      preload: path.join(__dirname, 'preload.js'),
     },
   });
 

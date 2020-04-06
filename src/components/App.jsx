@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 
 // import saveAccs from './write';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import CaptchaAPI from './CaptchaAPI';
-import ServerSelect from './ServerSelect';
-import EmailMask from './EmailMask';
-import NumberOfAccounts from './NumberOfAccounts';
-import DateOfBirth from './DateOfBirth';
 import OutputResult from './OutputResult';
 import FooterButton from './FooterButton';
+import TabContent from './TabContent';
+import NavTabs from './NavTabs';
+import ProgressBar from './ProgressBar';
 
 // const mapStateToProps = state => {
 //   const { apiKey, serverName, emailMask, amount, dateOfBirth } = state;
@@ -25,20 +23,14 @@ import FooterButton from './FooterButton';
 const App = () => {
   return (
     <div>
-      <h1 className="display-4" style={{ textAlign: 'center' }}>
+      {/* <h1 className="display-4 text-center">
         League of Legends Accounts Creator
-      </h1>
-      <hr />
-      <div className="form-row">
-        <CaptchaAPI />
-        <ServerSelect />
-      </div>
-      <div className="form-row">
-        <EmailMask />
-        <NumberOfAccounts />
-        <DateOfBirth />
-      </div>
+      </h1> */}
+      <hr style={{ backgroundColor: '#4E5D6C', marginBottom: '-1px' }} />
+      <NavTabs />
+      <TabContent />
       <OutputResult />
+      <ProgressBar />
       <FooterButton />
     </div>
   );
