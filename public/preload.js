@@ -1,4 +1,3 @@
-/* eslint-disable no-new */
 const path = require('path');
 const url = require('url');
 
@@ -7,7 +6,7 @@ const customTitlebar = require('custom-electron-titlebar');
 window.addEventListener('DOMContentLoaded', () => {
   const titlebar = new customTitlebar.Titlebar({
     backgroundColor: customTitlebar.Color.fromHex('#1f2d3a'),
-    icon: url.format(path.join(__dirname, '/logo192.png')),
+    icon: url.format(path.join(__dirname, '/electron-logo.png')),
     titleHorizontalAlignment: 'left',
     menu: null,
     maximizable: false,
