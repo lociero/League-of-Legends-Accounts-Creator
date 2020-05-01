@@ -12,7 +12,7 @@
     "bootswatch": "^4.4.1",
     "custom-electron-titlebar": "^3.2.2-hotfix62",
     "generate-password": "^1.5.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "open": "^7.0.2",
     "popper.js": "^1.16.1",
     "react": "^16.13.0",
