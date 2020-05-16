@@ -1,4 +1,4 @@
-const getLink = serverName => {
+const getLink = (serverName) => {
   switch (serverName) {
     case 'EUW': {
       const url = 'https://signup.euw.leagueoflegends.com/en/signup/';

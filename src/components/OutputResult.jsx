@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     data: { outputResults },
   } = state;
@@ -15,10 +15,10 @@ const actionCreators = {
   updateOutputResults: actions.updateOutputResults,
 };
 
-const OutputResult = props => {
+const OutputResult = (props) => {
   const { outputResults } = props;
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { updateOutputResults } = props;
     updateOutputResults({ value: e.target.value });
   };

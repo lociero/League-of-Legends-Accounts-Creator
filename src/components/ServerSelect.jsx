@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     data: { serverName },
   } = state;
@@ -15,10 +15,10 @@ const actionCreators = {
   updateServer: actions.updateServer,
 };
 
-const ServerSelect = props => {
+const ServerSelect = (props) => {
   const { serverName } = props;
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { updateServer } = props;
     updateServer({ value: e.target.value });
   };

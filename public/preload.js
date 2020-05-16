@@ -17,7 +17,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const element = document.getElementById(selector);
     if (element) element.innerText = text;
   };
-  ['chrome', 'node', 'electron'].forEach(type =>
-    replaceText(`${type}-version`, process.versions[type]),
-  );
+  ['chrome', 'node', 'electron'].forEach((type) => (
+    replaceText(`${type}-version`, process.versions[type])
+  ));
 });

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import genUsername from '../nameGen';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     data: { usernameCheck, usernameMinLength, usernameMaxLength },
   } = state;
@@ -18,25 +18,22 @@ const actionCreators = {
   generateUsername: actions.generateUsername,
 };
 
-const Username = props => {
+const Username = (props) => {
   const { usernameCheck, usernameMinLength, usernameMaxLength } = props;
 
-  const handleMinLengthChange = e => {
+  const handleMinLengthChange = (e) => {
     const { updateUsernameMinLength } = props;
     updateUsernameMinLength({ value: e.target.value });
   };
 
-  const handleMaxLengthChange = e => {
+  const handleMaxLengthChange = (e) => {
     const { updateUsernameMaxLength } = props;
     updateUsernameMaxLength({ value: e.target.value });
   };
 
   const usernameGen = () => {
     const { generateUsername } = props;
-    const generatedUsername = genUsername(
-      Number(usernameMinLength),
-      Number(usernameMaxLength),
-    );
+    const generatedUsername = genUsername(Number(usernameMinLength), Number(usernameMaxLength));
     generateUsername({ value: generatedUsername });
   };
 
@@ -86,11 +83,7 @@ const Username = props => {
         <label style={{ color: '#2B3E50' }} className="col-form-label">
           hehe
         </label>
-        <button
-          className="btn btn-secondary form-control"
-          type="button"
-          onClick={usernameGen}
-        >
+        <button className="btn btn-secondary form-control" type="button" onClick={usernameGen}>
           Check
         </button>
       </div>

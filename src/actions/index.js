@@ -16,3 +16,5 @@ export const updateUsernameMinLength = createAction('NAME_MIN_LENGTH_UPDATE');
 export const updateUsernameMaxLength = createAction('NAME_MAX_LENGTH_UPDATE');
 export const generateUsername = createAction('USERNAME_GENERATE');
 export const updateProgressBar = createAction('PROGRESS_BAR_UPDATE');
+export const toggleProxyUse = createAction('TOGGLE_PROXY_USE');
+export const updateProxyList = createAction('UPDATE_PROXY_LIST');

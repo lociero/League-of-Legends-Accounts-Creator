@@ -34,6 +34,8 @@ const registerAccount = async (
   usernameMinLength,
   usernameMaxLength,
   passwordLength,
+  useProxy,
+  proxyList,
 ) => {
   const { username, password, email } = await genAccountData(
     emailmask,
@@ -50,12 +52,15 @@ const registerAccount = async (
     email,
     region,
     dateOfBirth,
+    useProxy,
+    proxyList,
   );
-  if (res.status === 200) {
-    return `${server}:${username}:${password}:${email} SUCCESS!`;
+  const { response, proxy } = res;
+  if (response.status === 200) {
+    return `${proxy}${server}:${username}:${password}:${email} SUCCESS!`;
   }
-  return `${server}:${username}:${password}:${email} ERROR: ${JSON.stringify(
-    res.response.data.fields,
+  return `${proxy}${server}:${username}:${password}:${email} ERROR: ${JSON.stringify(
+    response.fields,
   )}`;
 };
 

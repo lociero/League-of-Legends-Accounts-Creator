@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import genPassword from '../passwordGen';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     data: { passwordLength, passwordCheck },
   } = state;
@@ -17,10 +17,10 @@ const actionCreators = {
   generatePassword: actions.generatePassword,
 };
 
-const Password = props => {
+const Password = (props) => {
   const { passwordLength, passwordCheck } = props;
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { updatePasswordLength } = props;
     updatePasswordLength({ value: e.target.value });
   };
@@ -52,23 +52,13 @@ const Password = props => {
         <label style={{ color: '#2B3E50' }} className="col-form-label">
           hehe
         </label>
-        <input
-          type="text"
-          name="amount"
-          className="form-control"
-          value={passwordCheck}
-          disabled
-        />
+        <input type="text" name="amount" className="form-control" value={passwordCheck} disabled />
       </div>
       <div className="form-group col-md-1">
         <label style={{ color: '#2B3E50' }} className="col-form-label">
           hehe
         </label>
-        <button
-          className="btn btn-secondary form-control"
-          type="button"
-          onClick={passCheck}
-        >
+        <button className="btn btn-secondary form-control" type="button" onClick={passCheck}>
           Check
         </button>
       </div>

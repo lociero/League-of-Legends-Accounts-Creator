@@ -5,7 +5,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import * as actions from '../actions/index';
 import startGenerate from '../mainGeneration';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     data: {
       usernameMinLength,
@@ -17,6 +17,8 @@ const mapStateToProps = state => {
       emailMask,
       dateOfBirth,
       isCheckedEmail,
+      useProxy,
+      proxyList,
     },
     isGenerating,
     timer,
@@ -33,6 +35,8 @@ const mapStateToProps = state => {
     emailMask,
     dateOfBirth,
     isCheckedEmail,
+    useProxy,
+    proxyList,
   };
 };
 
@@ -54,7 +58,7 @@ const style = {
   background: 'none',
 };
 
-const FooterButton = props => {
+const FooterButton = (props) => {
   const { isGenerating, timer } = props;
   const {
     apiKey,
@@ -71,6 +75,8 @@ const FooterButton = props => {
     usernameMinLength,
     usernameMaxLength,
     passwordLength,
+    useProxy,
+    proxyList,
   } = props;
 
   return (
@@ -80,6 +86,7 @@ const FooterButton = props => {
           <button
             type="submit"
             className="btn btn-primary"
+            disabled={useProxy && proxyList.length < 2}
             onClick={startGenerate(
               apiKey,
               amount,
@@ -95,6 +102,8 @@ const FooterButton = props => {
               usernameMinLength,
               usernameMaxLength,
               passwordLength,
+              useProxy,
+              proxyList,
             )}
           >
             Generate
@@ -102,11 +111,7 @@ const FooterButton = props => {
         ) : (
           <>
             <button className="btn btn-primary" type="button" disabled>
-              <span
-                className="spinner-border spinner-border-sm"
-                role="status"
-                aria-hidden="true"
-              />
+              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
               {' Generation...'}
             </button>
             <span>{` Waiting for captcha... ${timer} seconds`}</span>
@@ -125,10 +130,7 @@ const FooterButton = props => {
             </button>
           </CopyToClipboard>
         </span>{' '}
-        <a
-          style={style}
-          href="https://github.com/lociero/League-of-Legends-Accounts-Creator"
-        >
+        <a style={style} href="https://github.com/lociero/League-of-Legends-Accounts-Creator">
           <i className="fab fa-github" />
         </a>{' '}
         <a style={style} href="https://paypal.me/lociero">

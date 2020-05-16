@@ -17,6 +17,8 @@ const startGenerate = (
   usernameMinLength,
   usernameMaxLength,
   passwordLength,
+  useProxy,
+  proxyList,
 ) => async () => {
   const googleKey = '6Lc3HAsUAAAAACsN7CgY9MMVxo2M09n_e4heJEiZ';
   const timerInterval = setInterval(tickTimer, 1000);
@@ -39,6 +41,8 @@ const startGenerate = (
         usernameMinLength,
         usernameMaxLength,
         passwordLength,
+        useProxy,
+        proxyList,
       );
       progress += 1;
       updateProgressBar({ value: (progress / amount) * 100 });
@@ -47,12 +51,10 @@ const startGenerate = (
   const [...users] = await Promise.all(requests);
   clearInterval(timerInterval);
   resetTimer();
-  const registeredUsers = users.filter(string => !string.includes('ERROR'));
+  const registeredUsers = users.filter((string) => !string.includes('ERROR'));
 
   const info1 = `Successfully registered [${registeredUsers.length}/${amount}]`;
-  const normalizedRegisteredUsers = registeredUsers
-    .map(string => string.slice(0, -9))
-    .join('\n');
+  const normalizedRegisteredUsers = registeredUsers.map((string) => string.slice(0, -9)).join('\n');
   const info2 = 'Check ./generatedAccounts.txt!';
   if (registeredUsers.length > 0) await saveAccs(normalizedRegisteredUsers);
   const resultOutput = `${info1}\n${users.join('\n')}\n${info2}`;

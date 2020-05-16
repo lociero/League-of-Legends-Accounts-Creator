@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     data: { amount },
   } = state;
@@ -15,10 +15,10 @@ const actionCreators = {
   updateAmount: actions.updateAmount,
 };
 
-const NumberOfAccounts = props => {
+const NumberOfAccounts = (props) => {
   const { amount } = props;
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { updateAmount } = props;
     updateAmount({ value: e.target.value });
   };

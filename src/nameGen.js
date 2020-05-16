@@ -19751,9 +19751,9 @@ const generateLetters = () => {
   return { letters, letters2 };
 };
 
-const alphalow = index => String.fromCharCode(97 + index);
-const alphaup = index => String.fromCharCode(65 + index);
-const rnd = ceiling => Math.floor(Math.random() * ceiling);
+const alphalow = (index) => String.fromCharCode(97 + index);
+const alphaup = (index) => String.fromCharCode(65 + index);
+const rnd = (ceiling) => Math.floor(Math.random() * ceiling);
 
 const genName = (minlen, maxlen) => {
   const len = getRandom(minlen, maxlen);

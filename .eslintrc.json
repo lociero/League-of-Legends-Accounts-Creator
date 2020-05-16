@@ -1,9 +1,10 @@
-module.exports = {
+{
   "extends": [
     "airbnb",
     "plugin:prettier/recommended",
     "prettier/react"
   ],
+  "parser": "babel-eslint",
   "env": {
     "browser": true,
     "commonjs": true,
@@ -12,8 +13,8 @@ module.exports = {
     "node": true
   },
   "rules": {
+    "import/extensions": 0,
     "jsx-a11y/href-no-hash": ["off"],
-    "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     "max-len": [
       "warn",
       {

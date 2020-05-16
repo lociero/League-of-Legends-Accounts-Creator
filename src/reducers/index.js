@@ -40,6 +40,12 @@ const data = handleActions(
     [actions.generateUsername](state, { payload }) {
       return { ...state, usernameCheck: payload.value };
     },
+    [actions.toggleProxyUse](state) {
+      return { ...state, useProxy: !state.useProxy };
+    },
+    [actions.updateProxyList](state, { payload }) {
+      return { ...state, proxyList: payload.value };
+    },
   },
   {
     apiKey: '',
@@ -49,11 +55,13 @@ const data = handleActions(
     dateOfBirth: '2000-01-01',
     outputResults: '',
     isCheckedEmail: false,
+    useProxy: false,
     passwordLength: 10,
     passwordCheck: '',
     usernameMinLength: '8',
     usernameMaxLength: '12',
     usernameCheck: '',
+    proxyList: '',
   },
 );
 
@@ -72,10 +80,10 @@ const timer = handleActions(
       return state - 1;
     },
     [actions.resetTimer]() {
-      return 300;
+      return 500;
     },
   },
-  300,
+  500,
 );
 
 const progressBarPercentage = handleActions(

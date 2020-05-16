@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     data: { dateOfBirth },
   } = state;
@@ -15,10 +15,10 @@ const actionCreators = {
   updateDateOfBirth: actions.updateDateOfBirth,
 };
 
-const DateOfBirth = props => {
+const DateOfBirth = (props) => {
   const { dateOfBirth } = props;
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { updateDateOfBirth } = props;
     updateDateOfBirth({ value: e.target.value });
   };

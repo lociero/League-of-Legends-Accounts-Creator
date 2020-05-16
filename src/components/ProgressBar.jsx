@@ -5,7 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { progressBarPercentage } = state;
   return { progressBarPercentage };
 };
@@ -15,7 +15,7 @@ const actionCreators = {
   generatePassword: actions.generatePassword,
 };
 
-const ProgressBar = props => {
+const ProgressBar = (props) => {
   const { progressBarPercentage } = props;
 
   return (

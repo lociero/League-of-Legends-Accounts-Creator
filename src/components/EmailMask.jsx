@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const {
     data: { emailMask, isCheckedEmail },
   } = state;
@@ -16,10 +16,10 @@ const actionCreators = {
   toggleEmailCheckBox: actions.toggleEmailCheckBox,
 };
 
-const EmailMask = props => {
+const EmailMask = (props) => {
   const { emailMask, isCheckedEmail, toggleEmailCheckBox } = props;
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { updateEmail } = props;
     updateEmail({ value: e.target.value });
   };

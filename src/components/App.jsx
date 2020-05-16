@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 
 // import saveAccs from './write';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import OutputResult from './OutputResult';
-import FooterButton from './FooterButton';
-import TabContent from './TabContent';
-import NavTabs from './NavTabs';
-import ProgressBar from './ProgressBar';
+import OutputResult from './OutputResult.jsx';
+import FooterButton from './FooterButton.jsx';
+import TabContent from './TabContent.jsx';
+import NavTabs from './NavTabs.jsx';
+import ProgressBar from './ProgressBar.jsx';
 
 // const mapStateToProps = state => {
 //   const { apiKey, serverName, emailMask, amount, dateOfBirth } = state;
@@ -20,20 +20,18 @@ import ProgressBar from './ProgressBar';
 // };
 // const googleKey = '6Lc3HAsUAAAAACsN7CgY9MMVxo2M09n_e4heJEiZ';
 
-const App = () => {
-  return (
-    <div>
-      {/* <h1 className="display-4 text-center">
+const App = () => (
+  <div>
+    {/* <h1 className="display-4 text-center">
         League of Legends Accounts Creator
       </h1> */}
-      <hr style={{ backgroundColor: '#4E5D6C', marginBottom: '-1px' }} />
-      <NavTabs />
-      <TabContent />
-      <OutputResult />
-      <ProgressBar />
-      <FooterButton />
-    </div>
-  );
-};
+    <hr style={{ backgroundColor: '#4E5D6C', marginBottom: '-1px' }} />
+    <NavTabs />
+    <TabContent />
+    <OutputResult />
+    <ProgressBar />
+    <FooterButton />
+  </div>
+);
 
 export default connect(null, null)(App);
