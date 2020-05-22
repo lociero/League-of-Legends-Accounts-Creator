@@ -22,13 +22,13 @@ const genAccountData = async (
   };
 };
 
-const registerAccount = async (
-  server,
+const registerAccount = async ({
+  serverName,
   dateOfBirth,
-  emailmask,
+  emailMask,
   isCheckedEmail,
-  googlekey,
-  apikey,
+  googleKey,
+  apiKey,
   url,
   region,
   usernameMinLength,
@@ -36,16 +36,16 @@ const registerAccount = async (
   passwordLength,
   useProxy,
   proxyList,
-) => {
+}) => {
   const { username, password, email } = await genAccountData(
-    emailmask,
+    emailMask,
     isCheckedEmail,
     usernameMinLength,
     usernameMaxLength,
     passwordLength,
   );
-  const token = await solveCaptcha(apikey, googlekey, url);
-  const res = await requestRiotSignup(
+  const token = await solveCaptcha(apiKey, googleKey, url);
+  const accReqeustData = {
     token,
     username,
     password,
@@ -54,14 +54,18 @@ const registerAccount = async (
     dateOfBirth,
     useProxy,
     proxyList,
-  );
+  };
+  const res = await requestRiotSignup(accReqeustData);
   const { response, proxy } = res;
   if (response.status === 200) {
-    return `${proxy}${server}:${username}:${password}:${email} SUCCESS!`;
+    const string = `${serverName}:${username}:${password}:${email}`;
+    return { string, proxy, log: '✔️', ok: true };
   }
-  return `${proxy}${server}:${username}:${password}:${email} ERROR: ${JSON.stringify(
-    response.fields,
-  )}`;
+  const errorString = Object.entries(response.fields)
+    .map(([key, value]) => `| ${key}: ${value} |`)
+    .join('');
+  const string = `${serverName}:${username}:${password}:${email}`;
+  return { string, proxy, log: `❌ ${errorString}`, ok: false };
 };
 
 export default registerAccount;

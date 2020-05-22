@@ -23,3 +23,5 @@ creator-win32-x64.zip
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.exe
+*.zip

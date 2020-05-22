@@ -60,24 +60,7 @@ const style = {
 
 const FooterButton = (props) => {
   const { isGenerating, timer } = props;
-  const {
-    apiKey,
-    amount,
-    serverName,
-    toggleGenerate,
-    updateOutputResults,
-    updateProgressBar,
-    tickTimer,
-    resetTimer,
-    dateOfBirth,
-    emailMask,
-    isCheckedEmail,
-    usernameMinLength,
-    usernameMaxLength,
-    passwordLength,
-    useProxy,
-    proxyList,
-  } = props;
+  const { useProxy, proxyList } = props;
 
   return (
     <div className="d-flex justify-content-between">
@@ -87,24 +70,7 @@ const FooterButton = (props) => {
             type="submit"
             className="btn btn-primary"
             disabled={useProxy && proxyList.length < 2}
-            onClick={startGenerate(
-              apiKey,
-              amount,
-              serverName,
-              toggleGenerate,
-              updateOutputResults,
-              updateProgressBar,
-              tickTimer,
-              resetTimer,
-              dateOfBirth,
-              emailMask,
-              isCheckedEmail,
-              usernameMinLength,
-              usernameMaxLength,
-              passwordLength,
-              useProxy,
-              proxyList,
-            )}
+            onClick={startGenerate(props)}
           >
             Generate
           </button>

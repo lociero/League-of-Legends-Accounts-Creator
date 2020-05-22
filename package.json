@@ -16,7 +16,9 @@
     "bootswatch": "^4.4.1",
     "custom-electron-titlebar": "^3.2.2-hotfix62",
     "generate-password": "^1.5.1",
+    "global": "^4.4.0",
     "jquery": "^3.5.0",
+    "make": "^0.8.1",
     "node-fetch": "^2.6.0",
     "open": "^7.0.2",
     "popper.js": "^1.16.1",
@@ -39,8 +41,10 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "pkgnode": "pkg ./src/nodeRiotRequest.js --targets win-x86 --output ./src/nodeRiotRequest.exe",
     "test": "react-app-rewired test --env=jsdom",
-    "electron": "electron ."
+    "electron": "electron .",
+    "buildElectron": "electron-packager ./ creator --platform=win32 --arch=x64 --asar"
   },
   "browserslist": {
     "production": [

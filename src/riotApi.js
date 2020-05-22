@@ -13,33 +13,29 @@ const nodeAxios = (username, password, birth, email, region, token, randomProxy)
   new Promise((resolve) => {
     const currDir = app.getAppPath();
     const args = [username, password, birth, email, region, token, randomProxy];
-    cp.execFile(
-      'node',
-      [path.join(currDir, 'src', 'extraResources', `nodeRiotRequest.js`), ...args], // dev
-      //   [path.join(currDir, '..', 'nodeRiotRequest.js'), ...args], // prod
-      (error, stdout) => {
-        // console.log(stdout);
-        const result = JSON.parse(stdout);
-        resolve(result);
-      },
-    );
+    cp.execFile(path.join(currDir, 'src', `nodeRiotRequest.exe`), args, (error, stdout) => {
+      // console.log(stdout);
+      const result = JSON.parse(stdout);
+      resolve(result);
+    });
   });
 
-const requestRiotSignup = async (
-  token,
-  username,
-  password,
-  email,
-  region,
-  birth,
-  useProxy,
-  proxyList,
-) => {
+const requestRiotSignup = async (accDataRequest) => {
+  const {
+    token,
+    username,
+    password,
+    email,
+    region,
+    dateOfBirth,
+    useProxy,
+    proxyList,
+  } = accDataRequest;
   const requestBody = {
     username,
     password,
     confirm_password: password,
-    date_of_birth: birth,
+    date_of_birth: dateOfBirth,
     email,
     tou_agree: true,
     newsletter: false,
@@ -52,20 +48,19 @@ const requestRiotSignup = async (
   const proxyListNormalized = crlf(proxyList).split('\n').filter(Boolean);
   if (useProxy) {
     const randomProxy = proxyListNormalized[getRandomInt(0, proxyListNormalized.length - 1)] || '';
-    const response = await nodeAxios(username, password, birth, email, region, token, randomProxy);
-    if (response?.status === 409 || response?.status === 200) {
-      return { response, proxy: `${randomProxy} ` };
-    }
-    const newRes = await requestRiotSignup(
-      token,
+    const response = await nodeAxios(
       username,
       password,
+      dateOfBirth,
       email,
       region,
-      birth,
-      useProxy,
-      proxyList,
+      token,
+      randomProxy,
     );
+    if (response?.status === 409 || response?.status === 200) {
+      return { response, proxy: `[${randomProxy}]` };
+    }
+    const newRes = await requestRiotSignup(accDataRequest);
     return newRes;
   }
   const response = await axios

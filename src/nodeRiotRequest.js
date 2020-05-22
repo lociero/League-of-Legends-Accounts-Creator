@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
+
+// should be packaged with pkg into .exe
 
 const axios = require('axios');
 const SocksProxyAgent = require('socks-proxy-agent');
