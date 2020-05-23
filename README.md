@@ -1,4 +1,4 @@
-> ![Example](https://i.ibb.co/2q8fXMV/creator-review.jpg)
+> ![Example](https://i.ibb.co/CtV56bX/image.png)
 
 ### Requirements:
 

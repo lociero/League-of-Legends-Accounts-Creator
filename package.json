@@ -1,6 +1,6 @@
 {
   "name": "acc-creator-react",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "private": true,
   "engines": {
     "node": ">=14"
