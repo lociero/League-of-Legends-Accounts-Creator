@@ -2,8 +2,8 @@
 
 ### Requirements:
 
-1. [2Captcha Subscription](http://2captcha.com/?from=8859803)
-2. !!! NodeJS 14.2.0 [Download.](https://nodejs.org/dist/v14.2.0/node-v14.2.0-x64.msi) For proxies support.
+1. Captcha subscription : [2Captcha](http://2captcha.com/?from=8859803) / [RuCaptcha](https://rucaptcha.com?from=9296293) / [Death By Captcha](https://www.deathbycaptcha.com/)
+2. ~~!!! NodeJS 14.2.0 [Download.](https://nodejs.org/dist/v14.2.0/node-v14.2.0-x64.msi) For proxies support.~~ Don't need anymore.
 3. Tested only on Win10 x64.
 
 ### How to use:
@@ -19,6 +19,12 @@
 4. Password length.
 5. Date of Birth.
 6. Number of accounts.
+7. Proxy. Currentry designed to work only with socks5 from ProxyScrapes.
+
+### Special thanks to:
+```
+Телицын Сергей (Telitsyn Sergey)
+```
 
 ### Contacts:
 
