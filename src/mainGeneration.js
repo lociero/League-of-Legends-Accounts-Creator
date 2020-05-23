@@ -3,7 +3,11 @@ import getLink from './servers';
 import saveAccs from './write';
 
 const startGenerate = ({
-  apiKey,
+  twoCaptchaApiKey,
+  ruCaptchaApiKey,
+  dbcUsername,
+  dbcPassword,
+  currCaptcha,
   amount,
   serverName,
   toggleGenerate,
@@ -32,7 +36,11 @@ const startGenerate = ({
     emailMask,
     isCheckedEmail,
     googleKey,
-    apiKey,
+    twoCaptchaApiKey,
+    ruCaptchaApiKey,
+    dbcUsername,
+    dbcPassword,
+    currCaptcha,
     url,
     region,
     usernameMinLength,

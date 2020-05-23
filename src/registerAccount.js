@@ -1,6 +1,6 @@
 import generatePassword from './passwordGen';
 import generateNick from './nameGen';
-import solveCaptcha from './captcha2';
+import solveCaptcha from './captchas/index.js';
 import requestRiotSignup from './riotApi';
 import getRandomEmailMask from './getRandomEmailMask';
 
@@ -28,7 +28,11 @@ const registerAccount = async ({
   emailMask,
   isCheckedEmail,
   googleKey,
-  apiKey,
+  twoCaptchaApiKey,
+  ruCaptchaApiKey,
+  dbcUsername,
+  dbcPassword,
+  currCaptcha,
   url,
   region,
   usernameMinLength,
@@ -44,7 +48,15 @@ const registerAccount = async ({
     usernameMaxLength,
     passwordLength,
   );
-  const token = await solveCaptcha(apiKey, googleKey, url);
+  const token = await solveCaptcha({
+    twoCaptchaApiKey,
+    ruCaptchaApiKey,
+    dbcUsername,
+    dbcPassword,
+    currCaptcha,
+    googleKey,
+    url,
+  });
   const accReqeustData = {
     token,
     username,

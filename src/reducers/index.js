@@ -5,7 +5,19 @@ import * as actions from '../actions/index';
 const data = handleActions(
   {
     [actions.update2Captcha](state, { payload }) {
-      return { ...state, apiKey: payload.value };
+      return { ...state, twoCaptchaApiKey: payload.value };
+    },
+    [actions.updateRuCaptcha](state, { payload }) {
+      return { ...state, ruCaptchaApiKey: payload.value };
+    },
+    [actions.updateDbcUsername](state, { payload }) {
+      return { ...state, dbcUsername: payload.value };
+    },
+    [actions.updateDbcPassword](state, { payload }) {
+      return { ...state, dbcPassword: payload.value };
+    },
+    [actions.apiServiceUpdate](state, { payload }) {
+      return { ...state, currCaptcha: payload.value };
     },
     [actions.updateServer](state, { payload }) {
       return { ...state, serverName: payload.value };
@@ -48,7 +60,11 @@ const data = handleActions(
     },
   },
   {
-    apiKey: '',
+    twoCaptchaApiKey: '',
+    ruCaptchaApiKey: '',
+    dbcUsername: '',
+    dbcPassword: '',
+    currCaptcha: '2Captcha',
     serverName: 'EUW',
     emailMask: '@rito.plz',
     amount: '10',

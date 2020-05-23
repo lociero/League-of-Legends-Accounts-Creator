@@ -54,6 +54,7 @@ const ProxySettings = (props) => {
           </label>
         </div>
         <span>
+          <span className="text-info">Always download fresh proxy list b4 creation =&gt;</span>{' '}
           <a href="https://api.proxyscrape.com/?request=getproxies&proxytype=socks5&timeout=10000&country=all">
             Download socks5 proxy from ProxyScrape
           </a>

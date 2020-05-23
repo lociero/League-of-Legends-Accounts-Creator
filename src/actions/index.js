@@ -1,6 +1,10 @@
 import { createAction } from 'redux-actions';
 
 export const update2Captcha = createAction('2CAPTCHA_KEY_UPDATE');
+export const updateRuCaptcha = createAction('RU_CAPTCHA_KEY_UPDATE');
+export const updateDbcUsername = createAction('DBC_USERNAME_UPDATE');
+export const updateDbcPassword = createAction('DBC_PASSWORD_UPDATE');
+export const apiServiceUpdate = createAction('API_SERVICE_UPDATE');
 export const updateServer = createAction('SERVER_UPDATE');
 export const updateEmail = createAction('EMAIL_UPDATE');
 export const updateAmount = createAction('AMOUNT_UPDATE');
