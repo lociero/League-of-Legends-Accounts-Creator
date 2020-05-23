@@ -19,7 +19,7 @@
 4. Password length.
 5. Date of Birth.
 6. Number of accounts.
-7. Proxy. Currentry designed to work only with socks5 from ProxyScrapes.
+7. Proxy. Currently designed to work only with socks5 from ProxyScrape.
 
 ### Special thanks to:
 ```
