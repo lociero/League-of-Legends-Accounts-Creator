@@ -6,7 +6,7 @@
 
 ### How to use:
 
-1. [Download last release archive.](https://github.com/lociero/League-of-Legends-Accounts-Creator/releases)
+1. [Download last release archive.](https://github.com/lociero/League-of-Legends-Accounts-Creator/releases/latest)
 2. Unzip and run `creator.exe`
 
 ### What you can change
