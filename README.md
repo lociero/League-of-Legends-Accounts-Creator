@@ -22,7 +22,7 @@
 
 ### If you want to build it by yourself
 
-```
+```bash
 # Clone this repository
 git clone https://github.com/lociero/League-of-Legends-Accounts-Creator
 # Go into the repository
