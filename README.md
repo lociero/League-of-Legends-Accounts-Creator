@@ -12,7 +12,7 @@
 ### What you can change
 
 1. Server. Supported: EUW, EUNE, NA, BR, TR, RU, OCE, LAN, LAS.
-2. Email mask. It's `<username>@-xd@rito.plz` by default, you can use anything you want, for example `<username>_lol@gmail.me`. Also you can set random mask for every account, you can change them in ./emailMasks.txt or use existed emails, put them in ./existedEmails.txt
+2. Email mask. It's `<username>-xd@rito.plz` by default, you can use anything you want, for example `<username>_lol@gmail.me`. Also you can set random mask for every account, you can change them in ./emailMasks.txt or use existed emails, put them in ./existedEmails.txt
 3. Username length.
 4. Password length.
 5. Date of Birth.
