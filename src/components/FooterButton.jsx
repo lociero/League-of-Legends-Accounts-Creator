@@ -2,17 +2,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import axios from 'axios';
 import * as actions from '../actions/index.js';
 import startGenerate from '../mainGeneration.js';
-
-const debug = async () => {
-  const res = await axios
-    .get('http://localhost:5000/serverstate')
-    .catch(() => ({ data: 'server is down' }));
-  // eslint-disable-next-line no-console
-  console.log(res.data);
-};
 
 const mapStateToProps = (state) => {
   const {
@@ -101,9 +92,6 @@ const FooterButton = (props) => {
         )}
       </div>
       <span>
-        <button type="submit" className="btn btn-outline-danger" onClick={debug}>
-          debug
-        </button>{' '}
         <span className="font-weight-light">by megaded</span>{' '}
         <span
           className="tooltipped tooltipped-nw tooltipped-no-delay"
