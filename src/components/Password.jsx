@@ -2,8 +2,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions/index';
-import genPassword from '../passwordGen';
+import * as actions from '../actions/index.js';
+import genPassword from '../passwordGen.js';
 
 const mapStateToProps = (state) => {
   const {

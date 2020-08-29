@@ -2,8 +2,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import * as actions from '../actions/index';
-import startGenerate from '../mainGeneration';
+import axios from 'axios';
+import * as actions from '../actions/index.js';
+import startGenerate from '../mainGeneration.js';
+
+const debug = async () => {
+  const res = await axios
+    .get('http://localhost:5000/serverstate')
+    .catch(() => ({ data: 'server is down' }));
+  // eslint-disable-next-line no-console
+  console.log(res.data);
+};
 
 const mapStateToProps = (state) => {
   const {
@@ -20,12 +29,13 @@ const mapStateToProps = (state) => {
       serverName,
       emailMask,
       dateOfBirth,
-      isCheckedEmail,
+      isRandomEmail,
       useProxy,
       proxyList,
+      isProxyChecking,
+      useExistedEmails,
     },
     isGenerating,
-    timer,
   } = state;
   return {
     usernameMinLength: Number(usernameMinLength),
@@ -39,20 +49,19 @@ const mapStateToProps = (state) => {
     amount: Number(amount),
     serverName,
     isGenerating,
-    timer,
     emailMask,
     dateOfBirth,
-    isCheckedEmail,
+    isRandomEmail,
+    useExistedEmails,
     useProxy,
     proxyList,
+    isProxyChecking,
   };
 };
 
 const actionCreators = {
   toggleGenerate: actions.toggleGenerate,
   updateOutputResults: actions.updateOutputResults,
-  tickTimer: actions.tickTimer,
-  resetTimer: actions.resetTimer,
   updateProgressBar: actions.updateProgressBar,
 };
 
@@ -67,7 +76,7 @@ const style = {
 };
 
 const FooterButton = (props) => {
-  const { isGenerating, timer } = props;
+  const { isGenerating, isProxyChecking } = props;
   const { useProxy, proxyList } = props;
 
   return (
@@ -76,23 +85,25 @@ const FooterButton = (props) => {
         {!isGenerating ? (
           <button
             type="submit"
-            className="btn btn-primary"
-            disabled={useProxy && proxyList.length < 2}
+            className="btn btn-outline-success"
+            disabled={(useProxy && proxyList.length < 2) || isProxyChecking}
             onClick={startGenerate(props)}
           >
             Generate
           </button>
         ) : (
           <>
-            <button className="btn btn-primary" type="button" disabled>
+            <button className="btn btn-outline-success" type="button" disabled>
               <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
               {' Generation...'}
             </button>
-            <span>{` Waiting for captcha... ${timer} seconds`}</span>
           </>
         )}
       </div>
       <span>
+        <button type="submit" className="btn btn-outline-danger" onClick={debug}>
+          debug
+        </button>{' '}
         <span className="font-weight-light">by megaded</span>{' '}
         <span
           className="tooltipped tooltipped-nw tooltipped-no-delay"

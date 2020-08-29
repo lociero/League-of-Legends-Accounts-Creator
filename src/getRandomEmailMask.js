@@ -10,7 +10,7 @@ const getEmailMasks = async () => {
   const currDir = app.getAppPath();
   const emailsList = await fs
     .readFile(`${currDir}/../../emailMasks.txt`, 'utf-8')
-    .catch(() => undefined);
+    .catch(() => 'none');
   const emails = crlf(emailsList).split('\n').filter(Boolean);
   return emails;
 };
@@ -19,7 +19,7 @@ const getRandomEmailMask = async () => {
   const emails = await getEmailMasks();
   const { length } = emails;
   const index = getRandomInt(0, length - 1);
-  return emails[index];
+  return emails[index] || '@gmail.com';
 };
 
 export default getRandomEmailMask;

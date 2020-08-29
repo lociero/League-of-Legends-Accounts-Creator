@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions/index';
+import * as actions from '../actions/index.js';
 
 const mapStateToProps = (state) => {
   const {
@@ -20,7 +20,11 @@ const NumberOfAccounts = (props) => {
 
   const handleChange = (e) => {
     const { updateAmount } = props;
-    updateAmount({ value: e.target.value });
+    if (Number(e.target.value) > 500) {
+      updateAmount({ value: 500 });
+    } else {
+      updateAmount({ value: e.target.value });
+    }
   };
 
   return (

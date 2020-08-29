@@ -19,6 +19,7 @@
 .env.production.local
 creator-win32-x64
 creator-win32-x64.zip
+generatedAccounts.txt
 
 npm-debug.log*
 yarn-debug.log*

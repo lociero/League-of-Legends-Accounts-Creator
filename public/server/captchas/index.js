@@ -1,6 +1,6 @@
-import solve2Captcha from './captcha2.js';
-import solveRuCaptcha from './ruCaptcha.js';
-import solveDBC from './dbc.js';
+const solve2Captcha = require('./captcha2.js');
+const solveRuCaptcha = require('./ruCaptcha.js');
+const solveDBC = require('./dbc.js');
 
 const captchas = {
   '2Captcha': solve2Captcha,
@@ -8,7 +8,7 @@ const captchas = {
   deathByCaptcha: solveDBC,
 };
 
-export default ({
+module.exports = ({
   twoCaptchaApiKey,
   ruCaptchaApiKey,
   dbcUsername,

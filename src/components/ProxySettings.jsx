@@ -1,36 +1,74 @@
+/* eslint-disable no-console */
+/* eslint-disable no-await-in-loop */
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions/index';
+import axios from 'axios';
+import * as actions from '../actions/index.js';
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const mapStateToProps = (state) => {
   const {
-    data: { useProxy, proxyList },
+    data: { useProxy, proxyList, isProxyChecking, isGettingProxy },
   } = state;
-  return { useProxy, proxyList };
+  return { useProxy, proxyList, isProxyChecking, isGettingProxy };
 };
 
 const actionCreators = {
   toggleProxyUse: actions.toggleProxyUse,
   updateProxyList: actions.updateProxyList,
+  updateProxyChecking: actions.updateProxyChecking,
+  updateProxyGettingState: actions.updateProxyGettingState,
 };
 
 const ProxySettings = (props) => {
-  const { toggleProxyUse, useProxy, proxyList, updateProxyList } = props;
-  let fileReader;
+  const {
+    toggleProxyUse,
+    useProxy,
+    proxyList,
+    isProxyChecking,
+    updateProxyChecking,
+    updateProxyList,
+    isGettingProxy,
+    updateProxyGettingState,
+  } = props;
 
-  const handleFileRead = () => {
-    const content = fileReader.result;
-    updateProxyList({ value: content });
+  const proxyCheck = async () => {
+    updateProxyChecking({ value: true });
+    await axios.post('http://localhost:5000/proxycheck').catch(() => ({ data: {} }));
+    let isChecking = true;
+    while (isChecking) {
+      const res2 = await axios.get('http://localhost:5000/ischecking').catch(() => ({ data: {} }));
+      isChecking = res2.data.isChecking;
+      updateProxyList({ value: res2.data.list.join('\n') });
+      updateProxyChecking({ value: res2.data.isChecking });
+      await sleep(1000);
+    }
+    const res3 = await axios.get('http://localhost:5000/ischecking').catch(() => ({ data: {} }));
+    updateProxyList({ value: res3.data.list.join('\n') });
   };
 
-  const handleFileChosen = (file) => {
-    fileReader = new FileReader();
-    fileReader.onloadend = handleFileRead;
-    fileReader.readAsText(file);
+  const getProxies = async () => {
+    updateProxyGettingState({ value: true });
+    const res = await axios
+      .get(
+        'https://api.proxyscrape.com/?request=getproxies&proxytype=socks5&timeout=10000&country=all',
+      )
+      .catch(() => ({ data: 'error' }));
+    if (res.data === 'error') {
+      getProxies();
+      return;
+    }
+    updateProxyList({ value: res.data.trim() });
+    const res2 = await axios.post('http://localhost:5000/updateproxylist', { list: res.data });
+    console.log('Loaded proxies:');
+    console.log(res2.data);
+    updateProxyGettingState({ value: false });
+    proxyCheck();
   };
 
   return (
@@ -53,29 +91,36 @@ const ProxySettings = (props) => {
             Use Proxy
           </label>
         </div>
-        <span>
-          <span className="text-info">Always download fresh proxy list b4 creation =&gt;</span>{' '}
-          <a href="https://api.proxyscrape.com/?request=getproxies&proxytype=socks5&timeout=10000&country=all">
-            Download socks5 proxy from ProxyScrape
-          </a>
-        </span>
-      </div>
-      <div className="form-group">
-        <div className="input-group mb-3">
-          <div className="custom-file" style={{ marginTop: '1em' }}>
-            <input
-              type="file"
-              className="custom-file-input"
-              accept=".txt"
-              disabled={!useProxy}
-              id="inputGroupFile02"
-              onChange={(e) => handleFileChosen(e.target.files[0])}
-            />
-            <label className="custom-file-label" htmlFor="inputGroupFile02">
-              Choose proxy list file
-            </label>
-          </div>
-        </div>
+        {!isGettingProxy ? (
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={getProxies}
+            disabled={!useProxy || isProxyChecking}
+          >
+            Get Proxies
+          </button>
+        ) : (
+          <button className="btn btn-outline-primary" type="button" disabled>
+            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+            {' Downloading...'}
+          </button>
+        )}
+        {!isProxyChecking ? (
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            disabled={proxyList.length < 2}
+            onClick={proxyCheck}
+          >
+            Check proxies
+          </button>
+        ) : (
+          <button className="btn btn-outline-primary" type="button" disabled>
+            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+            {' Checking...'}
+          </button>
+        )}
       </div>
       <div className="form-group">
         <label htmlFor="proxyList" className="col-form-label">

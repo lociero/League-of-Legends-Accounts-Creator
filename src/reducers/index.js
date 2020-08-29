@@ -34,8 +34,11 @@ const data = handleActions(
     [actions.updateOutputResults](state, { payload }) {
       return { ...state, outputResults: payload.value };
     },
-    [actions.toggleEmailCheckBox](state) {
-      return { ...state, isCheckedEmail: !state.isCheckedEmail };
+    [actions.toggleEmailCheckBox](state, { payload }) {
+      return { ...state, isRandomEmail: payload.value };
+    },
+    [actions.toggleExistedEmails](state, { payload }) {
+      return { ...state, useExistedEmails: payload.value };
     },
     [actions.updatePasswordLength](state, { payload }) {
       return { ...state, passwordLength: payload.value };
@@ -58,6 +61,12 @@ const data = handleActions(
     [actions.updateProxyList](state, { payload }) {
       return { ...state, proxyList: payload.value };
     },
+    [actions.updateProxyChecking](state, { payload }) {
+      return { ...state, isProxyChecking: payload.value };
+    },
+    [actions.updateProxyGettingState](state, { payload }) {
+      return { ...state, isGettingProxy: payload.value };
+    },
   },
   {
     twoCaptchaApiKey: '',
@@ -66,11 +75,12 @@ const data = handleActions(
     dbcPassword: '',
     currCaptcha: '2Captcha',
     serverName: 'EUW',
-    emailMask: '@rito.plz',
+    emailMask: '-xd@rito.plz',
     amount: '10',
     dateOfBirth: '2000-01-01',
     outputResults: '',
-    isCheckedEmail: false,
+    isRandomEmail: false,
+    useExistedEmails: false,
     useProxy: false,
     passwordLength: 10,
     passwordCheck: '',
@@ -78,6 +88,8 @@ const data = handleActions(
     usernameMaxLength: '12',
     usernameCheck: '',
     proxyList: '',
+    isProxyChecking: false,
+    isGettingProxy: false,
   },
 );
 

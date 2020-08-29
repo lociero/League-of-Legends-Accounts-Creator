@@ -1,6 +1,6 @@
 {
   "name": "acc-creator-react",
-  "version": "1.2.6",
+  "version": "1.3.0",
   "private": true,
   "engines": {
     "node": ">=14"
@@ -12,11 +12,13 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",
     "bootswatch": "^4.4.1",
     "custom-electron-titlebar": "^3.2.2-hotfix62",
+    "express": "^4.17.1",
     "generate-password": "^1.5.1",
-    "global": "^4.4.0",
     "jquery": "^3.5.0",
     "open": "^7.0.2",
     "popper.js": "^1.16.1",
@@ -39,7 +41,6 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "pkgnode": "pkg ./src/nodeRiotRequest.js --targets win-x86 --output ./src/nodeRiotRequest.exe",
     "test": "react-app-rewired test --env=jsdom",
     "electron": "electron .",
     "buildElectron": "electron-packager ./ creator --platform=win32 --arch=x64 --asar"
@@ -60,7 +61,6 @@
     "@babel/plugin-proposal-optional-chaining": "^7.9.0",
     "customize-cra": "^0.9.1",
     "electron": "^8.0.3",
-    "electron-builder": "^22.3.6",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-react-app": "^5.2.1",

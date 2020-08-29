@@ -12,6 +12,9 @@
     "jest": true,
     "node": true
   },
+  "settings": {
+    "import/core-modules": [ "electron" ] 
+  },
   "rules": {
     "import/extensions": 0,
     "jsx-a11y/href-no-hash": ["off"],

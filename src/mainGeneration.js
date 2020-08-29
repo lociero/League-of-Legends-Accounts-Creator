@@ -1,6 +1,45 @@
-import registerAccount from './registerAccount';
+/* eslint-disable no-console */
+/* eslint-disable no-await-in-loop */
+import axios from 'axios';
 import getLink from './servers';
-import saveAccs from './write';
+import generatePassword from './passwordGen';
+import generateNick from './nameGen';
+import getRandomEmailMask from './getRandomEmailMask';
+import { getExistedEmailsList, saveEmails } from './existedEmailsList.js';
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const dataToStrings = (array) =>
+  array.map((account) => {
+    const errorString = Object.entries(account.errors)
+      .map(([key, value]) => `| ${key}: ${value} |`)
+      .join('');
+    if (account.ok) {
+      return `${account.proxy}${account.string} ${account.log}`;
+    }
+    return `${account.proxy}${account.string} ${account.log} ${errorString}`;
+  });
+
+const genAccountData = async (
+  emailmask,
+  isRandomEmail,
+  useExistedEmails,
+  realEmails,
+  usernameMinLength,
+  usernameMaxLength,
+  passwordLength,
+) => {
+  const generatedUsername = generateNick(usernameMinLength, usernameMaxLength);
+  const generatedPassword = generatePassword(passwordLength);
+  const emailMask = isRandomEmail ? await getRandomEmailMask() : emailmask;
+  const realEmail = realEmails.pop() || `${generatedUsername}@gmail.com`;
+  const generatedEmail = useExistedEmails ? realEmail : `${generatedUsername}${emailMask}`;
+  return {
+    username: generatedUsername,
+    password: generatedPassword,
+    email: generatedEmail,
+  };
+};
 
 const startGenerate = ({
   twoCaptchaApiKey,
@@ -13,65 +52,86 @@ const startGenerate = ({
   toggleGenerate,
   updateOutputResults,
   updateProgressBar,
-  tickTimer,
-  resetTimer,
   dateOfBirth,
   emailMask,
-  isCheckedEmail,
+  isRandomEmail,
+  useExistedEmails,
   usernameMinLength,
   usernameMaxLength,
   passwordLength,
   useProxy,
-  proxyList,
 }) => async () => {
   const googleKey = '6Lc3HAsUAAAAACsN7CgY9MMVxo2M09n_e4heJEiZ';
-  const timerInterval = setInterval(tickTimer, 1000);
   toggleGenerate({ phase: 'start' });
-  const { url, region } = getLink(serverName);
-  let progress = 0;
   updateProgressBar({ value: 0 });
-  const options = {
-    serverName,
-    dateOfBirth,
-    emailMask,
-    isCheckedEmail,
-    googleKey,
-    twoCaptchaApiKey,
-    ruCaptchaApiKey,
-    dbcUsername,
-    dbcPassword,
-    currCaptcha,
-    url,
-    region,
-    usernameMinLength,
-    usernameMaxLength,
-    passwordLength,
-    useProxy,
-    proxyList,
-  };
-  const requests = Array(amount)
+
+  const realEmails = useExistedEmails ? await getExistedEmailsList() : [];
+  const accountsData = Array(amount)
     .fill(null)
     .map(async () => {
-      const acc = await registerAccount(options);
-      progress += 1;
-      updateProgressBar({ value: (progress / amount) * 100 });
-      return acc;
+      const { url, region } = getLink(serverName);
+      const { username, password, email } = await genAccountData(
+        emailMask,
+        isRandomEmail,
+        useExistedEmails,
+        realEmails,
+        usernameMinLength,
+        usernameMaxLength,
+        passwordLength,
+      );
+      const accountData = { username, password, email, region, birth: dateOfBirth, serverName };
+      const captchaData = {
+        twoCaptchaApiKey,
+        ruCaptchaApiKey,
+        dbcUsername,
+        dbcPassword,
+        currCaptcha,
+        googleKey,
+        url,
+      };
+
+      return { accountData, captchaData, useProxy };
     });
-  const [...users] = await Promise.all(requests);
-  clearInterval(timerInterval);
-  resetTimer();
-  const registeredUsers = users.filter((acc) => acc.ok);
+  const accsData = await Promise.all(accountsData);
+  console.log('Generated Data:');
+  console.log(accsData);
+  await axios.post('http://localhost:5000/accounts', { accountsData: accsData });
+  await sleep(1000);
+  const res = await axios.get('http://localhost:5000/accounts');
+
+  let accounts = res.data;
+
+  while (accounts.isGenerating) {
+    const res2 = await axios.get('http://localhost:5000/accounts');
+    accounts = res2.data;
+    const accountsString = dataToStrings(accounts.list);
+    updateProgressBar({ value: (accounts.list.length / amount) * 100 });
+    updateOutputResults({ value: accountsString.join('\n') });
+    await sleep(1000);
+  }
+
+  accounts = accounts.list;
+
+  const registeredUsers = accounts.filter((acc) => acc.ok);
 
   const info1 = `Successfully registered [${registeredUsers.length}/${amount}]`;
-  const normalizedRegisteredUsers = registeredUsers.map((acc) => acc.string).join('\n');
-  const info2 = 'Check ./generatedAccounts.txt!';
-  if (registeredUsers.length > 0) await saveAccs(normalizedRegisteredUsers);
-  const resultOutput = [
-    info1,
-    users.map((acc) => `${acc.proxy}${acc.string} ${acc.log}`).join('\n'),
-    info2,
-  ].join('\n');
+  const info2 = registeredUsers.length > 0 ? 'Check ./generatedAccounts.txt' : '';
+  const resultOutput = [[info1, info2].join(' '), dataToStrings(accounts).join('\n')].join('\n');
+  console.log('Finished Accounts:');
+  console.log('Success:');
+  console.log(accounts.filter(({ ok }) => ok));
+  console.log('Error:');
+  console.log(accounts.filter(({ ok }) => !ok));
+
   updateOutputResults({ value: resultOutput });
+
+  if (useExistedEmails) {
+    const usedEmailsWithFail = accounts
+      .filter(({ ok }) => !ok)
+      .filter(({ email }) => !email.fake)
+      .map(({ email }) => email.email);
+    await saveEmails([...realEmails, ...usedEmailsWithFail]);
+  }
   toggleGenerate({ phase: 'finish' });
 };
 

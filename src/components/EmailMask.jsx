@@ -2,22 +2,29 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions/index';
+import * as actions from '../actions/index.js';
 
 const mapStateToProps = (state) => {
   const {
-    data: { emailMask, isCheckedEmail },
+    data: { emailMask, isRandomEmail, useExistedEmails },
   } = state;
-  return { emailMask, isCheckedEmail };
+  return { emailMask, isRandomEmail, useExistedEmails };
 };
 
 const actionCreators = {
   updateEmail: actions.updateEmail,
   toggleEmailCheckBox: actions.toggleEmailCheckBox,
+  toggleExistedEmails: actions.toggleExistedEmails,
 };
 
 const EmailMask = (props) => {
-  const { emailMask, isCheckedEmail, toggleEmailCheckBox } = props;
+  const {
+    emailMask,
+    isRandomEmail,
+    toggleEmailCheckBox,
+    useExistedEmails,
+    toggleExistedEmails,
+  } = props;
 
   const handleChange = (e) => {
     const { updateEmail } = props;
@@ -35,15 +42,43 @@ const EmailMask = (props) => {
             type="checkbox"
             className="custom-control-input"
             id="customCheck1"
-            checked={isCheckedEmail}
-            onChange={toggleEmailCheckBox}
+            checked={useExistedEmails}
+            onChange={() => {
+              toggleEmailCheckBox({ value: false });
+              toggleExistedEmails({ value: !useExistedEmails });
+            }}
           />
           <label
             className="custom-control-label"
             htmlFor="customCheck1"
             style={{ fontSize: '16px' }}
           >
-            Random
+            Existed emails
+          </label>{' '}
+          <span
+            className="tooltipped tooltipped-n tooltipped-no-delay"
+            aria-label="Put them into file ./existedEmails.txt"
+          >
+            <i className="fas fa-question-circle" />
+          </span>
+        </div>
+        <div className="custom-control custom-switch col-form-label">
+          <input
+            type="checkbox"
+            className="custom-control-input"
+            id="customCheck2"
+            checked={isRandomEmail}
+            onChange={() => {
+              toggleEmailCheckBox({ value: !isRandomEmail });
+              toggleExistedEmails({ value: false });
+            }}
+          />
+          <label
+            className="custom-control-label"
+            htmlFor="customCheck2"
+            style={{ fontSize: '16px' }}
+          >
+            Random masks
           </label>{' '}
           <span
             className="tooltipped tooltipped-n tooltipped-no-delay"
@@ -65,7 +100,7 @@ const EmailMask = (props) => {
           placeholder="@hotmail.com"
           value={emailMask}
           onChange={handleChange}
-          disabled={isCheckedEmail}
+          disabled={isRandomEmail || useExistedEmails}
         />
       </div>
     </div>

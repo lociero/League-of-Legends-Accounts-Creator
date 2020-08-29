@@ -1,18 +1,17 @@
 import generator from 'generate-password';
 
-const hasNumber = (string) => /[A-Za-z]/.test(string);
-const hasDigit = (string) => /\d/.test(string);
+// const hasChar = (string) => /[A-Za-z]/.test(string);
+// const hasNumber = (string) => /\d/.test(string);
 
 const genPass = (length = 10) => {
   const password = generator.generate({
     length,
     numbers: true,
+    strict: true,
+    excludeSimilarCharacters: true,
   });
-  if (hasNumber(password) && hasDigit(password)) {
-    return password;
-  }
 
-  return genPass(length);
+  return password;
 };
 
 export default genPass;

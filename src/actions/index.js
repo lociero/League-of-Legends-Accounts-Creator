@@ -22,3 +22,6 @@ export const generateUsername = createAction('USERNAME_GENERATE');
 export const updateProgressBar = createAction('PROGRESS_BAR_UPDATE');
 export const toggleProxyUse = createAction('TOGGLE_PROXY_USE');
 export const updateProxyList = createAction('UPDATE_PROXY_LIST');
+export const updateProxyChecking = createAction('UPDATE_PROXY_CHECKING');
+export const updateProxyGettingState = createAction('UPDATE_GETTING_PROXY_STATE');
+export const toggleExistedEmails = createAction('TOGGLE_EXISTED_EMAILS');

@@ -3,7 +3,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions/index';
+import * as actions from '../actions/index.js';
 
 const mapStateToProps = (state) => {
   const { progressBarPercentage } = state;
