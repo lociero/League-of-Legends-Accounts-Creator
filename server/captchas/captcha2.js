@@ -12,6 +12,8 @@ const solveRecaptchaV2 = async ({ twoCaptchaApiKey, googleKey, url }) => {
   const captchaIDres = response.data || 'boom';
   const captchaID = captchaIDres.split('|')[1]; // remove 'OK|'
 
+  await sleep(5000);
+
   const requestTokenUrl = `http://2captcha.com/res.php?key=${twoCaptchaApiKey}&action=get&id=${captchaID}&soft_id=2622`;
   let token = await axios.get(requestTokenUrl).catch((err) => err.response);
   token = token.data || 'boom';

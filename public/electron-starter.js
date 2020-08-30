@@ -8,7 +8,7 @@ const { BrowserWindow } = electron;
 const path = require('path');
 const url = require('url');
 const open = require('open');
-const server = require('./server/server.js');
+const server = require('../server/server.js');
 
 // eslint-disable-next-line no-console
 server().listen(5000, () => console.log('express is running!'));

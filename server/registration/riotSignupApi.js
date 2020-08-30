@@ -6,6 +6,7 @@ const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) +
 const register = async (accountData, token, proxyList = [], useProxy) => {
   axios.defaults.timeout = 10000;
   const proxy = !useProxy ? '' : proxyList[getRandomInt(0, proxyList.length - 1)];
+  const newProxyList = proxyList.filter((e) => e !== proxy);
   const { username, password, birth, email, region, serverName } = accountData;
 
   const body = {
@@ -34,7 +35,7 @@ const register = async (accountData, token, proxyList = [], useProxy) => {
 
   const res = await axios.post(apiUrl, body, options).catch((err) => err.response);
   if (res === undefined) {
-    return register(accountData, token, proxyList, useProxy);
+    return register(accountData, token, newProxyList, useProxy);
   }
   if ([200, 409].includes(res.status)) {
     const errors = res.data?.fields || {};
@@ -50,7 +51,7 @@ const register = async (accountData, token, proxyList = [], useProxy) => {
     return account;
   }
 
-  return register(accountData, token, proxyList, useProxy);
+  return register(accountData, token, newProxyList, useProxy);
 };
 
 module.exports = register;
