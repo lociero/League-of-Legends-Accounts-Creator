@@ -46,4 +46,5 @@ Ya Boi // prist*******l2014@gmail.com
 
 ```
 Discord: megaded#1529
+Email: omgoole@ya.ru
 ```
