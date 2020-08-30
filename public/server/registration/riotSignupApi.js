@@ -22,7 +22,7 @@ const register = async (accountData, token, proxyList = [], useProxy) => {
     token: `Captcha ${token}`,
   };
 
-  const options = proxy
+  const options = !proxy
     ? {}
     : {
         proxy: false,
