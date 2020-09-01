@@ -44,6 +44,7 @@ const genAccountData = async (
 const startGenerate = ({
   twoCaptchaApiKey,
   ruCaptchaApiKey,
+  antiCaptchaApiKey,
   dbcUsername,
   dbcPassword,
   currCaptcha,
@@ -83,6 +84,7 @@ const startGenerate = ({
       const captchaData = {
         twoCaptchaApiKey,
         ruCaptchaApiKey,
+        antiCaptchaApiKey,
         dbcUsername,
         dbcPassword,
         currCaptcha,

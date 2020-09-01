@@ -16,6 +16,7 @@ const server = () => {
   const proxyData = { isChecking: false, list: [] };
   const accounts = { isGenerating: false, list: [] };
   const serverState = { status: 'running', errors: [] };
+
   app.post('/updateproxylist', async (req, res) => {
     const { list } = req.body;
     const normalized = crlf(list).trim().split('\n');
@@ -50,16 +51,16 @@ const server = () => {
       accountsData,
       ({ accountData, captchaData, useProxy }) =>
         register(accountData, captchaData, proxyList, useProxy, accounts, serverState),
-      { concurrency: 50 },
+      { concurrency: 45 },
     );
     accounts.isGenerating = false;
-    if (accounts.list.filter(({ ok }) => ok).length > 0) {
-      await saveAccs(
-        accounts.list
-          .filter(({ ok }) => ok)
-          .map((acc) => acc.string)
-          .join('\n'),
-      );
+    const registered = accounts.list.filter(({ ok }) => ok);
+    try {
+      if (registered.length > 0) {
+        await saveAccs(registered.map((acc) => acc.string).join('\n'));
+      }
+    } catch (e) {
+      serverState.errors.push(e);
     }
   });
 

@@ -6,9 +6,23 @@ import * as actions from '../actions/index.js';
 
 const mapStateToProps = (state) => {
   const {
-    data: { twoCaptchaApiKey, ruCaptchaApiKey, dbcUsername, dbcPassword, currCaptcha },
+    data: {
+      twoCaptchaApiKey,
+      ruCaptchaApiKey,
+      dbcUsername,
+      dbcPassword,
+      antiCaptchaApiKey,
+      currCaptcha,
+    },
   } = state;
-  return { twoCaptchaApiKey, ruCaptchaApiKey, dbcUsername, dbcPassword, currCaptcha };
+  return {
+    twoCaptchaApiKey,
+    ruCaptchaApiKey,
+    dbcUsername,
+    dbcPassword,
+    antiCaptchaApiKey,
+    currCaptcha,
+  };
 };
 
 const actionCreators = {
@@ -17,14 +31,27 @@ const actionCreators = {
   updateDbcUsername: actions.updateDbcUsername,
   updateDbcPassword: actions.updateDbcPassword,
   apiServiceUpdate: actions.apiServiceUpdate,
+  updateAntiCaptcha: actions.updateAntiCaptcha,
 };
 
 const CaptchaAPI = (props) => {
-  const { twoCaptchaApiKey, ruCaptchaApiKey, dbcUsername, dbcPassword, currCaptcha } = props;
+  const {
+    twoCaptchaApiKey,
+    ruCaptchaApiKey,
+    dbcUsername,
+    antiCaptchaApiKey,
+    dbcPassword,
+    currCaptcha,
+  } = props;
 
   const handleUpdate2CaptchaApiKey = (e) => {
     const { update2Captcha } = props;
     update2Captcha({ value: e.target.value });
+  };
+
+  const handleUpdateAntiCaptchaApiKey = (e) => {
+    const { updateAntiCaptcha } = props;
+    updateAntiCaptcha({ value: e.target.value });
   };
 
   const handleUpdateRuCaptchaApiKey = (e) => {
@@ -143,6 +170,34 @@ const CaptchaAPI = (props) => {
             onChange={handleUpdateDbcPassword}
           />
         </div>
+      </div>
+      <div className="form-group col-md-6" style={{ marginTop: '-10px' }}>
+        <span className="custom-control custom-radio" style={{ padding: '7px 24px' }}>
+          <input
+            type="radio"
+            id="customRadio4"
+            name="antiCaptcha"
+            className="custom-control-input"
+            checked={currCaptcha === 'antiCaptcha'}
+            onChange={handleRadioButtonChange}
+          />
+          <label
+            className="custom-control-label"
+            htmlFor="customRadio4"
+            style={{ fontSize: '16px' }}
+          >
+            AntiCaptcha <a href="http://getcaptchasolution.com/3ddik9kzvd">sign up</a>
+          </label>
+        </span>
+        <input
+          type="text"
+          className="form-control"
+          name="antiCaptchaApiKey"
+          id="inputAnticaptcha"
+          placeholder="Enter your AntiCaptcha API Key"
+          value={antiCaptchaApiKey}
+          onChange={handleUpdateAntiCaptchaApiKey}
+        />
       </div>
     </div>
   );

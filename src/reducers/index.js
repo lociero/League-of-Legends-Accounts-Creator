@@ -7,6 +7,9 @@ const data = handleActions(
     [actions.update2Captcha](state, { payload }) {
       return { ...state, twoCaptchaApiKey: payload.value };
     },
+    [actions.updateAntiCaptcha](state, { payload }) {
+      return { ...state, antiCaptchaApiKey: payload.value };
+    },
     [actions.updateRuCaptcha](state, { payload }) {
       return { ...state, ruCaptchaApiKey: payload.value };
     },
@@ -71,6 +74,7 @@ const data = handleActions(
   {
     twoCaptchaApiKey: '',
     ruCaptchaApiKey: '',
+    antiCaptchaApiKey: '',
     dbcUsername: '',
     dbcPassword: '',
     currCaptcha: '2Captcha',
