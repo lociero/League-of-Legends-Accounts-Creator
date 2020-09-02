@@ -56,7 +56,7 @@ const ProxySettings = (props) => {
     updateProxyGettingState({ value: true });
     const res = await axios
       .get(
-        'https://api.proxyscrape.com/?request=getproxies&proxytype=socks5&timeout=10000&country=all',
+        'https://api.proxyscrape.com/?request=getproxies&proxytype=socks4&timeout=10000&country=all',
       )
       .catch(() => ({ data: 'error' }));
     if (res.data === 'error') {

@@ -6,7 +6,7 @@ const check = async (proxy, proxyData) => {
   const [ip] = proxy.split(':');
   const res = await axios
     .get('https://api64.ipify.org', {
-      httpsAgent: new SocksProxyAgent(`socks5://${proxy}`),
+      httpsAgent: new SocksProxyAgent(`socks4://${proxy}`),
     })
     .catch(() => ({ data: '' }));
   const { data } = res;

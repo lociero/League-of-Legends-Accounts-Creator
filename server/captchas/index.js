@@ -10,22 +10,4 @@ const captchas = {
   antiCaptcha: solveAntiCaptcha,
 };
 
-module.exports = ({
-  twoCaptchaApiKey,
-  ruCaptchaApiKey,
-  dbcUsername,
-  dbcPassword,
-  antiCaptchaApiKey,
-  currCaptcha,
-  googleKey,
-  url,
-}) =>
-  captchas[currCaptcha]({
-    googleKey,
-    url,
-    twoCaptchaApiKey,
-    ruCaptchaApiKey,
-    dbcUsername,
-    dbcPassword,
-    antiCaptchaApiKey,
-  });
+module.exports = (options) => captchas[options.currCaptcha](options);

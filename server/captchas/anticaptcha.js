@@ -21,7 +21,7 @@ const solveRecaptchaV2 = async ({ antiCaptchaApiKey, googleKey, url }) => {
   const { taskId } = task;
 
   if (task.errorId > 0) {
-    throw task;
+    return task.errorCode;
   }
 
   await sleep(5000);
@@ -35,7 +35,7 @@ const solveRecaptchaV2 = async ({ antiCaptchaApiKey, googleKey, url }) => {
   let taskState = res2.data;
 
   if (taskState.errorId > 0) {
-    throw taskState;
+    return taskState.errorCode;
   }
 
   let attempt = 1;
@@ -46,7 +46,7 @@ const solveRecaptchaV2 = async ({ antiCaptchaApiKey, googleKey, url }) => {
     taskState = res3.data;
 
     if (taskState.errorId > 0) {
-      throw taskState;
+      return taskState.errorCode;
     }
   }
 

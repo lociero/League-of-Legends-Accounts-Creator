@@ -28,7 +28,7 @@ const register = async (accountData, token, proxyList = [], useProxy) => {
     : {
         proxy: false,
         headers: { 'Content-Type': 'application/json' },
-        httpsAgent: new SocksProxyAgent(`socks5://${proxy}`),
+        httpsAgent: new SocksProxyAgent(`socks4://${proxy}`),
       };
 
   const apiUrl = 'https://signup-api.leagueoflegends.com/v1/accounts';

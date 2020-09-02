@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 /* eslint-disable no-await-in-loop */
 import axios from 'axios';
-import getLink from './servers';
-import generatePassword from './passwordGen';
-import generateNick from './nameGen';
-import getRandomEmailMask from './getRandomEmailMask';
+import getLink from './servers.js';
+import generatePassword from './passwordGen.js';
+import generateNick from './nameGen.js';
+import getRandomEmailMask from './getRandomEmailMask.js';
 import { getExistedEmailsList, saveEmails } from './existedEmailsList.js';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
