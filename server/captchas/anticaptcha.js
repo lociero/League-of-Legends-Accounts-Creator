@@ -16,14 +16,13 @@ const solveRecaptchaV2 = async ({ antiCaptchaApiKey, googleKey, url }) => {
     },
     softId: 942,
   };
-  const response = await axios.post(requestUrl, reqBody).catch((err) => err.response);
-
-  if (response === undefined) {
-    throw new Error('anticaptcha_connection_error');
-  }
-
-  const task = response.data || { taskId: 0 };
+  const response = await axios.post(requestUrl, reqBody);
+  const task = response.data;
   const { taskId } = task;
+
+  if (task.errorId > 0) {
+    throw task;
+  }
 
   await sleep(5000);
 
@@ -32,24 +31,23 @@ const solveRecaptchaV2 = async ({ antiCaptchaApiKey, googleKey, url }) => {
     clientKey: antiCaptchaApiKey,
     taskId,
   };
-  const res2 = await axios.post(requestTokenUrl, tokenBody).catch((err) => err.response);
+  const res2 = await axios.post(requestTokenUrl, tokenBody);
+  let taskState = res2.data;
 
-  if (res2 === undefined) {
-    throw new Error('anticaptcha_connection_error');
+  if (taskState.errorId > 0) {
+    throw taskState;
   }
 
-  let taskState = res2.data || { status: 'error' };
   let attempt = 1;
-  while (attempt <= 60 && !['ready', 'error'].includes(taskState.status)) {
+  while (attempt <= 60 && taskState.status !== 'ready') {
     await sleep(5000);
     attempt += 1;
-    const res3 = await axios.post(requestTokenUrl, tokenBody).catch((err) => err.response);
+    const res3 = await axios.post(requestTokenUrl, tokenBody);
+    taskState = res3.data;
 
-    if (res3 === undefined) {
-      throw new Error('anticaptcha_connection_error');
+    if (taskState.errorId > 0) {
+      throw taskState;
     }
-
-    taskState = res3.data || { status: 'error' };
   }
 
   const token = taskState?.solution?.gRecaptchaResponse || taskState?.errorCode;
