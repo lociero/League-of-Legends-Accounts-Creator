@@ -17,7 +17,7 @@
 4. Password length.
 5. Date of Birth.
 6. Number of accounts.
-7. Proxy. Check the proxy use option. Press Get Proxies button. It will download and check them, then you can start the generate.
+7. Proxy. Check the proxy use option. Press Get Proxies button. It will download socks4 proxies from ProxyScrape and check them, then you can start the generate.
 
 
 ### If you want to build it by yourself
@@ -41,6 +41,12 @@ npm run buildElectron
 Telitsyn Sergey // sl******yn@gmail.com
 Ya Boi // prist*******l2014@gmail.com
 ```
+
+### TODO:
+
+1. Password One for All
+2. Custom username list
+3. Anything else? Contact me =)
 
 ### Contacts:
 
