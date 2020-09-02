@@ -6,13 +6,25 @@ function sleep(ms) {
 }
 
 const solveRecaptchaV2 = async ({ twoCaptchaApiKey, googleKey, url }) => {
+  const balanceRes = await axios.get(
+    `https://2captcha.com/res.php?key=${twoCaptchaApiKey}&action=getbalance`,
+  );
+  const balance = balanceRes.data;
+
+  if (balance === 'ERROR_WRONG_USER_KEY') {
+    return balance;
+  }
+
+  if (balance <= 0) {
+    return 'ERROR_ZERO_BALANCE';
+  }
+
+  await sleep(5000);
+
   const requestUrl = `http://2captcha.com/in.php?key=${twoCaptchaApiKey}&method=userrecaptcha&googlekey=${googleKey}&pageurl=${url}&soft_id=2622`;
   const response = await axios.post(requestUrl);
 
   const captchaIDres = response.data;
-  if (captchaIDres === 'ERROR_WRONG_USER_KEY') {
-    return captchaIDres;
-  }
   const captchaID = captchaIDres.split('|')[1]; // remove 'OK|'
 
   await sleep(5000);

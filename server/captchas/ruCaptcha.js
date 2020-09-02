@@ -6,6 +6,21 @@ function sleep(ms) {
 }
 
 const solveRecaptchaV2 = async ({ ruCaptchaApiKey, googleKey, url }) => {
+  const balanceRes = await axios.get(
+    `https://rucaptcha.com/res.php?key=${ruCaptchaApiKey}&action=getbalance`,
+  );
+  const balance = balanceRes.data;
+
+  if (balance === 'ERROR_WRONG_USER_KEY') {
+    return balance;
+  }
+
+  if (balance <= 0) {
+    return 'ERROR_ZERO_BALANCE';
+  }
+
+  await sleep(5000);
+
   const requestUrl = `http://rucaptcha.com/in.php?key=${ruCaptchaApiKey}&method=userrecaptcha&googlekey=${googleKey}&pageurl=${url}&soft_id=2694`;
   const response = await axios.post(requestUrl);
 

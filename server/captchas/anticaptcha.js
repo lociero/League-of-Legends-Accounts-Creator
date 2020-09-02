@@ -6,6 +6,21 @@ function sleep(ms) {
 }
 
 const solveRecaptchaV2 = async ({ antiCaptchaApiKey, googleKey, url }) => {
+  const balanceRes = await axios.post('https://api.anti-captcha.com/getBalance', {
+    clientKey: antiCaptchaApiKey,
+  });
+  const { balance, errorId, errorCode } = balanceRes.data;
+
+  if (errorId > 0) {
+    return errorCode;
+  }
+
+  if (balance <= 0) {
+    return 'ERROR_ZERO_BALANCE';
+  }
+
+  await sleep(5000);
+
   const requestUrl = 'https://api.anti-captcha.com/createTask';
   const reqBody = {
     clientKey: antiCaptchaApiKey,
@@ -50,7 +65,7 @@ const solveRecaptchaV2 = async ({ antiCaptchaApiKey, googleKey, url }) => {
     }
   }
 
-  const token = taskState?.solution?.gRecaptchaResponse || taskState?.errorCode;
+  const token = taskState.solution.gRecaptchaResponse;
   return token;
 };
 

@@ -6,6 +6,18 @@ function sleep(ms) {
 }
 
 const solveRecaptchaV2 = async ({ dbcUsername, dbcPassword, googleKey, url }) => {
+  const balanceRes = await axios
+    .get(
+      `http://api.dbcapi.me/2captcha/res.php?key=${dbcUsername}:${dbcPassword}&action=getbalance`,
+    )
+    .catch((err) => err.response);
+
+  const balance = balanceRes.data;
+
+  if (balance <= 0) {
+    return 'ERROR_WRONG_USER_KEY';
+  }
+
   const requestUrl = `http://api.dbcapi.me/2captcha/in.php?key=${dbcUsername}:${dbcPassword}&method=userrecaptcha&googlekey=${googleKey}&pageurl=${url}&soft_id=2622`;
   const response = await axios.post(requestUrl).catch((err) => err.response);
 
@@ -18,13 +30,13 @@ const solveRecaptchaV2 = async ({ dbcUsername, dbcPassword, googleKey, url }) =>
   await sleep(5000);
 
   const requestTokenUrl = `http://api.dbcapi.me/2captcha/res.php?key=${dbcUsername}:${dbcPassword}&action=get&id=${captchaID}&soft_id=2622`;
-  const res2 = await axios.get(requestTokenUrl);
+  const res2 = await axios.get(requestTokenUrl).catch((err) => err.response);
   let token = res2.data;
   let attempt = 1;
   while (token === 'OK|CAPCHA_NOT_READY' && attempt <= 60) {
     await sleep(5000);
     attempt += 1;
-    const res3 = await axios.get(requestTokenUrl);
+    const res3 = await axios.get(requestTokenUrl).catch((err) => err.response);
     token = res3.data;
   }
 

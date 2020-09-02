@@ -16,7 +16,7 @@ const register = async (accountData, captchaData, proxyList, useProxy, accounts,
     const token = await solveCaptcha(captchaData);
     account = await registerAccount(accountData, token, proxyList, useProxy);
   } catch (e) {
-    serverState.errors.push({ e, response: e?.response });
+    serverState.errors.push(e);
   }
   accounts.list.push(account);
 };
