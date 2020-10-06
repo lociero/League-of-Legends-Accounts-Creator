@@ -60,7 +60,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.9.0",
     "customize-cra": "^0.9.1",
-    "electron": "^8.0.3",
+    "electron": "^8.5.1",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-react-app": "^5.2.1",
