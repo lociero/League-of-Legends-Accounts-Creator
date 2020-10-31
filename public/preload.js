@@ -6,7 +6,7 @@ const customTitlebar = require('custom-electron-titlebar');
 window.addEventListener('DOMContentLoaded', () => {
   const titlebar = new customTitlebar.Titlebar({
     backgroundColor: customTitlebar.Color.fromHex('#1f2d3a'),
-    icon: url.format(path.join(__dirname, '/electron-logo.png')),
+    icon: url.format(path.join(__dirname, '/icon.ico')),
     titleHorizontalAlignment: 'left',
     menu: null,
     maximizable: false,

@@ -47,6 +47,11 @@ const getLink = (serverName) => {
       const region = 'LA2';
       return { url, region };
     }
+    case 'JP': {
+      const url = 'https://signup.jp.leagueoflegends.com/ja/signup/index#/';
+      const region = 'JP1';
+      return { url, region };
+    }
     default: {
       const url = 'https://signup.euw.leagueoflegends.com/en/signup/';
       const region = 'EUW1';

@@ -57,7 +57,7 @@ const server = () => {
     const registered = accounts.list.filter(({ ok }) => ok);
     try {
       if (registered.length > 0) {
-        await saveAccs(registered.map((acc) => acc.string).join('\n'));
+        await saveAccs(registered);
       }
     } catch (e) {
       serverState.errors.push(e);
@@ -71,6 +71,11 @@ const server = () => {
   app.get('/serverstate', (req, res) => {
     res.json({ proxyData, accounts, serverState });
   });
+
+  // app.get('/myip', async (req, res) => {
+  //   const resp = await axios.get('https://api64.ipify.org');
+  //   res.json(resp.data);
+  // });
 
   return app;
 };

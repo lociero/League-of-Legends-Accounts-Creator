@@ -26,3 +26,4 @@ export const updateProxyChecking = createAction('UPDATE_PROXY_CHECKING');
 export const updateProxyGettingState = createAction('UPDATE_GETTING_PROXY_STATE');
 export const toggleExistedEmails = createAction('TOGGLE_EXISTED_EMAILS');
 export const updateAntiCaptcha = createAction('ANTICAPTCHA_KEY_UPDATE');
+export const updateProxyCountry = createAction('PROXY_COUNTRY_CHANGE');

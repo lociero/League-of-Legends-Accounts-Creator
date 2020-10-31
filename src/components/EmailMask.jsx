@@ -57,7 +57,7 @@ const EmailMask = (props) => {
           </label>{' '}
           <span
             className="tooltipped tooltipped-n tooltipped-no-delay"
-            aria-label="Put them into file ./existedEmails.txt"
+            aria-label="Put them into file existed_emails.txt"
           >
             <i className="fas fa-question-circle" />
           </span>
@@ -82,7 +82,7 @@ const EmailMask = (props) => {
           </label>{' '}
           <span
             className="tooltipped tooltipped-n tooltipped-no-delay"
-            aria-label="Random for everyone. You can use your own masks. Change the file ./emailMasks.txt"
+            aria-label="Put them into file email_masks.txt"
           >
             <i className="fas fa-question-circle" />
           </span>

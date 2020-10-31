@@ -32,10 +32,8 @@ const solveRecaptchaV2 = async ({ dbcUsername, dbcPassword, googleKey, url }) =>
   const requestTokenUrl = `http://api.dbcapi.me/2captcha/res.php?key=${dbcUsername}:${dbcPassword}&action=get&id=${captchaID}&soft_id=2622`;
   const res2 = await axios.get(requestTokenUrl).catch((err) => err.response);
   let token = res2.data;
-  let attempt = 1;
-  while (token === 'OK|CAPCHA_NOT_READY' && attempt <= 60) {
+  while (token === 'OK|CAPCHA_NOT_READY') {
     await sleep(5000);
-    attempt += 1;
     const res3 = await axios.get(requestTokenUrl).catch((err) => err.response);
     token = res3.data;
   }

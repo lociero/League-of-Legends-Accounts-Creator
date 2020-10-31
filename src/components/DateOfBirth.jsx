@@ -26,7 +26,7 @@ const DateOfBirth = (props) => {
   return (
     <div className="form-group col-md-6">
       <label htmlFor="inputBirth" className="col-form-label">
-        Date of Birth
+        Date of Birth (YYYY-MM-DD)
       </label>
       <input
         type="text"

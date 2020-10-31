@@ -1,5 +1,4 @@
 const electron = require('electron');
-
 // Module to control application life.
 const { app } = electron;
 // Module to create native browser window.
@@ -9,9 +8,14 @@ const path = require('path');
 const url = require('url');
 const open = require('open');
 const server = require('../server/server.js');
+const makeConfig = require('../server/prestart.js');
 
 // eslint-disable-next-line no-console
 server().listen(5000, () => console.log('express is running!'));
+
+if (process.env.PORTABLE_EXECUTABLE_DIR) {
+  makeConfig();
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

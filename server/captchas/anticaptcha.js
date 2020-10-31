@@ -53,10 +53,8 @@ const solveRecaptchaV2 = async ({ antiCaptchaApiKey, googleKey, url }) => {
     return taskState.errorCode;
   }
 
-  let attempt = 1;
-  while (attempt <= 60 && taskState.status !== 'ready') {
+  while (taskState.status !== 'ready') {
     await sleep(5000);
-    attempt += 1;
     const res3 = await axios.post(requestTokenUrl, tokenBody);
     taskState = res3.data;
 

@@ -1,30 +1,22 @@
-const { app } = window.require('electron').remote;
+// const { app } = window.require('electron').remote;
 const { remote } = window.require('electron');
 const fs = remote.require('fs').promises;
+const { getGlobal } = window.require('electron').remote;
 
 const crlf = (text) => text.replace(/\r\n|\r(?!\n)|\n/g, '\n');
+const currDir = getGlobal('process').env.PORTABLE_EXECUTABLE_DIR;
 
 export const getExistedEmailsList = async () => {
-  const currDir = app.getAppPath();
   const emailsList = await fs
-    .readFile(`${currDir}/../../existedEmails.txt`, 'utf-8')
-    .catch(() => 'none');
-  const emails = crlf(emailsList).split('\n').filter(Boolean).slice(4);
+    .readFile(`${currDir}/existed_emails.txt`, 'utf-8')
+    .catch(() => 'emails_list_is_empty');
+  const emails = crlf(emailsList).split('\n').filter(Boolean);
   return emails;
 };
 
 export const saveEmails = async (list) => {
-  const line1 = 'example@gmail.com  // example';
-  const line2 = 'example2@gmail.com // these 4 lines';
-  const line3 = 'example3@yahoo.com // are always ignored';
-  const line4 = '----add-your-emails-under-this-line----';
-  const currDir = app.getAppPath();
   await fs
-    .writeFile(
-      `${currDir}/../../existedEmails.txt`,
-      [line1, line2, line3, line4, ...list].join('\n'),
-      'utf-8',
-    )
+    .writeFile(`${currDir}/existed_emails.txt`, [list].join('\n'), 'utf-8')
     // eslint-disable-next-line no-console
     .catch(console.log);
 };

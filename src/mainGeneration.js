@@ -117,7 +117,7 @@ const startGenerate = ({
   const registeredUsers = accounts.filter((acc) => acc.ok);
 
   const info1 = `Successfully registered [${registeredUsers.length}/${amount}]`;
-  const info2 = registeredUsers.length > 0 ? 'Check ./generatedAccounts.txt' : '';
+  const info2 = registeredUsers.length > 0 ? 'Check accounts folder!' : '';
   const resultOutput = [[info1, info2].join(' '), dataToStrings(accounts).join('\n')].join('\n');
   console.log('Finished Accounts:');
   console.log('Success:');

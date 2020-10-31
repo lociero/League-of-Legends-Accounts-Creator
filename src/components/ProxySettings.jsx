@@ -13,9 +13,9 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const mapStateToProps = (state) => {
   const {
-    data: { useProxy, proxyList, isProxyChecking, isGettingProxy },
+    data: { useProxy, proxyList, isProxyChecking, isGettingProxy, proxyCountry },
   } = state;
-  return { useProxy, proxyList, isProxyChecking, isGettingProxy };
+  return { useProxy, proxyList, isProxyChecking, isGettingProxy, proxyCountry };
 };
 
 const actionCreators = {
@@ -23,6 +23,7 @@ const actionCreators = {
   updateProxyList: actions.updateProxyList,
   updateProxyChecking: actions.updateProxyChecking,
   updateProxyGettingState: actions.updateProxyGettingState,
+  updateProxyCountry: actions.updateProxyCountry,
 };
 
 const ProxySettings = (props) => {
@@ -35,7 +36,13 @@ const ProxySettings = (props) => {
     updateProxyList,
     isGettingProxy,
     updateProxyGettingState,
+    proxyCountry,
   } = props;
+
+  const handleChange = (e) => {
+    const { updateProxyCountry } = props;
+    updateProxyCountry({ value: e.target.value });
+  };
 
   const proxyCheck = async () => {
     updateProxyChecking({ value: true });
@@ -56,7 +63,7 @@ const ProxySettings = (props) => {
     updateProxyGettingState({ value: true });
     const res = await axios
       .get(
-        'https://api.proxyscrape.com/?request=getproxies&proxytype=socks4&timeout=10000&country=all',
+        `https://api.proxyscrape.com/?request=getproxies&proxytype=socks4&timeout=10000&country=${proxyCountry}`,
       )
       .catch(() => ({ data: 'error' }));
     if (res.data === 'error') {
@@ -82,7 +89,6 @@ const ProxySettings = (props) => {
             checked={useProxy}
             onChange={toggleProxyUse}
           />
-
           <label
             className="custom-control-label"
             htmlFor="customSwitch2"
@@ -91,21 +97,43 @@ const ProxySettings = (props) => {
             Use Proxy
           </label>
         </div>
-        {!isGettingProxy ? (
-          <button
-            type="button"
-            className="btn btn-outline-primary"
-            onClick={getProxies}
-            disabled={!useProxy || isProxyChecking}
+        <div className="input-group w-auto">
+          <select
+            id="selectCountry"
+            name="server"
+            className="form-control"
+            value={proxyCountry}
+            onChange={handleChange}
           >
-            Get Proxies
-          </button>
-        ) : (
-          <button className="btn btn-outline-primary" type="button" disabled>
-            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-            {' Downloading...'}
-          </button>
-        )}
+            <option value="all">ALL</option>
+            <option value="BR">BR</option>
+            <option value="DE">DE</option>
+            <option value="ES">ES</option>
+            <option value="FR">FR</option>
+            <option value="IN">IN</option>
+            <option value="IT">IT</option>
+            <option value="PL">PL</option>
+            <option value="TR">TR</option>
+            <option value="RU">RU</option>
+            <option value="UA">UA</option>
+            <option value="US">US</option>
+          </select>
+          {!isGettingProxy ? (
+            <button
+              type="button"
+              className="btn btn-outline-primary"
+              onClick={getProxies}
+              disabled={!useProxy || isProxyChecking}
+            >
+              Get Proxies
+            </button>
+          ) : (
+            <button className="btn btn-outline-primary" type="button" disabled>
+              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+              {' Downloading...'}
+            </button>
+          )}
+        </div>
         {!isProxyChecking ? (
           <button
             type="button"
@@ -124,7 +152,7 @@ const ProxySettings = (props) => {
       </div>
       <div className="form-group">
         <label htmlFor="proxyList" className="col-form-label">
-          Loaded Proxies
+          Loaded Proxies [{proxyList.split('\n').filter(Boolean).length}]
         </label>
         <textarea
           type="text"

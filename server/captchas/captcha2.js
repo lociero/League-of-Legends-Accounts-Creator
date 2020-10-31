@@ -32,10 +32,8 @@ const solveRecaptchaV2 = async ({ twoCaptchaApiKey, googleKey, url }) => {
   const requestTokenUrl = `http://2captcha.com/res.php?key=${twoCaptchaApiKey}&action=get&id=${captchaID}&soft_id=2622`;
   const res2 = await axios.get(requestTokenUrl);
   let token = res2.data;
-  let attempt = 1;
-  while (token === 'CAPCHA_NOT_READY' && attempt <= 60) {
+  while (token === 'CAPCHA_NOT_READY') {
     await sleep(5000);
-    attempt += 1;
     const res3 = await axios.get(requestTokenUrl);
     token = res3.data;
   }

@@ -44,6 +44,7 @@ const ServerSelect = (props) => {
         <option value="OCE">OCE</option>
         <option value="LAN">LAN</option>
         <option value="LAS">LAS</option>
+        <option value="JP">JP</option>
       </select>
     </div>
   );

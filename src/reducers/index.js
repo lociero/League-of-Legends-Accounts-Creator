@@ -70,6 +70,9 @@ const data = handleActions(
     [actions.updateProxyGettingState](state, { payload }) {
       return { ...state, isGettingProxy: payload.value };
     },
+    [actions.updateProxyCountry](state, { payload }) {
+      return { ...state, proxyCountry: payload.value };
+    },
   },
   {
     twoCaptchaApiKey: '',
@@ -94,6 +97,7 @@ const data = handleActions(
     proxyList: '',
     isProxyChecking: false,
     isGettingProxy: false,
+    proxyCountry: 'all',
   },
 );
 
