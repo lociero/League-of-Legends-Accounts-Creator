@@ -4,11 +4,13 @@
     "plugin:prettier/recommended",
     "prettier/react"
   ],
-  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 11
+  },
   "env": {
     "browser": true,
     "commonjs": true,
-    "es6": true,
+    "es2020": true,
     "jest": true,
     "node": true
   },
