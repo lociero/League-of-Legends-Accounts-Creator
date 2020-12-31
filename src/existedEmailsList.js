@@ -16,7 +16,7 @@ export const getExistedEmailsList = async () => {
 
 export const saveEmails = async (list) => {
   await fs
-    .writeFile(`${currDir}/existed_emails.txt`, [list].join('\n'), 'utf-8')
+    .writeFile(`${currDir}/existed_emails.txt`, list.join('\n'), 'utf-8')
     // eslint-disable-next-line no-console
     .catch(console.log);
 };

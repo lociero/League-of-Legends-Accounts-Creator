@@ -9,6 +9,15 @@ import { getExistedEmailsList, saveEmails } from './existedEmailsList.js';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+const getRandomBirth = () => {
+  const year = random(1975, 2000);
+  const month = `${random(1, 12)}`.padStart(2, '0');
+  const day = `${random(0, 28)}`.padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 const dataToStrings = (array) =>
   array.map((account) => {
     const errorString = Object.entries(account.errors)
@@ -80,7 +89,8 @@ const startGenerate = ({
         usernameMaxLength,
         passwordLength,
       );
-      const accountData = { username, password, email, region, birth: dateOfBirth, serverName };
+      const birth = dateOfBirth || getRandomBirth();
+      const accountData = { username, password, email, region, birth, serverName };
       const captchaData = {
         twoCaptchaApiKey,
         ruCaptchaApiKey,

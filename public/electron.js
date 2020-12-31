@@ -11,7 +11,7 @@ const server = require('../server/server.js');
 const makeConfig = require('../server/prestart.js');
 
 // eslint-disable-next-line no-console
-server().listen(5000, () => console.log('express is running!'));
+server().listen(5000, () => console.log('Listening on port: 5000'));
 
 if (process.env.PORTABLE_EXECUTABLE_DIR) {
   makeConfig();
