@@ -1,38 +1,32 @@
 {
-  "extends": [
-    "airbnb",
-    "plugin:prettier/recommended",
-    "prettier/react"
-  ],
-  "parserOptions": {
-    "ecmaVersion": 11
-  },
   "env": {
     "browser": true,
-    "commonjs": true,
     "es2020": true,
-    "jest": true,
     "node": true
   },
-  "settings": {
-    "import/core-modules": [ "electron" ] 
+  "extends": [
+    "airbnb-base",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 11,
+    "sourceType": "module"
   },
+  "plugins": [
+    "react",
+    "prettier"
+  ],
   "rules": {
-    "import/extensions": 0,
-    "jsx-a11y/href-no-hash": ["off"],
-    "max-len": [
-      "warn",
-      {
-        "code": 100,
-        "tabWidth": 2,
-        "comments": 100,
-        "ignoreComments": false,
-        "ignoreTrailingComments": true,
-        "ignoreUrls": true,
-        "ignoreStrings": true,
-        "ignoreTemplateLiterals": true,
-        "ignoreRegExpLiterals": true
-      }
+    "linebreak-style":"off",
+    "react/prop-types": "off",
+    "import/no-extraneous-dependencies": 0,
+    "import/extensions": [
+      "error",
+      "ignorePackages"
     ]
   }
 }

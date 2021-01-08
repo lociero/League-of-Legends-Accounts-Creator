@@ -1,0 +1,52 @@
+/* @import 'bootstrap/dist/css/bootstrap.min.css'; */
+/* @import 'bootswatch/dist/Cosmo/bootstrap.min.css'; */
+@import 'bootswatch/dist/Cosmo/bootstrap.min.css';
+
+.window-title {
+  font-family: "Source Sans Pro", "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 14px !important;
+  margin-left: 0px !important;
+}
+
+#uncontrolled-tab-example-tabpane-proxy > div > div.dataTables_wrapper.dt-bootstrap4 > div:nth-child(3) > div.col-sm-12.col-md-7 > div > ul > li.page-item:not(.disabled),
+#uncontrolled-tab-example-tabpane-general > div > div.dataTables_wrapper.dt-bootstrap4 > div:nth-child(3) > div.col-sm-12.col-md-7 > div > ul > li.page-item:not(.disabled) {
+  cursor: pointer;
+}
+
+#uncontrolled-tab-example-tabpane-general > div > div:nth-child(1) > div.col-5.p-1.input-group > div:nth-child(3) > span {
+  margin-left: -1px;
+}
+
+hr {
+  margin: 5px 0;
+}
+
+td {
+  white-space: nowrap;
+}
+
+th {
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dataTables_wrapper.dt-bootstrap4 {
+  /* min-height: 524.8px; */
+  border: solid #dee2e6 1px;
+  padding: 10px;
+  margin: 0px -10px;
+}
+
+div.dataTables_wrapper.dt-bootstrap4 > div:nth-child(2) > div {
+  min-height: 391px;
+}
+
+.blink {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
