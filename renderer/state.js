@@ -8,6 +8,7 @@ import {
   USERNAME_SETTINGS_TYPES,
   PASSWORD_SETTINGS_TYPES,
   CAPTCHA_SERVICES,
+  FILE_NAMES,
   dirname,
   isDev,
 } from '../constants/constants.js';
@@ -33,7 +34,7 @@ const initialState = {
   [STATE_NAMES.DBC_PASSWORD]: '',
 };
 
-const config = isDev ? {} : JSON.parse(fs.readFileSync(`${dirname}/config.json`));
+const config = isDev ? {} : JSON.parse(fs.readFileSync(`${dirname}/${FILE_NAMES.CONFIG}`));
 
 const { useGlobalState } = createGlobalState({ ...initialState, ...config });
 

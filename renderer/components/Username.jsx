@@ -4,7 +4,7 @@ import { MDBTooltip } from 'mdbreact';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 import useGlobalState from '../state.js';
-import { USERNAME_SETTINGS_TYPES, STATE_NAMES } from '../../constants/constants.js';
+import { USERNAME_SETTINGS_TYPES, STATE_NAMES, FILE_NAMES } from '../../constants/constants.js';
 
 const Username = () => {
   const [usernameMin, updateUsernameMin] = useGlobalState(STATE_NAMES.USERNAME_MIN);
@@ -59,7 +59,7 @@ const Username = () => {
         <p className="m-1">
           <strong>RANDOM:</strong> Random username
           <br />
-          <strong>CUSTOM:</strong> custom_usernames.txt
+          <strong>CUSTOM:</strong> {FILE_NAMES.CUSTOM_USERNAMES}
         </p>
       </MDBTooltip>
     </>

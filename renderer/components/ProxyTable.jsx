@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Button } from 'react-bootstrap';
 import { MDBDataTable } from 'mdbreact';
 import useGlobalState from '../state.js';
-import { STATE_NAMES } from '../../constants/constants.js';
+import { STATE_NAMES, STATUS } from '../../constants/constants.js';
 
 const ProxyTable = () => {
   const [proxyList, updateProxyList] = useGlobalState(STATE_NAMES.PROXY_LIST);
@@ -51,7 +51,7 @@ const ProxyTable = () => {
       <Row className="flex-row m-1 align-items-center">
         <p className="text-success mb-0 ml-2">LOADED: {proxyList.length}</p>
         <p className="text-success mb-0 ml-2">
-          WORKING: {proxyList.filter(({ isWorking }) => isWorking === 'TRUE').length}
+          WORKING: {proxyList.filter(({ isWorking }) => isWorking === STATUS.PROXY.WORKING).length}
         </p>
         <p className="text-success mb-0 ml-2">
           CHECKED: {proxyList.filter(({ isWorking }) => isWorking).length}/{proxyList.length}
@@ -62,9 +62,10 @@ const ProxyTable = () => {
       </Row>
 
       <MDBDataTable
-        // scrollX
-        // scrollY
-        // maxHeight="300px"
+        infoLabel={['SHOWING', 'TO', 'OF', 'ENTRIES']}
+        entriesLabel="SHOW ENTRIES"
+        searchLabel="SEARCH"
+        paginationLabel={['PREVIOUS', 'NEXT']}
         searching={false}
         entriesOptions={[10, 25, 50, 100, 1000]}
         striped

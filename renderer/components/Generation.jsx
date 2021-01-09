@@ -6,7 +6,7 @@ import _ from 'lodash';
 import AccountsTable from './AccountsTable.jsx';
 import useGlobalState from '../state.js';
 import save from '../save.js';
-import { STATE_NAMES, LOCALHOST, dirname } from '../../constants/constants.js';
+import { STATE_NAMES, LOCALHOST, dirname, STATUS } from '../../constants/constants.js';
 import { sleep } from '../../utils/utils.js';
 
 const Generation = () => {
@@ -16,8 +16,10 @@ const Generation = () => {
   const [isGeneratingAccs, toggleGenerating] = useState(false);
   const [isCreating, toggleCreating] = useState(false);
 
-  const successAccounts = accounts.filter(({ status }) => status === 'SUCCESS');
-  const finishedAccounts = accounts.filter(({ status }) => !['GENERATED', 'IN PROGRESS'].includes(status));
+  const successAccounts = accounts.filter(({ status }) => status === STATUS.ACCOUNT.SUCCESS);
+  const finishedAccounts = accounts.filter(
+    ({ status }) => ![STATUS.ACCOUNT.GENERATED, STATUS.ACCOUNT.IN_PROGRESS].includes(status)
+  );
 
   const state = Object.values(STATE_NAMES).reduce((acc, key) => {
     const [value] = useGlobalState(key);

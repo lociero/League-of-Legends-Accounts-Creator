@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 import { MDBTooltip } from 'mdbreact';
 import useGlobalState from '../state.js';
-import { EMAIL_SETTINGS_TYPES, STATE_NAMES } from '../../constants/constants.js';
+import { EMAIL_SETTINGS_TYPES, STATE_NAMES, FILE_NAMES } from '../../constants/constants.js';
 
 const EmailMask = () => {
   const [emailMask, updateEmailMask] = useGlobalState(STATE_NAMES.EMAIL_MASK);
@@ -47,7 +47,7 @@ const EmailMask = () => {
           <br />
           <strong>ONE FOR ALL:</strong> {`username + ${emailMask}`}
           <br />
-          <strong>CUSTOM:</strong> Emails from custom_emails.txt
+          <strong>CUSTOM:</strong> Emails from {FILE_NAMES.CUSTOM_EMAILS}
         </p>
       </MDBTooltip>
     </>

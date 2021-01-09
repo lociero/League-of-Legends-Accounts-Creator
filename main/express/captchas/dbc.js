@@ -1,9 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import axios from 'axios';
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+import { sleep } from '../../../utils/utils.js';
 
 export default async ({ username, password, googleKey, url }) => {
   const balanceRes = await axios
@@ -22,7 +19,7 @@ export default async ({ username, password, googleKey, url }) => {
   if (captchaIDres === 'ERROR_WRONG_USER_KEY') {
     return captchaIDres;
   }
-  const captchaID = captchaIDres.split('|')[1]; // remove 'OK|'
+  const captchaID = captchaIDres.split('|')[1];
 
   await sleep(5000);
 
@@ -35,6 +32,6 @@ export default async ({ username, password, googleKey, url }) => {
     token = res3.data;
   }
 
-  const [, result] = token.split('|'); // remove 'OK|'
+  const [, result] = token.split('|');
   return result || token;
 };

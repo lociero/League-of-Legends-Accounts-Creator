@@ -4,10 +4,11 @@ import {
   EMAIL_SETTINGS_TYPES,
   EMAIL_MASKS,
   DATE_OF_BIRTH_TYPES,
+  FILE_NAMES,
 } from '../constants/constants.js';
 import generateUsername from '../utils/nameGen.js';
 import generatePassword from '../utils/passwordGen.js';
-import { random, getRandomBirth } from '../utils/utils.js';
+import { random, getRandomBirth, readAndParse } from '../utils/utils.js';
 
 const usernameByType = {
   [USERNAME_SETTINGS_TYPES.RANDOM]: (_, min, max) => generateUsername(min, max),
@@ -30,7 +31,9 @@ const birthByType = {
   [DATE_OF_BIRTH_TYPES.ONE_FOR_ALL]: (date) => date,
 };
 
-const genData = (state, usernames, emails) => {
+const genData = (state) => {
+  const usernames = readAndParse(FILE_NAMES.CUSTOM_USERNAMES);
+  const emails = readAndParse(FILE_NAMES.CUSTOM_EMAILS);
   const config = Array(Number(state.amount))
     .fill()
     .map((_, i) => {

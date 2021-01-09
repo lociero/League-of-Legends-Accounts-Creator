@@ -11,7 +11,7 @@ const Footer = () => {
   const discordNameToClipboard = async () => {
     updateTooltipText('COPIED');
     copyToClipboard('megaded#1529');
-    await sleep(1500);
+    await sleep(1000);
     updateTooltipText('CLICK TO COPY');
   };
   return (

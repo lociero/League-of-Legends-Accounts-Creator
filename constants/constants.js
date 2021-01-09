@@ -3,7 +3,6 @@ import emailMasks from './emailMasks.js';
 
 const expressPort = remote && remote.getGlobal('expressPort');
 export const LOCALHOST = `http://localhost:${expressPort}`;
-// export const LOCALHOST = `http://localhost:${2}`;
 
 export const dirname = process.env.PORTABLE_EXECUTABLE_DIR;
 
@@ -90,10 +89,23 @@ export const LINKS = {
     [CAPTCHA_SERVICES.DBC]: 'https://deathbycaptcha.com',
     [CAPTCHA_SERVICES.ANTICAPTCHA]: 'http://getcaptchasolution.com/3ddik9kzvd',
   },
-  CAPTCHA_BALANCE: {
-    DBC: 'http://api.dbcapi.me/2captcha/res.php',
-    ANTICAPTCHA: 'https://api.anti-captcha.com/getBalance',
-    RUCAPTCHA: 'https://rucaptcha.com/res.php',
-    TWOCAPTCHA: 'https://2captcha.com/res.php',
+};
+
+export const FILE_NAMES = {
+  CONFIG: 'config.json',
+  CUSTOM_EMAILS: 'custom_emails.txt',
+  CUSTOM_USERNAMES: 'custom_usernames.txt',
+};
+
+export const STATUS = {
+  ACCOUNT: {
+    FAILED: 'FAILED',
+    SUCCESS: 'SUCCESS',
+    GENERATED: 'GENERATED',
+    IN_PROGRESS: 'IN PROGRESS',
+  },
+  PROXY: {
+    WORKING: 'TRUE',
+    NOT_WORKING: 'FALSE',
   },
 };

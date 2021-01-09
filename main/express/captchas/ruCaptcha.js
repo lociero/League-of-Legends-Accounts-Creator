@@ -1,9 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import axios from 'axios';
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+import { sleep } from '../../../utils/utils.js';
 
 export default async ({ apiKey, googleKey, url }) => {
   const balanceRes = await axios.get(`https://rucaptcha.com/res.php?key=${apiKey}&action=getbalance`);

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import SocksProxyAgent from 'socks-proxy-agent';
 import { random } from '../../utils/utils.js';
+import { STATUS } from '../../constants/constants.js';
 
 const agents = {
   SOCKS4: ({ ip, port }) => new SocksProxyAgent(`socks4://${ip}:${port}`),
@@ -37,7 +38,7 @@ const register = async ({ account, token, proxy }, attempt = 1) => {
   if (attempt === 10) {
     return {
       ...account,
-      status: 'FAILED',
+      status: STATUS.ACCOUNT.FAILED,
       errors: 'TOO_MANY_ATTEMPTS ABORTED',
     };
   }
@@ -114,7 +115,7 @@ const register = async ({ account, token, proxy }, attempt = 1) => {
     if (res.status === 409) {
       return {
         ...account,
-        status: 'FAILED',
+        status: STATUS.ACCOUNT.FAILED,
         proxy: currentProxy?.ip ?? 'LOCAL',
         errors: Object.entries(res.data?.fields).map(([key, value]) => `${key}: ${value}`),
       };
@@ -122,7 +123,7 @@ const register = async ({ account, token, proxy }, attempt = 1) => {
     if ([503, 429].includes(res.status)) {
       return {
         ...account,
-        status: 'FAILED',
+        status: STATUS.ACCOUNT.FAILED,
         proxy: currentProxy?.ip ?? 'LOCAL',
         errors: res.data?.description,
       };
@@ -131,7 +132,7 @@ const register = async ({ account, token, proxy }, attempt = 1) => {
     if (res.status === 200) {
       return {
         ...account,
-        status: 'SUCCESS',
+        status: STATUS.ACCOUNT.SUCCESS,
         accountId: res.data.account.accountId,
         proxy: currentProxy?.ip ?? 'LOCAL',
       };

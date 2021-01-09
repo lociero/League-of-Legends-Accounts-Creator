@@ -1,11 +1,11 @@
 import Express from 'express';
 import Promise from 'bluebird';
 import bodyParser from 'body-parser';
-import { readAndParse } from '../../utils/utils.js';
 import generateData from '../dataGeneration.js';
 import checkProxy from './checkProxy.js';
 import getCaptchaBalance from './captchas/getBalance.js';
 import registration from './registration.js';
+import { STATUS } from '../../constants/constants.js';
 
 const crlf = (text) => text.replace(/\r\n|\r(?!\n)|\n/g, '\n');
 
@@ -22,7 +22,6 @@ export default () => {
 
   const proxyData = { isChecking: false, checked: [] };
   const accountsState = { isGenerating: false, list: [] };
-  const serverState = { status: 'running', errors: [] };
   const generatedAccounts = { list: [] };
   const currentState = { state: {} };
 
@@ -30,9 +29,7 @@ export default () => {
     const { state } = req.body;
     generatedAccounts.list = [];
     currentState.state = state;
-    const customUsernames = readAndParse('custom_usernames.txt');
-    const customEmails = readAndParse('custom_emails.txt');
-    generatedAccounts.list = generateData(state, customUsernames, customEmails);
+    generatedAccounts.list = generateData(state);
     res.json(generatedAccounts.list);
   });
 
@@ -59,39 +56,36 @@ export default () => {
     proxyData.isChecking = false;
   });
 
-  app.get('/ischecking', (req, res) => {
+  app.get('/ischecking', (_req, res) => {
     res.json(proxyData);
   });
 
-  app.get('/test', (req, res) => {
+  app.get('/test', (_req, res) => {
     res.send('test');
   });
 
   app.post('/signup', async (req, res) => {
     const state = req.body;
-    const accountsInProgress = generatedAccounts.list.map((acc) => ({ ...acc, status: 'IN PROGRESS' }));
+    const accountsInProgress = generatedAccounts.list.map((acc) => ({ ...acc, status: STATUS.ACCOUNT.IN_PROGRESS }));
     res.json({ isGenerating: true, list: accountsInProgress });
+
     accountsState.isGenerating = true;
     accountsState.list = [];
-    const creationConfig = {
-      accounts: accountsInProgress,
-      captcha: {
-        type: state.currentCaptcha,
-        apiKey: state.apiKey,
-        username: state.username,
-        password: state.password,
-      },
-      proxy: {
-        useProxy: state.useProxy,
-        list: proxyData.checked.filter(({ isWorking }) => isWorking === 'TRUE'),
-      },
+
+    const captcha = {
+      type: state.currentCaptcha,
+      apiKey: state.apiKey,
+      username: state.username,
+      password: state.password,
     };
-    const { accounts, captcha, proxy } = creationConfig;
+    const proxy = {
+      useProxy: state.useProxy,
+      list: proxyData.checked.filter(({ isWorking }) => isWorking === STATUS.PROXY.WORKING),
+    };
 
     await Promise.map(
-      accounts,
+      accountsInProgress,
       async (account) => {
-        // proxy.list = [...proxy.list, ...proxy.list, ...proxy.list, ...proxy.list];
         const result = await registration(account, captcha, proxy);
         accountsState.list.push(result);
       },
@@ -100,7 +94,7 @@ export default () => {
     accountsState.isGenerating = false;
   });
 
-  app.get('/signup', (req, res) => {
+  app.get('/signup', (_req, res) => {
     res.json(accountsState);
   });
 
@@ -110,8 +104,8 @@ export default () => {
     res.json({ balance });
   });
 
-  app.get('/serverstate', (req, res) => {
-    res.json({ proxyData, accountsState, serverState });
+  app.get('/serverstate', (_req, res) => {
+    res.json({ proxyData, accountsState, generatedAccounts, currentState });
   });
 
   return app;
