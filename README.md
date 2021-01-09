@@ -1,4 +1,4 @@
-> ![Example](https://i.ibb.co/3ySsMvz/image.png)
+![Example](https://i.ibb.co/3ySsMvz/image.png)
 
 ### Requirements
 
@@ -7,17 +7,20 @@
 ### How to use:
 
 1. [Open last release.](https://github.com/lociero/League-of-Legends-Accounts-Creator/releases/latest)
-2. Download unzip and run `acc-creator-react.<version>.exe`
+2. Download unzip and run `acc-creator-react.<version>.exe`.
+3. Configure your settings (server, amount, ..., captcha, proxy).
+4. Generate your list (it does not create accounts yet so u can check if u did all right).
+5. Start creation.
+6. Created accounts are saving to `./accounts` directory in 2 formats FULL and COMPACT.
 
-### What you can change
+### Settings
 
 1. Server. Supported: EUW, EUNE, NA, BR, TR, RU, OCE, LAN, LAS, JP.
 2. Email. (Custom emails, custom domains, random domains)
-3. Username (Custom list, Random)
-4. Password (Length, One for all)
-5. Date of Birth (Random, One for all)
-6. Number of accounts. (First you generate it to check if you didnt messed up anything)
-7. Proxy. (Own proxy list / free proxies from proxyscrape.com. socks4/5 only for now)
+3. Username. (Custom list, Random)
+4. Password. (Length, One for all)
+5. Date of Birth. (Random, One for all)
+6. Proxy. (Own proxy list / free proxies from proxyscrape.com. socks4/5 only for now)
 
 
 ### If you want to build it by yourself
