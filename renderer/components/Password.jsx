@@ -1,8 +1,8 @@
 import React from 'react';
 import { InputGroup, Form } from 'react-bootstrap';
 import useGlobalState from '../state.js';
-import { validatePassword } from '../util.js';
-import { PASSWORD_SETTINGS_TYPES, STATE_NAMES } from '../constants.js';
+import { validatePassword } from '../../utils/utils.js';
+import { PASSWORD_SETTINGS_TYPES, STATE_NAMES } from '../../constants/constants.js';
 
 const Username = () => {
   const [passwordLength, updatepasswordLength] = useGlobalState(STATE_NAMES.PASSWORD_LENGTH);

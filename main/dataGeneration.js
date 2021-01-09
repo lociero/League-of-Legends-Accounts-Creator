@@ -4,10 +4,10 @@ import {
   EMAIL_SETTINGS_TYPES,
   EMAIL_MASKS,
   DATE_OF_BIRTH_TYPES,
-} from './constants.js';
-import generateUsername from './nameGen.js';
-import generatePassword from './passwordGen.js';
-import { random, getRandomBirth } from './util.js';
+} from '../constants/constants.js';
+import generateUsername from '../utils/nameGen.js';
+import generatePassword from '../utils/passwordGen.js';
+import { random, getRandomBirth } from '../utils/utils.js';
 
 const usernameByType = {
   [USERNAME_SETTINGS_TYPES.RANDOM]: (_, min, max) => generateUsername(min, max),

@@ -6,8 +6,8 @@ import _ from 'lodash';
 import AccountsTable from './AccountsTable.jsx';
 import useGlobalState from '../state.js';
 import save from '../save.js';
-import { STATE_NAMES, LOCALHOST, dirname } from '../constants.js';
-import { sleep } from '../util.js';
+import { STATE_NAMES, LOCALHOST, dirname } from '../../constants/constants.js';
+import { sleep } from '../../utils/utils.js';
 
 const Generation = () => {
   const [accounts, updateAccounts] = useState([]);

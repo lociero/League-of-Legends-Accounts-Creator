@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputGroup, FormControl } from 'react-bootstrap';
 import useGlobalState from '../state.js';
-import { STATE_NAMES } from '../constants.js';
+import { STATE_NAMES } from '../../constants/constants.js';
 
 const NumberOfAccounts = () => {
   const [amount, updateAmount] = useGlobalState(STATE_NAMES.AMOUNT);

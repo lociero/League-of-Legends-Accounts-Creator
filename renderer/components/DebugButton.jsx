@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { remote } from 'electron';
-import { isDev, LOCALHOST } from '../constants.js';
+import { isDev, LOCALHOST } from '../../constants/constants.js';
 
 const DebugButton = () => {
   const mainDebug = async () => {

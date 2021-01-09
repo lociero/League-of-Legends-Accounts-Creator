@@ -1,6 +1,6 @@
 import { clipboard } from 'electron';
 import fs from 'fs';
-import { dirname } from './constants.js';
+import { dirname } from '../constants/constants.js';
 // import $ from 'jquery';
 
 export const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;

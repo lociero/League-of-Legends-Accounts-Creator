@@ -10,8 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import useGlobalState from '../state.js';
-import { sleep, parseProxies } from '../util.js';
-import { LINKS, STATE_NAMES, LOCALHOST } from '../constants.js';
+import { sleep, parseProxies } from '../../utils/utils.js';
+import { LINKS, STATE_NAMES, LOCALHOST } from '../../constants/constants.js';
 
 const ProxyTopPanel = () => {
   const [useProxy, toggleProxy] = useGlobalState(STATE_NAMES.USE_PROXY);

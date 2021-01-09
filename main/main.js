@@ -3,7 +3,7 @@ import path from 'path';
 import url from 'url';
 import open from 'open';
 import server from './express/express.js';
-import { isDev } from '../renderer/constants.js';
+import { isDev } from '../constants/constants.js';
 import createCustomFiles from './customFiles.js';
 
 const express = server().listen(0, () => {

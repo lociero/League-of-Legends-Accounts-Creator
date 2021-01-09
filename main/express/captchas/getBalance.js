@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LINKS, CAPTCHA_SERVICES } from '../../../renderer/constants.js';
+import { LINKS, CAPTCHA_SERVICES } from '../../../constants/constants.js';
 
 const mapping = {
   [CAPTCHA_SERVICES.TWOCAPTCHA]: async (apiKey) => {

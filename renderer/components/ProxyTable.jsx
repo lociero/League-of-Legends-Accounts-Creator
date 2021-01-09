@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Button } from 'react-bootstrap';
 import { MDBDataTable } from 'mdbreact';
 import useGlobalState from '../state.js';
-import { STATE_NAMES } from '../constants.js';
+import { STATE_NAMES } from '../../constants/constants.js';
 
 const ProxyTable = () => {
   const [proxyList, updateProxyList] = useGlobalState(STATE_NAMES.PROXY_LIST);

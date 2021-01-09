@@ -1,8 +1,8 @@
 import Express from 'express';
 import Promise from 'bluebird';
 import bodyParser from 'body-parser';
-import { readAndParse } from '../../renderer/util.js';
-import generateData from '../../renderer/dataGeneration.js';
+import { readAndParse } from '../../utils/utils.js';
+import generateData from '../dataGeneration.js';
 import checkProxy from './checkProxy.js';
 import getCaptchaBalance from './captchas/getBalance.js';
 import registration from './registration.js';

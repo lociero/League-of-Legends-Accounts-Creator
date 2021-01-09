@@ -1,4 +1,4 @@
-import { CAPTCHA_SERVICES } from '../../../renderer/constants.js';
+import { CAPTCHA_SERVICES } from '../../../constants/constants.js';
 import solve2Captcha from './captcha2.js';
 import solveRuCaptcha from './ruCaptcha.js';
 import solveDBC from './dbc.js';

@@ -1,4 +1,4 @@
-import { random } from './util.js';
+import { random } from './utils.js';
 
 // https://nick-name.ru/generate/
 

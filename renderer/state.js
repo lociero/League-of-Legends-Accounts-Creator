@@ -10,7 +10,7 @@ import {
   CAPTCHA_SERVICES,
   dirname,
   isDev,
-} from './constants.js';
+} from '../constants/constants.js';
 
 const initialState = {
   [STATE_NAMES.USE_PROXY]: false,

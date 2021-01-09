@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputGroup, Form } from 'react-bootstrap';
 import useGlobalState from '../state.js';
-import { DATE_OF_BIRTH_TYPES, STATE_NAMES } from '../constants.js';
+import { DATE_OF_BIRTH_TYPES, STATE_NAMES } from '../../constants/constants.js';
 
 const DateOfBirth = () => {
   const [birth, updateBirth] = useGlobalState(STATE_NAMES.BIRTH);

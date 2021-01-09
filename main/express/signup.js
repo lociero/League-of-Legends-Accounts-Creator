@@ -1,6 +1,6 @@
 import axios from 'axios';
 import SocksProxyAgent from 'socks-proxy-agent';
-import { random } from '../../renderer/util.js';
+import { random } from '../../utils/utils.js';
 
 const agents = {
   SOCKS4: ({ ip, port }) => new SocksProxyAgent(`socks4://${ip}:${port}`),

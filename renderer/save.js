@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs';
-import { readAndParse } from './util.js';
-import { dirname } from './constants.js';
+import { readAndParse } from '../utils/utils.js';
+import { dirname } from '../constants/constants.js';
 
 const getDate = () => {
   const today = new Date();

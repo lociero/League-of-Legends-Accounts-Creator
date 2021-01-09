@@ -5,7 +5,7 @@ import Nav from './components/Nav.jsx';
 import DebugButton from './components/DebugButton.jsx';
 import Footer from './components/Footer.jsx';
 import axiosDebug from './axiosDebug.js';
-import { isDev } from './constants.js';
+import { isDev } from '../constants/constants.js';
 import './css/main.css';
 
 if (isDev) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputGroup, Form } from 'react-bootstrap';
 import useGlobalState from '../state.js';
-import { SERVERS, STATE_NAMES } from '../constants.js';
+import { SERVERS, STATE_NAMES } from '../../constants/constants.js';
 
 const ServerSelect = () => {
   const [serverName, updateServer] = useGlobalState(STATE_NAMES.SERVER_NAME);

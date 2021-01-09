@@ -4,7 +4,7 @@ import { MDBTooltip } from 'mdbreact';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 import useGlobalState from '../state.js';
-import { USERNAME_SETTINGS_TYPES, STATE_NAMES } from '../constants.js';
+import { USERNAME_SETTINGS_TYPES, STATE_NAMES } from '../../constants/constants.js';
 
 const Username = () => {
   const [usernameMin, updateUsernameMin] = useGlobalState(STATE_NAMES.USERNAME_MIN);

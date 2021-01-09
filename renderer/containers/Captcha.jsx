@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Row, InputGroup, Form, Button, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import useGlobalState from '../state.js';
-import { STATE_NAMES, CAPTCHA_SERVICES, LINKS, LOCALHOST } from '../constants.js';
+import { STATE_NAMES, CAPTCHA_SERVICES, LINKS, LOCALHOST } from '../../constants/constants.js';
 
 const Captcha = () => {
   const [currentCaptcha, updateCurrentCaptcha] = useGlobalState(STATE_NAMES.CURRENT_CAPTCHA);

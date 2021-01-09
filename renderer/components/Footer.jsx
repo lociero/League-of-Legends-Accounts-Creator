@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap';
 import { MDBTooltip } from 'mdbreact';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiscord, faTelegram, faPaypal, faGithub } from '@fortawesome/free-brands-svg-icons';
-import { copyToClipboard, sleep } from '../util.js';
+import { copyToClipboard, sleep } from '../../utils/utils.js';
 // import { faGit } from '@fortawesome/free-solid-svg-icons';
 
 const Footer = () => {

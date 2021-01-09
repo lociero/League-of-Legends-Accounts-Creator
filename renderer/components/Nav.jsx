@@ -3,7 +3,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import General from '../containers/General.jsx';
 import Captcha from '../containers/Captcha.jsx';
 import Proxy from '../containers/Proxy.jsx';
-import { TABS } from '../constants.js';
+import { TABS } from '../../constants/constants.js';
 
 const NavBar = () => (
   <Tabs defaultActiveKey={TABS.GENERAL} id="uncontrolled-tab-example">

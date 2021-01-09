@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs';
-import { dirname } from '../renderer/constants.js';
+import { dirname } from '../constants/constants.js';
 
 export default async () => {
   await fs.mkdir(`${dirname}/accounts`).catch(() => null);
