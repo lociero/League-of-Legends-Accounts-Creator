@@ -79,20 +79,20 @@ const ProxyTopPanel = () => {
   };
 
   const loadAvailableCountries = async () => {
-    const socks4 = await axios.get(LINKS.INFO_SOCKS4).then((res) => res.data.countries);
-    const socks5 = await axios.get(LINKS.INFO_SOCKS5).then((res) => res.data.countries);
-    return [...new Set(['ALL', ...socks4, ...socks5])].sort();
+    try {
+      const socks4 = await axios.get(LINKS.INFO_SOCKS4).then((res) => res.data.countries);
+      const socks5 = await axios.get(LINKS.INFO_SOCKS5).then((res) => res.data.countries);
+      return [...new Set(['ALL', ...socks4, ...socks5])].sort();
+    } catch {
+      return loadAvailableCountries();
+    }
   };
 
   const handleUpdateCountries = async () => {
-    try {
-      updateCountriesLoading(true);
-      const countries = await loadAvailableCountries();
-      updateAvailableCountries(countries);
-      updateCountriesLoading(false);
-    } catch (e) {
-      handleUpdateCountries();
-    }
+    updateCountriesLoading(true);
+    const countries = await loadAvailableCountries();
+    updateAvailableCountries(countries);
+    updateCountriesLoading(false);
   };
   const loadFile = async () => {
     const { dialog } = remote;
