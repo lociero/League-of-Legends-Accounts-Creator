@@ -62,6 +62,7 @@ const Generation = () => {
     <>
       <Row className="p-1">
         <p className="text-primary m-0 mr-2">GENERATED:{` ${accounts.length}`}</p>
+        <p className="text-primary m-0 mr-2">FINISHED:{` ${finishedAccounts.length}/${accounts.length}`}</p>
         <p className="text-primary m-0 mr-2">SUCCESSFULLY CREATED:{` ${successAccounts.length}/${accounts.length}`}</p>
         {!isCreating && successAccounts.length > 0 ? (
           <p className="text-primary m-0 mr-2 blink">SAVED TO: {`${dirname}\\accounts`}</p>
