@@ -37,7 +37,7 @@ const ProxyTopPanel = () => {
     const data = await axios.post(`${LOCALHOST}/proxycheck`, proxyList).then((res) => res.data);
     let { isChecking } = data;
     while (isChecking) {
-      await sleep(2000);
+      await sleep(5000);
       const checkedData = await axios.get(`${LOCALHOST}/ischecking`).then((res) => res.data);
       const { checked } = checkedData;
       isChecking = checkedData.isChecking;
