@@ -16,7 +16,7 @@ const Footer = () => {
   };
   return (
     <Container fluid className="fixed-bottom text-right mb-2">
-      <span className="pt-3 mr-2">
+      <span className="pt-3 mr-3">
         <MDBTooltip domElement placement="top" className="mt-2">
           <span className="pt-3">
             <a href="#">
