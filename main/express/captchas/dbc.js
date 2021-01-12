@@ -12,6 +12,8 @@ export default async ({ username, password, googleKey, url }) => {
     return 'ERROR_WRONG_USER_KEY';
   }
 
+  await sleep(5000);
+
   const requestUrl = `http://api.dbcapi.me/2captcha/in.php?key=${username}:${password}&method=userrecaptcha&googlekey=${googleKey}&pageurl=${url}&soft_id=2622`;
   const response = await axios.post(requestUrl).catch((err) => err.response);
 
