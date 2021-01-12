@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs';
 import { readAndParse } from '../utils/utils.js';
-import { dirname, FILE_NAMES } from '../constants/constants.js';
+import { dirname, FILE_NAMES, STATUS } from '../constants/constants.js';
 
 const getDate = () => {
   const today = new Date();
@@ -14,7 +14,7 @@ const getDate = () => {
 export default async (accounts, state) => {
   const emailsList = readAndParse(FILE_NAMES.CUSTOM_EMAILS);
   const customSuccessEmails = accounts
-    .filter(({ status }) => status === 'SUCCESS')
+    .filter(({ status }) => status === STATUS.ACCOUNT.SUCCESS)
     .filter(({ username, email }) => !email.includes(username))
     .map(({ email }) => email);
   const emailsToSave = emailsList.filter((email) => !customSuccessEmails.includes(email));
@@ -22,7 +22,7 @@ export default async (accounts, state) => {
   await fs.writeFile(`${dirname}/${FILE_NAMES.CUSTOM_EMAILS}`, emailsToSave.join('\n'), 'utf-8');
 
   const accountsToSave = accounts
-    .filter(({ status }) => status === 'SUCCESS')
+    .filter(({ status }) => status === STATUS.ACCOUNT.SUCCESS)
     .map(({ server, username, password, email, birth, accountId, proxy }) => ({
       full: `${server}:${username}:${password}:${email} accountId: ${accountId} date_of_birth: ${birth} proxy: ${proxy}`,
       compact: `${server}:${username}:${password}`,
