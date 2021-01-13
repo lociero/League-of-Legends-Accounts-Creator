@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import React, { useState } from 'react';
-import { Button, ProgressBar, Container, Col, Spinner, Row } from 'react-bootstrap';
+import { Button, ProgressBar, Container, Spinner, Row, ButtonGroup } from 'react-bootstrap';
 import axios from 'axios';
 import _ from 'lodash';
 import AccountsTable from './AccountsTable.jsx';
@@ -71,21 +71,15 @@ const Generation = () => {
       <AccountsTable accounts={accounts} />
 
       <Container fluid className="p-0">
-        <ProgressBar animated now={(finishedAccounts.length / accounts.length) * 100} className="mb-1 ml-0" />
+        <ProgressBar animated now={(finishedAccounts.length / accounts.length) * 100} className="" />
 
-        <Col className="pl-0 pr-0 pb-5  d-flex justify-space-between">
+        <ButtonGroup className="d-flex mb-5">
           {isGeneratingAccs ? (
             <Button variant="outline-secondary" className="col-6" style={{ marginRight: '-1px' }} disabled>
               <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> GENERATING
             </Button>
           ) : (
-            <Button
-              variant="outline-secondary"
-              disabled={isCreating}
-              className="col-6"
-              style={{ marginRight: '-1px' }}
-              onClick={generateConfig}
-            >
+            <Button variant="outline-secondary" disabled={isCreating} className="col-6" onClick={generateConfig}>
               GENERATE
             </Button>
           )}
@@ -104,7 +98,7 @@ const Generation = () => {
               START CREATION
             </Button>
           )}
-        </Col>
+        </ButtonGroup>
       </Container>
     </>
   );

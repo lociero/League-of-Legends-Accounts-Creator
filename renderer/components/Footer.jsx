@@ -15,7 +15,7 @@ const Footer = () => {
     updateTooltipText('CLICK TO COPY');
   };
   return (
-    <Container fluid className="fixed-bottom text-right mb-2">
+    <Container fluid className="text-right p-0 pt-1">
       <span className="pt-3 mr-3">
         <MDBTooltip domElement placement="top" className="mt-2">
           <span className="pt-3">

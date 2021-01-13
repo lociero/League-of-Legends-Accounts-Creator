@@ -1,94 +1,80 @@
 import React from 'react';
-import { MDBDataTable } from 'mdbreact';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import { STATUS } from '../../constants/constants.js';
 
 const AccountsTable = (props) => {
   const { accounts } = props;
-  const data = {
-    columns: [
-      {
-        label: '#',
-        field: 'id',
-        sort: 'asc',
-        width: 50,
-      },
-      {
-        label: 'SERVER',
-        field: 'server',
-        sort: 'asc',
-        width: 75,
-      },
-      {
-        label: 'USERNAME',
-        field: 'username',
-        sort: 'asc',
-        width: 150,
-      },
-      {
-        label: 'PASSWORD',
-        field: 'password',
-        sort: 'asc',
-        width: 150,
-      },
-      {
-        label: 'EMAIL',
-        field: 'email',
-        sort: 'asc',
-        width: 250,
-      },
-      {
-        label: 'DATE OF BIRTH',
-        field: 'birth',
-        sort: 'asc',
-        width: 125,
-      },
-      {
-        label: 'ACCOUNT ID',
-        field: 'accountId',
-        sort: 'asc',
-        width: 135,
-      },
-      {
-        label: 'STATUS',
-        field: 'status',
-        sort: 'asc',
-        width: 100,
-      },
-      {
-        label: 'PROXY',
-        field: 'proxy',
-        sort: 'asc',
-        width: 125,
-      },
-      {
-        label: 'ERRORS',
-        field: 'errors',
-        sort: 'asc',
-        width: 500,
-      },
-      {
-        label: 'TOKEN',
-        field: 'token',
-        sort: 'asc',
-        width: 1000,
-      },
-    ],
-    rows: accounts,
+  const columns = [
+    {
+      text: '#',
+      dataField: 'id',
+      sort: true,
+    },
+    {
+      text: 'SERVER',
+      dataField: 'server',
+    },
+    {
+      text: 'USERNAME',
+      dataField: 'username',
+    },
+    {
+      text: 'PASSWORD',
+      dataField: 'password',
+    },
+    {
+      text: 'EMAIL',
+      dataField: 'email',
+    },
+    {
+      text: 'DATE OF BIRTH',
+      dataField: 'birth',
+    },
+    {
+      text: 'ACCOUNT ID',
+      dataField: 'accountId',
+    },
+    {
+      text: 'STATUS',
+      dataField: 'status',
+      sort: true,
+    },
+    {
+      text: 'PROXY',
+      dataField: 'proxy',
+    },
+    {
+      text: 'ERRORS',
+      dataField: 'errors',
+    },
+    {
+      text: 'TOKEN',
+      dataField: 'token',
+    },
+  ];
+
+  const rowClasses = (row) => {
+    if (row.status === STATUS.ACCOUNT.FAILED) {
+      return 'alert-danger';
+    }
+    if (row.status === STATUS.ACCOUNT.SUCCESS) {
+      return 'alert-success';
+    }
+    return '';
   };
+
   return (
-    <MDBDataTable
-      // scrollX
-      className="mt-1 w-auto"
-      entriesOptions={[10, 25, 50, 100, 1000]}
-      infoLabel={['SHOWING', 'TO', 'OF', 'ENTRIES']}
-      entriesLabel="SHOW ENTRIES"
-      searchLabel="SEARCH"
-      paginationLabel={['PREVIOUS', 'NEXT']}
-      striped
-      bordered
-      small
-      hover
-      responsive
-      data={data}
+    <BootstrapTable
+      wrapperClasses="table-responsive"
+      bootstrap4
+      keyField="id"
+      rowClasses={rowClasses}
+      data={accounts}
+      columns={columns}
+      pagination={paginationFactory({ sizePerPageList: [10, 50, 100, 1000] })}
+      noDataIndication="TABLE IS EMPTY"
+      condensed
     />
   );
 };
