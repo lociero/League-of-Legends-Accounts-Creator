@@ -19,9 +19,9 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1270,
-    height: 842,
+    height: 750,
     minWidth: 1270,
-    minHeight: 842,
+    minHeight: 750,
     frame: false,
     backgroundColor: '#191622',
     webPreferences: {
