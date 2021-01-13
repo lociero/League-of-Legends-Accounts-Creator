@@ -1,7 +1,16 @@
 import axios from 'axios';
 import SocksProxyAgent from 'socks-proxy-agent';
+import _ from 'lodash';
 import { random } from '../../utils/utils.js';
 import { STATUS } from '../../constants/constants.js';
+
+const errorToString = (err) => {
+  if (typeof err === 'object') {
+    const strings = Object.entries(err).map(([key, value]) => `${key}: ${value}`);
+    return _.snakeCase(strings.join(' ')).toUpperCase();
+  }
+  return _.snakeCase(err).toUpperCase();
+};
 
 const agents = {
   SOCKS4: ({ ip, port }) => new SocksProxyAgent(`socks4://${ip}:${port}`),
@@ -44,7 +53,7 @@ const register = async ({ account, token, proxy }, attempt = 1) => {
   }
   const { useProxy, list } = proxy;
   const currentProxy = useProxy ? list[random(0, list.length - 1)] ?? null : null;
-  const currentlist = list.filter(({ id }) => id !== currentProxy.id);
+  const currentlist = list.filter(({ id }) => id !== currentProxy?.id);
 
   const apiUrl = 'https://signup-api.leagueoflegends.com/v1/accounts';
 
@@ -117,7 +126,7 @@ const register = async ({ account, token, proxy }, attempt = 1) => {
         ...account,
         status: STATUS.ACCOUNT.FAILED,
         proxy: currentProxy?.ip ?? 'LOCAL',
-        errors: Object.entries(res.data?.fields).map(([key, value]) => `${key}: ${value}`),
+        errors: errorToString(res.data?.fields),
       };
     }
     if ([503, 429].includes(res.status)) {
@@ -125,7 +134,7 @@ const register = async ({ account, token, proxy }, attempt = 1) => {
         ...account,
         status: STATUS.ACCOUNT.FAILED,
         proxy: currentProxy?.ip ?? 'LOCAL',
-        errors: res.data?.description,
+        errors: errorToString(res.data?.description),
       };
     }
 
