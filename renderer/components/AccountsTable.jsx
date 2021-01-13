@@ -61,6 +61,9 @@ const AccountsTable = (props) => {
     if (row.status === STATUS.ACCOUNT.SUCCESS) {
       return 'alert-success';
     }
+    if (row.status === STATUS.ACCOUNT.IN_PROGRESS) {
+      return 'alert-secondary';
+    }
     return '';
   };
 

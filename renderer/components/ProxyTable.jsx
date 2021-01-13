@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Button } from 'react-bootstrap';
-import { MDBDataTable } from 'mdbreact';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import useGlobalState from '../state.js';
 import { STATE_NAMES, STATUS } from '../../constants/constants.js';
 
@@ -10,40 +11,45 @@ const ProxyTable = () => {
     updateProxyList([]);
   };
 
-  const data = {
-    columns: [
-      {
-        label: '#',
-        field: 'id',
-        sort: 'asc',
-      },
-      {
-        label: 'COUNTRY',
-        field: 'country',
-        sort: 'asc',
-      },
-      {
-        label: 'IP',
-        field: 'ip',
-        sort: 'asc',
-      },
-      {
-        label: 'PORT',
-        field: 'port',
-        sort: 'asc',
-      },
-      {
-        label: 'TYPE',
-        field: 'type',
-        sort: 'asc',
-      },
-      {
-        label: 'IS WORKING',
-        field: 'isWorking',
-        sort: 'asc',
-      },
-    ],
-    rows: proxyList,
+  const columns = [
+    {
+      text: '#',
+      dataField: 'id',
+      sort: true,
+    },
+    {
+      text: 'COUNTRY',
+      dataField: 'country',
+      sort: true,
+    },
+    {
+      text: 'IP',
+      dataField: 'ip',
+    },
+    {
+      text: 'PORT',
+      dataField: 'port',
+    },
+    {
+      text: 'TYPE',
+      dataField: 'type',
+      sort: true,
+    },
+    {
+      text: 'IS WORKING',
+      dataField: 'isWorking',
+      sort: true,
+    },
+  ];
+
+  const rowClasses = (row) => {
+    if (row.isWorking === STATUS.PROXY.NOT_WORKING) {
+      return 'alert-danger';
+    }
+    if (row.isWorking === STATUS.PROXY.WORKING) {
+      return 'alert-success';
+    }
+    return '';
   };
 
   return (
@@ -61,19 +67,16 @@ const ProxyTable = () => {
         </Button>
       </Row>
 
-      <MDBDataTable
-        infoLabel={['SHOWING', 'TO', 'OF', 'ENTRIES']}
-        entriesLabel="SHOW ENTRIES"
-        searchLabel="SEARCH"
-        paginationLabel={['PREVIOUS', 'NEXT']}
-        searching={false}
-        entriesOptions={[10, 25, 50, 100, 1000]}
-        striped
-        bordered
-        small
-        hover
-        responsive
-        data={data}
+      <BootstrapTable
+        wrapperClasses="table-responsive"
+        bootstrap4
+        keyField="id"
+        rowClasses={rowClasses}
+        data={proxyList}
+        columns={columns}
+        pagination={paginationFactory({ sizePerPageList: [10, 50, 100, 1000] })}
+        noDataIndication="TABLE IS EMPTY"
+        condensed
       />
     </>
   );
