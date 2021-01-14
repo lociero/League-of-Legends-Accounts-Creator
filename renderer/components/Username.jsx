@@ -1,6 +1,6 @@
 import React from 'react';
 import { InputGroup, Form } from 'react-bootstrap';
-import { MDBTooltip } from 'mdbreact';
+import ReactTooltip from 'react-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 import useGlobalState from '../state.js';
@@ -52,16 +52,22 @@ const Username = () => {
           ))}
         </Form.Control>
       </InputGroup>
-      <MDBTooltip domElement placement="right">
-        <span>
-          <FontAwesomeIcon icon={faQuestionCircle} size="2x" color="grey" className="m-1 mr-2" />
-        </span>
-        <p className="m-1">
+
+      <FontAwesomeIcon
+        icon={faQuestionCircle}
+        size="2x"
+        color="grey"
+        className="m-1 mr-2"
+        data-for="username_info"
+        data-tip
+      />
+      <ReactTooltip id="username_info" effect="solid" place="left">
+        <p className="m-0">
           <strong>RANDOM:</strong> Random username
           <br />
           <strong>CUSTOM:</strong> {FILE_NAMES.CUSTOM_USERNAMES}
         </p>
-      </MDBTooltip>
+      </ReactTooltip>
     </>
   );
 };

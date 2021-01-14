@@ -75,7 +75,7 @@ const Generation = () => {
 
         <ButtonGroup className="d-flex mb-5">
           {isGeneratingAccs ? (
-            <Button variant="outline-secondary" className="col-6" style={{ marginRight: '-1px' }} disabled>
+            <Button variant="outline-secondary" className="col-6" disabled>
               <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> GENERATING
             </Button>
           ) : (

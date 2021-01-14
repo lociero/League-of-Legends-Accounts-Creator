@@ -44,7 +44,7 @@ const locales = {
 };
 
 const register = async ({ account, token, proxy }, attempt = 1) => {
-  if (attempt === 10) {
+  if (attempt === 15) {
     return {
       ...account,
       status: STATUS.ACCOUNT.FAILED,

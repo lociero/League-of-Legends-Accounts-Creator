@@ -2,7 +2,7 @@ import React from 'react';
 import { InputGroup, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
-import { MDBTooltip } from 'mdbreact';
+import ReactTooltip from 'react-tooltip';
 import useGlobalState from '../state.js';
 import { EMAIL_SETTINGS_TYPES, STATE_NAMES, FILE_NAMES } from '../../constants/constants.js';
 
@@ -38,18 +38,23 @@ const EmailMask = () => {
           ))}
         </Form.Control>
       </InputGroup>
-      <MDBTooltip domElement placement="right">
-        <span>
-          <FontAwesomeIcon icon={faQuestionCircle} size="2x" color="grey" className="ml-1" />
-        </span>
-        <p className="m-1">
+      <FontAwesomeIcon
+        icon={faQuestionCircle}
+        size="2x"
+        color="grey"
+        className="m-1 mr-2"
+        data-for="email_info"
+        data-tip
+      />
+      <ReactTooltip id="email_info" effect="solid" place="left">
+        <p className="m-0">
           <strong>RANDOM:</strong> username + random domain
           <br />
           <strong>ONE FOR ALL:</strong> {`username + ${emailMask}`}
           <br />
           <strong>CUSTOM:</strong> Emails from {FILE_NAMES.CUSTOM_EMAILS}
         </p>
-      </MDBTooltip>
+      </ReactTooltip>
     </>
   );
 };

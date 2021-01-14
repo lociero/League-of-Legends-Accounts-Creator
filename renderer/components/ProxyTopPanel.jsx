@@ -5,7 +5,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import fs from 'fs';
 import { Row, Form, Button, InputGroup, Spinner } from 'react-bootstrap';
-import { MDBTooltip } from 'mdbreact';
+import ReactTooltip from 'react-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
@@ -116,11 +116,15 @@ const ProxyTopPanel = () => {
         <Button variant="outline-primary" onClick={loadFile}>
           LOAD YOUR OWN PROXIES
         </Button>
-        <MDBTooltip domElement placement="right">
-          <span>
-            <FontAwesomeIcon icon={faQuestionCircle} size="2x" className="ml-1 text-primary" />
-          </span>
-          <p className="m-1">
+        <FontAwesomeIcon
+          icon={faQuestionCircle}
+          size="2x"
+          className="ml-1 text-primary"
+          data-for="own_proxy_info"
+          data-tip
+        />
+        <ReactTooltip id="own_proxy_info" effect="solid" place="right">
+          <p className="m-0">
             Only socks4/5
             <br />
             Each proxy on a new line
@@ -133,7 +137,7 @@ const ProxyTopPanel = () => {
             <br />
             123.123.123.123:1234:SOCKS5
           </p>
-        </MDBTooltip>
+        </ReactTooltip>
       </Row>
       <Row className="m-2 justify-content-around align-items-center">
         <InputGroup className="w-auto">
@@ -172,11 +176,15 @@ const ProxyTopPanel = () => {
             </Button>
           </InputGroup.Append>
         </InputGroup>
-        <MDBTooltip domElement placement="right">
-          <span>
-            <FontAwesomeIcon icon={faQuestionCircle} size="2x" className="ml-1 text-primary" />
-          </span>
-          <p className="m-1">
+        <FontAwesomeIcon
+          icon={faQuestionCircle}
+          size="2x"
+          className="ml-1 text-primary"
+          data-for="free_proxy_info"
+          data-tip
+        />
+        <ReactTooltip id="free_proxy_info" effect="solid" place="right">
+          <p className="m-0">
             Update to load availabe countries
             <br />
             You can add different countries one by one
@@ -185,7 +193,7 @@ const ProxyTopPanel = () => {
             <br />
             Dont forget to check proxies before creation
           </p>
-        </MDBTooltip>
+        </ReactTooltip>
       </Row>
       {isProxyChecking ? (
         <Button variant="outline-primary" disabled>
