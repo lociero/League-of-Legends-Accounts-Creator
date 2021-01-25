@@ -1,8 +1,8 @@
-![Example](https://i.ibb.co/3ySsMvz/image.png)
+![Example](https://i.ibb.co/vPC39dC/image.png)
 
 ### Requirements
 
-1. Captcha subscription : [2Captcha](http://2captcha.com/?from=8859803) / [RuCaptcha](https://rucaptcha.com?from=9296293) / [Death By Captcha](https://www.deathbycaptcha.com/) / [Anti-Captcha](http://getcaptchasolution.com/3ddik9kzvd)
+1. Captcha subscription : [2Captcha](http://2captcha.com/?from=8859803) / [RuCaptcha](https://rucaptcha.com?from=9296293) / [Death By Captcha](https://www.deathbycaptcha.com/) / [Anti-Captcha](http://getcaptchasolution.com/3ddik9kzvd) / [CapMonster.Cloud](https://capmonster.cloud/)
 
 ### How to use:
 
