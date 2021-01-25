@@ -3,6 +3,7 @@ import solve2Captcha from './captcha2.js';
 import solveRuCaptcha from './ruCaptcha.js';
 import solveDBC from './dbc.js';
 import solveAntiCaptcha from './anticaptcha.js';
+import solveCapMonster from './capmonster.js';
 
 const googleKey = '6Lc3HAsUAAAAACsN7CgY9MMVxo2M09n_e4heJEiZ';
 
@@ -24,6 +25,7 @@ const captchaByType = {
   [CAPTCHA_SERVICES.RUCAPTCHA]: solveRuCaptcha,
   [CAPTCHA_SERVICES.DBC]: solveDBC,
   [CAPTCHA_SERVICES.ANTICAPTCHA]: solveAntiCaptcha,
+  [CAPTCHA_SERVICES.CAPMONSTER]: solveCapMonster,
 };
 
 export default (options) => captchaByType[options.type]({ ...options, url: urls[options.server], googleKey });

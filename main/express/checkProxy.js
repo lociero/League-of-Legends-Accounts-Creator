@@ -8,11 +8,20 @@ const agents = {
 };
 
 export default async (proxy) => {
-  const { type } = proxy;
-  const request = axios.create({
-    timeout: 10000,
-    httpsAgent: agents[type](proxy),
-  });
+  const { type, ip, port } = proxy;
+  const request =
+    type !== 'HTTP'
+      ? axios.create({
+          timeout: 10000,
+          httpsAgent: agents[type](proxy),
+        })
+      : axios.create({
+          timeout: 10000,
+          proxy: {
+            host: ip,
+            port,
+          },
+        });
   try {
     const data = await request.get('https://api.ipify.org?format=json').then((res) => res.data);
     return { ...proxy, isWorking: data.ip === proxy.ip ? STATUS.PROXY.WORKING : STATUS.PROXY.NOT_WORKING };

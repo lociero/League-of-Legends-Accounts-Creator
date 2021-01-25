@@ -55,6 +55,7 @@ export const CAPTCHA_SERVICES = {
   RUCAPTCHA: 'RUCAPTCHA',
   DBC: 'DEATH BY CAPTCHA',
   ANTICAPTCHA: 'ANTI-CAPTCHA',
+  CAPMONSTER: 'CAPMONSTER.CLOUD',
 };
 
 export const STATE_NAMES = {
@@ -81,13 +82,16 @@ export const STATE_NAMES = {
 export const LINKS = {
   PROXIES_SOCKS4: 'https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks4&timeout=10000',
   PROXIES_SOCKS5: 'https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks5&timeout=10000',
+  PROXIES_HTTP: 'https://api.proxyscrape.com/v2/?request=getproxies&protocol=http&timeout=10000',
   INFO_SOCKS4: 'https://api.proxyscrape.com/v2/?request=proxyinfo&protocol=socks4&timeout=10000&country=all',
   INFO_SOCKS5: 'https://api.proxyscrape.com/v2/?request=proxyinfo&protocol=socks5&timeout=10000&country=all',
+  INFO_HTTP: 'https://api.proxyscrape.com/v2/?request=proxyinfo&protocol=http&timeout=10000&country=all',
   CAPTCHA_SIGNUP: {
     [CAPTCHA_SERVICES.TWOCAPTCHA]: 'https://2captcha.com?from=8859803',
     [CAPTCHA_SERVICES.RUCAPTCHA]: 'https://rucaptcha.com?from=9296293',
     [CAPTCHA_SERVICES.DBC]: 'https://deathbycaptcha.com',
     [CAPTCHA_SERVICES.ANTICAPTCHA]: 'http://getcaptchasolution.com/3ddik9kzvd',
+    [CAPTCHA_SERVICES.CAPMONSTER]: 'https://capmonster.cloud/',
   },
 };
 

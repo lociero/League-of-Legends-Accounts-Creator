@@ -30,6 +30,13 @@ const mapping = {
       .catch((err) => err.response.data);
     return data.balance ?? data.errorCode;
   },
+  [CAPTCHA_SERVICES.CAPMONSTER]: async (apiKey) => {
+    const data = await axios
+      .post('https://api.capmonster.cloud/getBalance', { clientKey: apiKey })
+      .then((res) => res.data)
+      .catch((err) => err.response.data);
+    return data.balance ?? data.errorCode;
+  },
 };
 
 export default async ({ currentCaptcha, apiKey, username, password }) => {
