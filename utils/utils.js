@@ -31,7 +31,7 @@ export const parseProxies = (text) => {
 export const parseUsernames = (text) => crlf(text).toUpperCase().split('\n').filter(Boolean);
 
 export const getRandomBirth = () => {
-  const year = random(1985, 2005);
+  const year = random(1985, 2002);
   const month = `${random(1, 12)}`.padStart(2, '0');
   const day = `${random(1, 28)}`.padStart(2, '0');
   return `${year}-${month}-${day}`;
