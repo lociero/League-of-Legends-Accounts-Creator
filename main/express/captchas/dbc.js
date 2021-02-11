@@ -1,39 +1,45 @@
 /* eslint-disable no-await-in-loop */
 import axios from 'axios';
+import querystring from 'querystring';
 import { sleep } from '../../../utils/utils.js';
 
 export default async ({ username, password, siteKey, url }) => {
-  const balanceRes = await axios
-    .get(`http://api.dbcapi.me/2captcha/res.php?key=${username}:${password}&action=getbalance`)
-    .catch((err) => err.response);
+  const { balance } = await axios
+    .get(`http://api.dbcapi.me/api?username=${username}&password=${password}`)
+    .then((res) => res.data)
+    .catch((err) => err.response.data);
 
-  const balance = balanceRes.data;
   if (balance <= 0) {
-    return 'ERROR_WRONG_USER_KEY';
+    throw new Error('CAPTCHA_ZERO_BALANCE');
   }
 
   await sleep(5000);
 
-  const requestUrl = `http://api.dbcapi.me/2captcha/in.php?key=${username}:${password}&method=hcaptcha&sitekey=${siteKey}&pageurl=${url}&soft_id=2622`;
-  const response = await axios.post(requestUrl).catch((err) => err.response);
+  const payload = querystring.stringify({
+    username,
+    password,
+    type: 7,
+    hcaptcha_params: JSON.stringify({ sitekey: siteKey, pageurl: url }),
+  });
 
-  const captchaIDres = response.data;
-  if (captchaIDres === 'ERROR_WRONG_USER_KEY') {
-    return captchaIDres;
+  let status = await axios
+    .post('http://api.dbcapi.me/api/captcha', payload)
+    .then((res) => res.data)
+    .catch((err) => err.response.data);
+
+  if (!status.is_correct) {
+    return status.text;
   }
-  const captchaID = captchaIDres.split('|')[1];
 
   await sleep(5000);
 
-  const requestTokenUrl = `http://api.dbcapi.me/2captcha/res.php?key=${username}:${password}&action=get&id=${captchaID}&soft_id=2622`;
-  const res2 = await axios.get(requestTokenUrl).catch((err) => err.response);
-  let token = res2.data;
-  while (token === 'OK|CAPCHA_NOT_READY') {
+  const statusUrl = `http://api.dbcapi.me/api/captcha/${status.captcha}`;
+
+  while (!status.text) {
     await sleep(5000);
-    const res3 = await axios.get(requestTokenUrl).catch((err) => err.response);
-    token = res3.data;
+    const res3 = await axios.get(statusUrl).catch((err) => err.response);
+    status = res3.data;
   }
 
-  const [, result] = token.split('|');
-  return result || token;
+  return status.text;
 };

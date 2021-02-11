@@ -18,10 +18,10 @@ const mapping = {
   },
   [CAPTCHA_SERVICES.DBC]: async (_apiKey, username, password) => {
     const data = await axios
-      .get(`http://api.dbcapi.me/2captcha/res.php?key=${username}:${password}&action=getbalance`)
+      .get(`http://api.dbcapi.me/api?username=${username}&password=${password}`)
       .then((res) => res.data)
       .catch((err) => err.response.data);
-    return data;
+    return +(data.balance / 100).toFixed(5);
   },
   [CAPTCHA_SERVICES.ANTICAPTCHA]: async (apiKey) => {
     const data = await axios

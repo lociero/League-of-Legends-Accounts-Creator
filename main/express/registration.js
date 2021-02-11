@@ -10,7 +10,7 @@ export default async (account, captcha, proxy) => {
     }
     const result = await signUp({ account, token, proxy });
     return { ...result, token: `${token.slice(0, 25)}... [OK]` };
-  } catch {
-    return { ...account, status: STATUS.ACCOUNT.FAILED, errors: 'LOCAL_SERVER_ERROR' };
+  } catch (e) {
+    return { ...account, status: STATUS.ACCOUNT.FAILED, errors: e.message };
   }
 };
