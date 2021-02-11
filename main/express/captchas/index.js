@@ -5,7 +5,8 @@ import solveDBC from './dbc.js';
 import solveAntiCaptcha from './anticaptcha.js';
 import solveCapMonster from './capmonster.js';
 
-const googleKey = '6Lc3HAsUAAAAACsN7CgY9MMVxo2M09n_e4heJEiZ';
+// const googleKey = '6Lc3HAsUAAAAACsN7CgY9MMVxo2M09n_e4heJEiZ';
+const siteKey = 'a010c060-9eb5-498c-a7b9-9204c881f9dc';
 
 const urls = {
   EUW: 'https://signup.euw.leagueoflegends.com/en/signup/',
@@ -28,4 +29,4 @@ const captchaByType = {
   [CAPTCHA_SERVICES.CAPMONSTER]: solveCapMonster,
 };
 
-export default (options) => captchaByType[options.type]({ ...options, url: urls[options.server], googleKey });
+export default (options) => captchaByType[options.type]({ ...options, url: urls[options.server], siteKey });

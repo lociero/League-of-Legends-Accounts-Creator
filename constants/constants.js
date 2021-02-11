@@ -53,7 +53,8 @@ export const PASSWORD_SETTINGS_TYPES = {
 export const CAPTCHA_SERVICES = {
   TWOCAPTCHA: '2CAPTCHA',
   RUCAPTCHA: 'RUCAPTCHA',
-  DBC: 'DEATH BY CAPTCHA',
+  // DBC: 'DEATH BY CAPTCHA',
+  DBC: 'DEATH BY CAPTCHA [DISABLED]',
   ANTICAPTCHA: 'ANTI-CAPTCHA',
   CAPMONSTER: 'CAPMONSTER.CLOUD',
 };
@@ -80,6 +81,8 @@ export const STATE_NAMES = {
 };
 
 export const LINKS = {
+  PACKAGE: 'https://raw.githubusercontent.com/lociero/League-of-Legends-Accounts-Creator/master/package.json',
+  LAST_VERSION: 'https://github.com/lociero/League-of-Legends-Accounts-Creator/releases/latest',
   PROXIES_SOCKS4: 'https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks4&timeout=10000',
   PROXIES_SOCKS5: 'https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks5&timeout=10000',
   PROXIES_HTTP: 'https://api.proxyscrape.com/v2/?request=getproxies&protocol=http&timeout=10000',
@@ -111,5 +114,11 @@ export const STATUS = {
   PROXY: {
     WORKING: 'TRUE',
     NOT_WORKING: 'FALSE',
+  },
+  VERSION: {
+    UP_TO_DATE: 'UP_TO_DATE',
+    OUTDATED: 'OUTDATED',
+    LOADING: 'LOADING',
+    FAILED: 'FAILED',
   },
 };

@@ -1,6 +1,6 @@
 {
   "name": "acc-creator-react",
-  "version": "1.4.2",
+  "version": "1.4.4",
   "description": "League of Legends accounts creator",
   "main": "./dist/main.js",
   "scripts": {
@@ -47,6 +47,7 @@
     "bootstrap": "^4.5.3",
     "bootswatch": "^4.5.3",
     "clean-webpack-plugin": "^3.0.0",
+    "compare-versions": "^3.6.0",
     "cross-env": "^7.0.3",
     "css-loader": "^5.0.1",
     "css-minimizer-webpack-plugin": "^1.1.5",

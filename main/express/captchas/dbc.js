@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { sleep } from '../../../utils/utils.js';
 
-export default async ({ username, password, googleKey, url }) => {
+export default async ({ username, password, siteKey, url }) => {
   const balanceRes = await axios
     .get(`http://api.dbcapi.me/2captcha/res.php?key=${username}:${password}&action=getbalance`)
     .catch((err) => err.response);
@@ -14,7 +14,7 @@ export default async ({ username, password, googleKey, url }) => {
 
   await sleep(5000);
 
-  const requestUrl = `http://api.dbcapi.me/2captcha/in.php?key=${username}:${password}&method=userrecaptcha&googlekey=${googleKey}&pageurl=${url}&soft_id=2622`;
+  const requestUrl = `http://api.dbcapi.me/2captcha/in.php?key=${username}:${password}&method=hcaptcha&sitekey=${siteKey}&pageurl=${url}&soft_id=2622`;
   const response = await axios.post(requestUrl).catch((err) => err.response);
 
   const captchaIDres = response.data;

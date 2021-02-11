@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { sleep } from '../../../utils/utils.js';
 
-export default async ({ apiKey, googleKey, url }) => {
+export default async ({ apiKey, siteKey, url }) => {
   const balanceRes = await axios.post('https://api.capmonster.cloud/getBalance', {
     clientKey: apiKey,
   });
@@ -22,9 +22,9 @@ export default async ({ apiKey, googleKey, url }) => {
   const reqBody = {
     clientKey: apiKey,
     task: {
-      type: 'NoCaptchaTaskProxyless',
+      type: 'HCaptchaTaskProxyless',
       websiteURL: url,
-      websiteKey: googleKey,
+      websiteKey: siteKey,
     },
     softId: 42,
   };

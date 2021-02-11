@@ -8,6 +8,11 @@
   font-size: 14px !important;
   margin-left: 0px !important;
 }
+.version-container {
+  position: absolute;
+  right: 10px;
+  top: 13px;
+}
 
 td,
 th {

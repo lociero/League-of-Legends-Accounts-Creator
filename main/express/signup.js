@@ -113,7 +113,7 @@ const register = async ({ account, token, proxy }, attempt = 1) => {
     region: regions[server],
     campaign: 'league_of_legends',
     locale: locales[server],
-    token: `Captcha ${token}`,
+    token: `hcaptcha ${token}`,
   };
 
   const res = await signUpClient.post(apiUrl, body).catch((err) => err.response);

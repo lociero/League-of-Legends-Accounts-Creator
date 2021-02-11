@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { sleep } from '../../../utils/utils.js';
 
-export default async ({ apiKey, googleKey, url }) => {
+export default async ({ apiKey, siteKey, url }) => {
   const balanceRes = await axios.get(`https://2captcha.com/res.php?key=${apiKey}&action=getbalance`);
   const balance = balanceRes.data;
 
@@ -16,7 +16,7 @@ export default async ({ apiKey, googleKey, url }) => {
 
   await sleep(5000);
 
-  const requestUrl = `http://2captcha.com/in.php?key=${apiKey}&method=userrecaptcha&googlekey=${googleKey}&pageurl=${url}&soft_id=2622`;
+  const requestUrl = `http://2captcha.com/in.php?key=${apiKey}&method=hcaptcha&sitekey=${siteKey}&pageurl=${url}&soft_id=2622`;
   const response = await axios.post(requestUrl);
 
   const captchaIDres = response.data;
