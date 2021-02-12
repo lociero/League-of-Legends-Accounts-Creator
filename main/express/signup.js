@@ -43,63 +43,23 @@ const locales = {
   JP: 'ja',
 };
 
-const register = async ({ account, token, proxy }, attempt = 1) => {
+const register = async ({ account, token, proxy: list }, attempt = 1) => {
   if (attempt === 15) {
-    return {
-      ...account,
-      status: STATUS.ACCOUNT.FAILED,
-      errors: 'TOO_MANY_ATTEMPTS ABORTED',
-    };
+    throw new Error('TOO_MANY_ATTEMPTS ABORTED');
   }
-  const { useProxy, list } = proxy;
-  const currentProxy = useProxy ? list[random(0, list.length - 1)] ?? null : null;
+  const currentProxy = list[random(0, list.length - 1)];
   const currentlist = list.filter(({ id }) => id !== currentProxy?.id);
 
   const apiUrl = 'https://signup-api.leagueoflegends.com/v1/accounts';
 
-  const client1 = currentProxy
-    ? axios.create({
-        timeout: 10000,
-        httpsAgent: agents[currentProxy.type](currentProxy),
-        headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
-        },
-      })
-    : axios.create({
-        timeout: 10000,
-        headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
-        },
-      });
-
-  const cookiesRes = await client1.options(apiUrl).catch((err) => err.response);
-  if (!cookiesRes) {
-    return register({ account, token, proxy: { useProxy, list: currentlist } }, attempt + 1);
-  }
-  const cookies = cookiesRes.headers['set-cookie'];
-
-  const signUpClient = currentProxy
-    ? axios.create({
-        timeout: 10000,
-        headers: {
-          'Content-Type': 'application/json',
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
-          Cookies: cookies,
-        },
-        httpsAgent: agents[currentProxy.type](currentProxy),
-      })
-    : axios.create({
-        timeout: 10000,
-        headers: {
-          'Content-Type': 'application/json',
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
-          Cookies: cookies,
-        },
-      });
+  const client = axios.create({
+    timeout: 11000,
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
+    },
+    httpsAgent: currentProxy ? agents[currentProxy.type](currentProxy) : null,
+  });
 
   const { username, password, birth, email, server } = account;
   const body = {
@@ -116,9 +76,9 @@ const register = async ({ account, token, proxy }, attempt = 1) => {
     token: `hcaptcha ${token}`,
   };
 
-  const res = await signUpClient.post(apiUrl, body).catch((err) => err.response);
+  const res = await client.post(apiUrl, body).catch((err) => err.response);
   if (!res) {
-    return register({ account, token, proxy: { useProxy, list: currentlist } }, attempt + 1);
+    return register({ account, token, proxy: currentlist }, attempt + 1);
   }
   if ([200, 409, 503, 429].includes(res.status)) {
     if (res.status === 409) {
@@ -147,7 +107,7 @@ const register = async ({ account, token, proxy }, attempt = 1) => {
       };
     }
   }
-  return register({ account, token, proxy: { useProxy, list: currentlist } }, attempt + 1);
+  return register({ account, token, proxy: currentlist }, attempt + 1);
 };
 
 export default register;

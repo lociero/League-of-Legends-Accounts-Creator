@@ -44,6 +44,7 @@ npm run dev
 Telitsyn Sergey // sl******yn@gmail.com
 Ya Boi // prist*******l2014@gmail.com
 钟 宏敬 // zh****8@hotmail.com
+Juan Campillos // diagno******le@gmail.com
 ```
 
 ### TODO:

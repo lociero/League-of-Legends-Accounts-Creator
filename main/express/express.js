@@ -78,15 +78,14 @@ export default () => {
       username: state.username,
       password: state.password,
     };
-    const proxy = {
-      useProxy: state.useProxy,
-      list: proxyData.checked.filter(({ isWorking }) => isWorking === STATUS.PROXY.WORKING),
-    };
+    const proxyList = state.useProxy
+      ? proxyData.checked.filter(({ isWorking }) => isWorking === STATUS.PROXY.WORKING)
+      : [];
 
     await Promise.map(
       accountsInProgress,
       async (account) => {
-        const result = await registration(account, captcha, proxy);
+        const result = await registration(account, captcha, proxyList);
         accountsState.list.push(result);
       },
       { concurrency: 50 }
