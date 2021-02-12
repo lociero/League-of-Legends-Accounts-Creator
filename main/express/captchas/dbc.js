@@ -28,7 +28,7 @@ export default async ({ username, password, siteKey, url }) => {
     .catch((err) => err.response.data);
 
   if (!status.is_correct) {
-    return status.text;
+    throw new Error('DBC_CAPTCHA_ERROR');
   }
 
   await sleep(5000);

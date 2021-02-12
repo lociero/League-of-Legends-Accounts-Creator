@@ -21,7 +21,7 @@ const mapping = {
       .get(`http://api.dbcapi.me/api?username=${username}&password=${password}`)
       .then((res) => res.data)
       .catch((err) => err.response.data);
-    return +(data.balance / 100).toFixed(5);
+    return (data.balance / 100).toFixed(5);
   },
   [CAPTCHA_SERVICES.ANTICAPTCHA]: async (apiKey) => {
     const data = await axios
@@ -43,7 +43,7 @@ export default async ({ currentCaptcha, apiKey, username, password }) => {
   try {
     const result = await mapping[currentCaptcha](apiKey, username, password);
     return result;
-  } catch (e) {
+  } catch {
     return 'TRY AGAIN PLEASE';
   }
 };

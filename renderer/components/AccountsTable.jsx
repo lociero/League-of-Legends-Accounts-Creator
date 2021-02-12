@@ -48,10 +48,6 @@ const AccountsTable = (props) => {
       text: 'ERRORS',
       dataField: 'errors',
     },
-    {
-      text: 'TOKEN',
-      dataField: 'token',
-    },
   ];
 
   const rowClasses = (row) => {

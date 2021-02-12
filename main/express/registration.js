@@ -6,10 +6,10 @@ export default async (account, captcha, proxy) => {
   try {
     const token = await solveCaptcha({ ...captcha, server: account.server });
     if (!token.includes('eyJ')) {
-      return { ...account, status: STATUS.ACCOUNT.FAILED, token };
+      throw new Error(token);
     }
     const result = await signUp({ account, token, proxy });
-    return { ...result, token: `${token.slice(0, 25)}... [OK]` };
+    return result;
   } catch (e) {
     return { ...account, status: STATUS.ACCOUNT.FAILED, errors: e.message };
   }
