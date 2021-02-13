@@ -21,7 +21,11 @@ const mapping = {
       .get(`http://api.dbcapi.me/api?username=${username}&password=${password}`)
       .then((res) => res.data)
       .catch((err) => err.response.data);
-    return (data.balance / 100).toFixed(5);
+    const balance = +(data.balance / 100).toFixed(5);
+    if (Number.isNaN(balance)) {
+      throw new Error();
+    }
+    return balance;
   },
   [CAPTCHA_SERVICES.ANTICAPTCHA]: async (apiKey) => {
     const data = await axios

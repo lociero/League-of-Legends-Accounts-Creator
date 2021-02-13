@@ -27,9 +27,9 @@ const Version = () => {
   useEffect(async () => {
     try {
       updateStatus(STATUS.VERSION.LOADING);
-      const data = await axios.get(LINKS.PACKAGE).then((res) => res.data);
-      updateLatestVersion(data.version);
-      if (compareVersions.compare(data.version, packageInfo.version, '>')) {
+      const version = await axios.get(LINKS.LAST_RELEASE).then((res) => res.data.tag_name);
+      updateLatestVersion(version);
+      if (compareVersions.compare(version, packageInfo.version, '>')) {
         updateStatus(STATUS.VERSION.OUTDATED);
       } else {
         updateStatus(STATUS.VERSION.UP_TO_DATE);

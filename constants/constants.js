@@ -81,7 +81,7 @@ export const STATE_NAMES = {
 };
 
 export const LINKS = {
-  PACKAGE: 'https://raw.githubusercontent.com/lociero/League-of-Legends-Accounts-Creator/master/package.json',
+  LAST_RELEASE: 'https://api.github.com/repos/lociero/league-of-legends-accounts-creator/releases/latest',
   LAST_VERSION: 'https://github.com/lociero/League-of-Legends-Accounts-Creator/releases/latest',
   PROXIES_SOCKS4: 'https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks4&timeout=10000',
   PROXIES_SOCKS5: 'https://api.proxyscrape.com/v2/?request=getproxies&protocol=socks5&timeout=10000',
