@@ -21,7 +21,7 @@
     "prettier"
   ],
   "rules": {
-    "linebreak-style":"off",
+    "linebreak-style": "off",
     "react/prop-types": "off",
     "import/no-extraneous-dependencies": 0,
     "import/extensions": [

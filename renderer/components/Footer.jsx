@@ -16,7 +16,7 @@ const Footer = () => {
         <a href="#" data-for="discordClipboard" data-event="click" data-tip="COPIED" data-event-off="mouseleave">
           <FontAwesomeIcon icon={faDiscord} size="2x" color="grey" onClick={discordNameToClipboard} />
         </a>
-        <ReactTooltip id="discordClipboard" type="success" effect="solid" />
+        <ReactTooltip id="discordClipboard" type="success" effect="solid" isCapture={true} />
         <a href="https://t.me/frolovdmitriy">
           <FontAwesomeIcon icon={faTelegram} size="2x" color="grey" className="ml-1" />
         </a>
