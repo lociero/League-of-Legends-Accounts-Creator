@@ -14,10 +14,8 @@ if (!isDev) {
   createCustomFiles();
 }
 
-let mainWindow;
-
 function createWindow() {
-  mainWindow = new BrowserWindow({
+  const mainWindow = new BrowserWindow({
     width: 1270,
     height: 750,
     minWidth: 1270,
@@ -46,9 +44,8 @@ function createWindow() {
     );
   }
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
+  // https://github.com/electron/electron/issues/24910
+  mainWindow.on('close', mainWindow.destroy);
 }
 
 app.on('ready', () => {
