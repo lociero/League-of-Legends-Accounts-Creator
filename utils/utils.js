@@ -69,9 +69,12 @@ export const parseAccounts = (text) =>
 export const parseUsernames = (text) => crlf(text).toUpperCase().split('\n').filter(Boolean);
 
 export const getRandomBirth = () => {
-  const year = random(1985, 2002);
-  const month = `${random(1, 12)}`.padStart(2, '0');
-  const day = `${random(1, 28)}`.padStart(2, '0');
+  // 788900400000 01.01.1995 0:00:00
+  // 1041361199000 31.12.2002 23:59:59
+  const date = new Date(random(788900400000, 1041361199000));
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
 
