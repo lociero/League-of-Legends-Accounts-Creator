@@ -5,10 +5,9 @@ import { sleep } from '../../../utils/utils.js';
 
 export default async ({ username, password, siteKey, url }) => {
   const { balance } = await axios
-    .get(`http://api.dbcapi.me/api?username=${username}&password=${password}`)
+    .get(`http://api.dbcapi.me/api?${querystring.stringify({ username, password })}`)
     .then((res) => res.data)
     .catch((err) => err.response.data);
-
   if (balance <= 0) {
     throw new Error('CAPTCHA_ZERO_BALANCE');
   }
@@ -39,6 +38,10 @@ export default async ({ username, password, siteKey, url }) => {
     await sleep(5000);
     const res3 = await axios.get(statusUrl).catch((err) => err.response);
     status = res3.data;
+  }
+
+  if (!status.is_correct) {
+    throw new Error('DBC_CAPTCHA_ERROR');
   }
 
   return status.text;

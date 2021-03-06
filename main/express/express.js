@@ -20,7 +20,7 @@ export default () => {
     })
   );
 
-  const proxyData = { isChecking: false, checked: [] };
+  const proxyData = { isChecking: false, list: [], checked: [] };
   const accountsState = { isGenerating: false, list: [] };
   const generatedAccounts = { list: [] };
   const currentState = { state: {} };
@@ -31,6 +31,11 @@ export default () => {
     currentState.state = state;
     generatedAccounts.list = generateData(state);
     res.json(generatedAccounts.list);
+  });
+
+  app.delete('/clear', (req, res) => {
+    proxyData.checked = [];
+    res.json(proxyData);
   });
 
   app.post('/updateproxylist', async (req, res) => {
@@ -61,7 +66,7 @@ export default () => {
   });
 
   app.get('/test', (_req, res) => {
-    res.send('test');
+    res.send(global.errors);
   });
 
   app.post('/signup', async (req, res) => {

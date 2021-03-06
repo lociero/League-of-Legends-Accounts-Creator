@@ -1,4 +1,5 @@
 import { random } from './utils.js';
+import { BAD_WORDS } from '../constants/constants.js';
 
 // https://nick-name.ru/generate/
 
@@ -77,6 +78,9 @@ const genName = (minlen, maxlen) => {
     nam += alphalow(nextchar);
   }
 
+  if (BAD_WORDS.some((badWord) => nam.toLowerCase().includes(badWord))) {
+    return genName(minlen, maxlen);
+  }
   return nam;
 };
 

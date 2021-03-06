@@ -1,5 +1,9 @@
 import { remote } from 'electron';
 import emailMasks from './emailMasks.js';
+import badWords from './badWords.json';
+
+export const BAD_WORDS = [...badWords];
+console.log(BAD_WORDS);
 
 const expressPort = remote && remote.getGlobal('expressPort');
 export const LOCALHOST = `http://localhost:${expressPort}`;
