@@ -1,6 +1,6 @@
 {
   "name": "acc-creator-react",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "League of Legends accounts creator",
   "main": "./dist/main.js",
   "scripts": {
