@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, dialog } from 'electron';
 import path from 'path';
 import url from 'url';
 import open from 'open';
@@ -66,3 +66,14 @@ app.on('web-contents-created', (_event, contents) => {
 });
 
 app.allowRendererProcessReuse = true;
+
+// Main process errors *handling*
+process.on('uncaughtException', (err) => {
+  const messageBoxOptions = {
+    type: 'error',
+    title: 'Something went wrong',
+    message: ['If you have no idea what happened contact me on Discord: megaded#1529', err.stack].join('\n'),
+  };
+  dialog.showMessageBox(messageBoxOptions);
+  // throw err;
+});

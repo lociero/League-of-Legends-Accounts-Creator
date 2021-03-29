@@ -38,6 +38,14 @@ const ProxyTable = () => {
       sort: true,
     },
     {
+      text: 'USERNAME',
+      dataField: 'username',
+    },
+    {
+      text: 'PASSWORD',
+      dataField: 'password',
+    },
+    {
       text: 'IS WORKING',
       dataField: 'isWorking',
       sort: true,

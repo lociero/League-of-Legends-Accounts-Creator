@@ -12,6 +12,7 @@ import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import useGlobalState from '../state.js';
 import { sleep, parseProxies } from '../../utils/utils.js';
 import { LINKS, STATE_NAMES, LOCALHOST } from '../../constants/constants.js';
+import countries from '../../constants/countries.json';
 
 const ProxyTopPanel = () => {
   const [useProxy, toggleProxy] = useGlobalState(STATE_NAMES.USE_PROXY);
@@ -53,15 +54,20 @@ const ProxyTopPanel = () => {
       toggleProxyLoading(true);
       const socks4 = await axios.get(`${LINKS.PROXIES_SOCKS4}&country=${proxyCountry}`).then((res) => res.data);
       const socks4List = socks4
-        .split('\n')
+        .split('\r\n')
         .filter(Boolean)
         .map((proxy) => `${proxy}:SOCKS4`);
       const socks5 = await axios.get(`${LINKS.PROXIES_SOCKS5}&country=${proxyCountry}`).then((res) => res.data);
       const socks5List = socks5
-        .split('\n')
+        .split('\r\n')
         .filter(Boolean)
         .map((proxy) => `${proxy}:SOCKS5`);
-      const finalList = [...socks4List, ...socks5List].map((proxy, i) => {
+      const http = await axios.get(`${LINKS.PROXIES_HTTP}&country=${proxyCountry}`).then((res) => res.data);
+      const httpList = http
+        .split('\r\n')
+        .filter(Boolean)
+        .map((proxy) => `${proxy}:HTTP`);
+      const finalList = [...socks4List, ...socks5List, ...httpList].map((proxy, i) => {
         const [ip, port, type] = proxy.split(':');
         return {
           id: proxyList.length > 0 ? _.last(proxyList).id + i + 1 : i + 1,
@@ -82,7 +88,9 @@ const ProxyTopPanel = () => {
     try {
       const socks4 = await axios.get(LINKS.INFO_SOCKS4).then((res) => res.data.countries);
       const socks5 = await axios.get(LINKS.INFO_SOCKS5).then((res) => res.data.countries);
-      return [...new Set(['ALL', ...socks4, ...socks5])].sort();
+      const http = await axios.get(LINKS.INFO_HTTP).then((res) => res.data.countries);
+
+      return ['ALL', ..._.sortedUniq([...socks4, ...socks5, ...http].sort())];
     } catch {
       return loadAvailableCountries();
     }
@@ -90,8 +98,8 @@ const ProxyTopPanel = () => {
 
   const handleUpdateCountries = async () => {
     updateCountriesLoading(true);
-    const countries = await loadAvailableCountries();
-    updateAvailableCountries(countries);
+    const countriesList = await loadAvailableCountries();
+    updateAvailableCountries(countriesList);
     updateCountriesLoading(false);
   };
   const loadFile = async () => {
@@ -125,17 +133,17 @@ const ProxyTopPanel = () => {
         />
         <ReactTooltip id="own_proxy_info" effect="solid" place="right">
           <p className="m-0">
-            Only socks4/5
+            SOCKS4/SOCKS5/HTTP
             <br />
             Each proxy on a new line
             <br />
             IP:PORT:TYPE
             <br />
-            null type will be tagged as both
+            IP:PORT:TYPE@USERNAME:PASSWORD
             <br />
             123.123.123.123:1234:SOCKS4
             <br />
-            123.123.123.123:1234:SOCKS5
+            123.123.123.123:1234:HTTP@USER:PASS
           </p>
         </ReactTooltip>
       </Row>
@@ -160,9 +168,9 @@ const ProxyTopPanel = () => {
             value={proxyCountry}
             onChange={handleCountrySelect}
           >
-            {availableCountries.map((country) => (
-              <option key={country} value={country}>
-                {country}
+            {availableCountries.map((code) => (
+              <option key={code} value={code}>
+                {countries[code]?.toUpperCase() ?? code}
               </option>
             ))}
           </Form.Control>

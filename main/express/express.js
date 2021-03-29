@@ -1,11 +1,13 @@
 import Express from 'express';
 import Promise from 'bluebird';
 import bodyParser from 'body-parser';
+import axios from 'axios';
 import generateData from '../dataGeneration.js';
 import checkProxy from './checkProxy.js';
 import getCaptchaBalance from './captchas/getBalance.js';
 import registration from './registration.js';
 import { STATUS } from '../../constants/constants.js';
+import { sleep } from '../../utils/utils.js';
 
 const crlf = (text) => text.replace(/\r\n|\r(?!\n)|\n/g, '\n');
 
@@ -53,8 +55,13 @@ export default () => {
     await Promise.map(
       list,
       async (item) => {
-        const result = await checkProxy(item);
-        proxyData.checked.push(result);
+        const token = axios.CancelToken.source();
+        const result = await Promise.race([checkProxy(item, token), sleep(20000).then(token.cancel)]);
+        if (result) {
+          proxyData.checked.push(result);
+        } else {
+          proxyData.checked.push({ ...item, isWorking: STATUS.PROXY.NOT_WORKING });
+        }
       },
       { concurrency: 1000 }
     );
@@ -90,8 +97,16 @@ export default () => {
     await Promise.map(
       accountsInProgress,
       async (account) => {
-        const result = await registration(account, captcha, proxyList);
-        accountsState.list.push(result);
+        const token = axios.CancelToken.source();
+        const result = await Promise.race([
+          registration(account, captcha, proxyList, token),
+          sleep(4 * 60 * 1000).then(token.cancel),
+        ]);
+        if (result) {
+          accountsState.list.push(result);
+        } else {
+          accountsState.list.push({ ...account, status: STATUS.ACCOUNT.FAILED, errors: '4_MINUTES_TIMEOUT' });
+        }
       },
       { concurrency: 50 }
     );
