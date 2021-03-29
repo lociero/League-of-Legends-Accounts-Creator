@@ -38,7 +38,7 @@ const locales = {
 };
 
 const register = async ({ account, token, proxy: list, cancelToken }) => {
-  const currentProxy = list[random(0, list.length - 1)];
+  const currentProxy = list[random(0, list.length - 1)] ?? {};
   const currentlist = list.filter(({ id }) => id !== currentProxy?.id);
 
   const apiUrl = 'https://signup-api.leagueoflegends.com/v1/accounts';
