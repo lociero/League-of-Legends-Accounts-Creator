@@ -97,15 +97,17 @@ export default () => {
     await Promise.map(
       accountsInProgress,
       async (account) => {
-        const token = axios.CancelToken.source();
+        // const token = axios.CancelToken.source();
         const result = await Promise.race([
-          registration(account, captcha, proxyList, token),
-          sleep(4 * 60 * 1000).then(token.cancel),
+          // registration(account, captcha, proxyList, token),
+          // sleep(4 * 60 * 1000).then(token.cancel),
+          registration(account, captcha, proxyList),
+          sleep(3 * 60 * 1000),
         ]);
         if (result) {
           accountsState.list.push(result);
         } else {
-          accountsState.list.push({ ...account, status: STATUS.ACCOUNT.FAILED, errors: '4_MINUTES_TIMEOUT' });
+          accountsState.list.push({ ...account, status: STATUS.ACCOUNT.FAILED, errors: '3_MINUTES_TIMEOUT' });
         }
       },
       { concurrency: 50 }

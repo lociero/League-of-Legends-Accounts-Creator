@@ -37,7 +37,7 @@ const locales = {
   JP: 'ja',
 };
 
-const register = async ({ account, token, proxy: list, cancelToken }) => {
+const register = async ({ account, token, proxy: list }) => {
   const currentProxy = list[random(0, list.length - 1)] ?? {};
   const currentlist = list.filter(({ id }) => id !== currentProxy?.id);
 
@@ -50,7 +50,7 @@ const register = async ({ account, token, proxy: list, cancelToken }) => {
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
     },
     httpsAgent: getAgent(currentProxy),
-    cancelToken: cancelToken.token,
+    // cancelToken: cancelToken.token,
   });
 
   const { username, password, birth, email, server } = account;
@@ -70,7 +70,7 @@ const register = async ({ account, token, proxy: list, cancelToken }) => {
 
   const res = await client.post(apiUrl, body).catch((err) => err.response);
   if (!res) {
-    return register({ account, token, proxy: currentlist, cancelToken });
+    return register({ account, token, proxy: currentlist });
   }
   if ([200, 409, 503, 429].includes(res.status)) {
     if (res.status === 409) {
@@ -99,7 +99,7 @@ const register = async ({ account, token, proxy: list, cancelToken }) => {
       };
     }
   }
-  return register({ account, token, proxy: currentlist, cancelToken });
+  return register({ account, token, proxy: currentlist });
 };
 
 export default register;
