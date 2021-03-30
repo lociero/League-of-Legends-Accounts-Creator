@@ -100,7 +100,7 @@ export default () => {
         // const token = axios.CancelToken.source();
         const result = await Promise.race([
           // registration(account, captcha, proxyList, token),
-          // sleep(4 * 60 * 1000).then(token.cancel),
+          // sleep(3 * 60 * 1000).then(token.cancel),
           registration(account, captcha, proxyList),
           sleep(3 * 60 * 1000),
         ]);
