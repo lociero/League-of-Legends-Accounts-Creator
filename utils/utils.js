@@ -16,12 +16,12 @@ export const parseProxies = (text) => {
     const proxies = list.map((proxy, i) => {
       const [meta, auth] = proxy.split('@');
       const [ip, port, type] = meta.split(':');
-      const [username, password] = auth.split(':');
+      const [username, password] = auth ? auth.split(':') : [];
       const country = 'N/A';
-      return { id: i + 1, country, ip, port, type: type?.toUpperCase(), username, password, isAuth: !!username };
+      return { id: i + 1, country, ip, port, type: type?.toUpperCase(), username, password, isAuth: Boolean(auth) };
     });
     return proxies.filter(({ type }) => ['SOCKS4', 'SOCKS5', 'HTTP', 'HTTPS'].includes(type));
-  } catch {
+  } catch (e) {
     return [];
   }
 };
