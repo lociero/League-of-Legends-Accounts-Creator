@@ -30,6 +30,7 @@ export const TABS = {
   GENERAL: 'general',
   CAPTCHA: 'captcha',
   PROXY: 'proxy',
+  CHECKER: 'checker',
 };
 
 export const DATE_OF_BIRTH_TYPES = {

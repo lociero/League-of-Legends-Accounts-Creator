@@ -1,5 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import React, { useState } from 'react';
+import { remote } from 'electron';
 import { Button, ProgressBar, Container, Spinner, Row, ButtonGroup } from 'react-bootstrap';
 import axios from 'axios';
 import _ from 'lodash';
@@ -34,6 +35,16 @@ const Generation = () => {
   };
 
   const startCreation = async () => {
+    const captchaKeysProvided = ![state.apiKey, state.dbcUsername, state.dbcPassword].every((key) => key.length === 0);
+    if (!captchaKeysProvided) {
+      const messageBoxOptions = {
+        type: 'error',
+        title: 'Captcha apikey is missing',
+        message: 'You need api key from some captcha service.\nOpen CAPTCHA tab for more information.',
+      };
+      remote.dialog.showMessageBox(messageBoxOptions);
+      return;
+    }
     toggleCreating(true);
     const body = {
       currentCaptcha: state.currentCaptcha,

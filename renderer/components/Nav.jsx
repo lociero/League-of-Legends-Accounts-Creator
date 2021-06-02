@@ -3,6 +3,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import General from '../containers/General.jsx';
 import Captcha from '../containers/Captcha.jsx';
 import Proxy from '../containers/Proxy.jsx';
+import Checker from '../containers/Checker.jsx';
 import { TABS } from '../../constants/constants.js';
 
 const NavBar = () => (
@@ -16,7 +17,9 @@ const NavBar = () => (
     <Tab eventKey={TABS.PROXY} title="PROXY">
       <Proxy />
     </Tab>
-    <Tab eventKey="" title="CHECKER [DISABLED]" disabled></Tab>
+    <Tab eventKey={TABS.CHECKER} title="CHECKER">
+      <Checker />
+    </Tab>
   </Tabs>
 );
 
