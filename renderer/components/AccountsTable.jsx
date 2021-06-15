@@ -47,6 +47,7 @@ const AccountsTable = (props) => {
     {
       text: 'ERRORS',
       dataField: 'errors',
+      sort: true,
     },
   ];
 

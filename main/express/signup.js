@@ -1,15 +1,15 @@
 import axios from 'axios';
 import _ from 'lodash';
-import { getAgent, random } from '../../utils/utils.js';
+import { getAgent } from '../../utils/utils.js';
 import { STATUS } from '../../constants/constants.js';
 
-const errorToString = (err) => {
-  if (typeof err === 'object') {
-    const strings = Object.entries(err).map(([key, value]) => `${key}: ${value}`);
-    return _.snakeCase(strings.join(' ')).toUpperCase() || 'UNKNOWN ERROR';
-  }
-  return _.snakeCase(err).toUpperCase() || 'UNKNOWN ERROR';
-};
+// const errorToString = (err) => {
+//   if (typeof err === 'object') {
+//     const strings = Object.entries(err).map(([key, value]) => `${key}: ${value}`);
+//     return _.snakeCase(strings.join(' ')).toUpperCase() || 'UNKNOWN ERROR';
+//   }
+//   return _.snakeCase(err).toUpperCase() || 'UNKNOWN ERROR';
+// };
 
 const regions = {
   EUW: 'EUW1',
@@ -37,20 +37,18 @@ const locales = {
   JP: 'ja',
 };
 
-const register = async ({ account, token, proxy: list }) => {
-  const currentProxy = list[random(0, list.length - 1)] ?? {};
-  const currentlist = list.filter(({ id }) => id !== currentProxy?.id);
-
+const register = async ({ account, token, proxy, signUpCancelToken }) => {
   const apiUrl = 'https://signup-api.leagueoflegends.com/v1/accounts';
 
   const client = axios.create({
     timeout: 20000,
     headers: {
       'User-Agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36',
     },
-    httpsAgent: getAgent(currentProxy),
-    // cancelToken: cancelToken.token,
+    httpsAgent: getAgent(proxy),
+    cancelToken: signUpCancelToken.token,
+    validateStatus: false,
   });
 
   const { username, password, birth, email, server } = account;
@@ -68,38 +66,76 @@ const register = async ({ account, token, proxy: list }) => {
     token: `hcaptcha ${token}`,
   };
 
-  const res = await client.post(apiUrl, body).catch((err) => err.response);
-  if (!res) {
-    return register({ account, token, proxy: currentlist });
-  }
-  if ([200, 409, 503, 429].includes(res.status)) {
-    if (res.status === 409) {
-      return {
-        ...account,
-        status: STATUS.ACCOUNT.FAILED,
-        proxy: currentProxy?.ip ?? 'LOCAL',
-        errors: errorToString(res.data?.fields),
-      };
+  const res = await client.post(apiUrl, body).catch((thrown) => {
+    if (axios.isCancel(thrown)) {
+      throw new Error(thrown.message);
     }
-    if ([503, 429].includes(res.status)) {
-      return {
-        ...account,
-        status: STATUS.ACCOUNT.FAILED,
-        proxy: currentProxy?.ip ?? 'LOCAL',
-        errors: errorToString(res.data?.description),
-      };
-    }
+  });
 
-    if (res.status === 200) {
-      return {
-        ...account,
-        status: STATUS.ACCOUNT.SUCCESS,
-        accountId: res.data.account.accountId,
-        proxy: currentProxy?.ip ?? 'LOCAL',
-      };
-    }
+  if (!res) return { status: false };
+
+  if (res.status === 200) {
+    return {
+      ...account,
+      status: STATUS.ACCOUNT.SUCCESS,
+      accountId: res.data.account.accountId,
+      proxy: proxy.ip,
+    };
   }
-  return register({ account, token, proxy: currentlist });
+
+  if (res.status === 409) {
+    return {
+      ...account,
+      status: STATUS.ACCOUNT.FAILED,
+      proxy: proxy.ip,
+      errors: _.snakeCase(JSON.stringify(res.data?.fields)).toUpperCase(),
+    };
+  }
+
+  if (res.status === 503) {
+    if (!res.data?.description) {
+      return { status: false };
+    }
+    return {
+      ...account,
+      status: STATUS.ACCOUNT.FAILED,
+      proxy: proxy.ip,
+      errors: 'SIGN_UP_API_IS_DOWN',
+    };
+  }
+
+  if (res.status === 429) {
+    return {
+      ...account,
+      status: STATUS.ACCOUNT.FAILED,
+      proxy: proxy.ip,
+      errors: 'RATE_LIMITED',
+    };
+  }
+
+  if ([403, 404, 500, 502, 504].includes(res.status)) {
+    return { status: false };
+  }
+
+  return {
+    ...account,
+    status: STATUS.ACCOUNT.FAILED,
+    proxy: proxy.ip,
+    errors: `If you see that, send this msg to me please on discord: ${JSON.stringify({
+      data: res.data,
+      status: res.status,
+    })}`,
+  };
 };
 
-export default register;
+export default async ({ account, token, proxies, signUpCancelToken }) => {
+  const proxiesn = _.shuffle(proxies);
+  // eslint-disable-next-line no-restricted-syntax
+  for (const proxy of proxiesn) {
+    // eslint-disable-next-line no-await-in-loop
+    const result = await register({ account, token, proxy, signUpCancelToken });
+    if (result.status !== false) return result;
+  }
+  const result = await register({ account, token, proxy: { ip: 'LOCAL' }, signUpCancelToken });
+  return result;
+};

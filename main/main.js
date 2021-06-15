@@ -2,9 +2,15 @@ import { app, BrowserWindow, dialog } from 'electron';
 import path from 'path';
 import url from 'url';
 import open from 'open';
+import Promise from 'bluebird';
 import server from './express/express.js';
 import { isDev } from '../constants/constants.js';
 import createCustomFiles from './customFiles.js';
+
+Promise.config({
+  cancellation: true,
+});
+global.Promise = Promise;
 
 const express = server().listen(0, () => {
   global.expressPort = express.address().port;

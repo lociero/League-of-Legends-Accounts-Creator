@@ -2,13 +2,17 @@
 import axios from 'axios';
 import { sleep } from '../../../utils/utils.js';
 
-export default async ({ apiKey, siteKey, url }) => {
-  const { balance, errorId, errorCode } = await axios
+export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
+  const client = axios.create({
+    cancelToken: captchaCancelToken.token,
+    validateStatus: false,
+  });
+
+  const { balance, errorId, errorCode } = await client
     .post('https://api.capmonster.cloud/getBalance', {
       clientKey: apiKey,
     })
-    .then((res) => res.data)
-    .catch((err) => err.response.data);
+    .then((res) => res.data);
 
   if (errorId > 0) {
     throw new Error(errorCode);
@@ -30,7 +34,7 @@ export default async ({ apiKey, siteKey, url }) => {
     },
     softId: 42,
   };
-  const task = await axios.post(requestUrl, reqBody).then((res) => res.data);
+  const task = await client.post(requestUrl, reqBody).then((res) => res.data);
   const { taskId } = task;
 
   if (task.errorId > 0) {
@@ -44,7 +48,7 @@ export default async ({ apiKey, siteKey, url }) => {
     clientKey: apiKey,
     taskId,
   };
-  let taskState = await axios.post(requestTokenUrl, tokenBody).then((res) => res.data);
+  let taskState = await client.post(requestTokenUrl, tokenBody).then((res) => res.data);
 
   if (taskState.errorId > 0) {
     throw new Error(taskState.errorCode);
@@ -52,7 +56,7 @@ export default async ({ apiKey, siteKey, url }) => {
 
   while (taskState.status !== 'ready') {
     await sleep(5000);
-    taskState = await axios.post(requestTokenUrl, tokenBody).then((res) => res.data);
+    taskState = await client.post(requestTokenUrl, tokenBody).then((res) => res.data);
 
     if (taskState.errorId > 0) {
       throw new Error(taskState.errorCode);

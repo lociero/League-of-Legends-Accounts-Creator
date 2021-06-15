@@ -1,9 +1,11 @@
+import axios from 'axios';
 import { CAPTCHA_SERVICES } from '../../../constants/constants.js';
 import solve2Captcha from './captcha2.js';
 import solveRuCaptcha from './ruCaptcha.js';
 import solveDBC from './dbc.js';
 import solveAntiCaptcha from './anticaptcha.js';
 import solveCapMonster from './capmonster.js';
+import solveDevFakeCaptcha from './devFakeCaptcha.js';
 
 // const googleKey = '6Lc3HAsUAAAAACsN7CgY9MMVxo2M09n_e4heJEiZ';
 const siteKey = 'a010c060-9eb5-498c-a7b9-9204c881f9dc';
@@ -27,6 +29,13 @@ const captchaByType = {
   [CAPTCHA_SERVICES.DBC]: solveDBC,
   [CAPTCHA_SERVICES.ANTICAPTCHA]: solveAntiCaptcha,
   [CAPTCHA_SERVICES.CAPMONSTER]: solveCapMonster,
+  DEV_TEST: solveDevFakeCaptcha,
 };
 
-export default (options) => captchaByType[options.type]({ ...options, url: urls[options.server], siteKey });
+export default (options) =>
+  captchaByType[options.type]({ ...options, url: urls[options.server], siteKey }).catch((thrown) => {
+    if (axios.isCancel(thrown)) {
+      throw new Error(thrown.message);
+    }
+    throw new Error('CAPTCHA_NETWORK_ERROR');
+  });

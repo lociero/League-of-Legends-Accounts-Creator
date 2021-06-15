@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Row, InputGroup, Form, Button, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import useGlobalState from '../state.js';
-import { STATE_NAMES, CAPTCHA_SERVICES, LINKS, LOCALHOST } from '../../constants/constants.js';
+import { STATE_NAMES, CAPTCHA_SERVICES, LINKS, LOCALHOST, isDev } from '../../constants/constants.js';
 
 const Captcha = () => {
   const [currentCaptcha, updateCurrentCaptcha] = useGlobalState(STATE_NAMES.CURRENT_CAPTCHA);
@@ -62,6 +62,7 @@ const Captcha = () => {
             <InputGroup.Text>CAPTCHA SERVICE</InputGroup.Text>
           </InputGroup.Prepend>
           <Form.Control as="select" custom value={currentCaptcha} onChange={handleCurrentCaptchaChange}>
+            {isDev && <option value="DEV_TEST">DEV_TEST</option>}
             {Object.values(CAPTCHA_SERVICES).map((name) => (
               <option key={name} value={name}>
                 {name}

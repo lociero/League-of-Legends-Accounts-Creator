@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { STATUS } from '../../constants/constants.js';
-import { getAgent } from '../../utils/utils.js';
+import { getAgent, sleep } from '../../utils/utils.js';
 
-export default async (proxy, cancelToken) => {
+export default async (proxy) => {
+  const cancelToken = axios.CancelToken.source();
+  sleep(20 * 1000).then(cancelToken.cancel);
   const request = axios.create({
     timeout: 20000,
     httpsAgent: getAgent(proxy),

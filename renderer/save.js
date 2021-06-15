@@ -25,7 +25,7 @@ export default async (accounts, state) => {
   await fs.writeFile(`${dirname}/${FILE_NAMES.CUSTOM_USERNAMES}`, usernamesToSave.join('\n'), 'utf-8');
 
   const accountsToSave = successAccounts.map(({ server, username, password, email, birth, accountId, proxy }) => ({
-    full: `${server}:${username}:${password}:${email} accountId: ${accountId} date_of_birth: ${birth} proxy: ${proxy}`,
+    full: `${server}:${username}:${password}:${email} acc_id: ${accountId} date_of_birth: ${birth} creation_date: ${getDate()} proxy: ${proxy}`,
     compact: `${server}:${username}:${password}`,
   }));
 

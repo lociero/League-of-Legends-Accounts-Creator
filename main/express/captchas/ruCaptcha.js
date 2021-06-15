@@ -3,8 +3,13 @@ import axios from 'axios';
 import querystring from 'querystring';
 import { sleep } from '../../../utils/utils.js';
 
-export default async ({ apiKey, siteKey, url }) => {
-  const balance = await axios
+export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
+  const client = axios.create({
+    cancelToken: captchaCancelToken.token,
+    validateStatus: false,
+  });
+
+  const balance = await client
     .get(`https://rucaptcha.com/res.php?${querystring.stringify({ key: apiKey, action: 'getbalance' })}`)
     .then((res) => res.data);
 
@@ -26,7 +31,7 @@ export default async ({ apiKey, siteKey, url }) => {
     soft_id: 2694,
   });
   const requestUrl = `http://rucaptcha.com/in.php?${inQuery}`;
-  const captchaIDres = await axios.post(requestUrl).then((res) => res.data);
+  const captchaIDres = await client.post(requestUrl).then((res) => res.data);
 
   const captchaID = captchaIDres.split('|')[1];
 
@@ -44,11 +49,11 @@ export default async ({ apiKey, siteKey, url }) => {
     soft_id: 2694,
   });
   const requestTokenUrl = `http://rucaptcha.com/res.php?${resQuery}`;
-  let token = await axios.get(requestTokenUrl).then((res) => res.data);
+  let token = await client.get(requestTokenUrl).then((res) => res.data);
 
   while (token === 'CAPCHA_NOT_READY') {
     await sleep(5000);
-    token = await axios.get(requestTokenUrl).then((res) => res.data);
+    token = await client.get(requestTokenUrl).then((res) => res.data);
   }
 
   const [, result] = token.split('|');

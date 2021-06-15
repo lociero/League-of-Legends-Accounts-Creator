@@ -1,13 +1,19 @@
 import React from 'react';
-import { Container, Card } from 'react-bootstrap';
+import { Container, Card, Button } from 'react-bootstrap';
 
 const Checker = () => (
   <Container fluid>
-    <Card className="mt-1" style={{ width: '18rem' }}>
+    <Card className="my-2">
+      <Card.Header as="h3">SLC Reborn</Card.Header>
       <Card.Body>
-        <Card.Title>SLC Reborn</Card.Title>
-        <Card.Text>SLC Checker - Reborn is an automated League of Legends account checker</Card.Text>
-        <Card.Link href="https://discord.gg/5D6yaKEsS3">Discord link</Card.Link>
+        <Card.Title>League of Legends Account Checker</Card.Title>
+        <Card.Text>
+          SLC Checker - Reborn is an automated League of Legends account checker.
+          <br /> It has been made with simplicity and the customer needs in mind.
+        </Card.Text>
+        <Button href="https://discord.gg/5D6yaKEsS3" variant="secondary">
+          Discord
+        </Button>
       </Card.Body>
     </Card>
   </Container>

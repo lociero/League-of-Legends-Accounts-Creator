@@ -85,7 +85,7 @@ const Generation = () => {
       <AccountsTable accounts={accounts} />
 
       <Container fluid className="p-0">
-        <ProgressBar animated now={(finishedAccounts.length / accounts.length) * 100} />
+        <ProgressBar style={{ paddingRight: 1 }} animated now={(finishedAccounts.length / accounts.length) * 100} />
 
         <ButtonGroup className="d-flex mb-5">
           {isGeneratingAccs ? (
