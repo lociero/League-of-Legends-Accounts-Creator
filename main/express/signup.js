@@ -3,7 +3,7 @@
 /* eslint-disable no-continue */
 import axios from 'axios';
 import _ from 'lodash';
-import { getAgent, random, sleep } from '../../utils/utils.js';
+import { getAgent, getDate, random, sleep } from '../../utils/utils.js';
 import { STATUS } from '../../constants/constants.js';
 
 const regions = {
@@ -51,7 +51,7 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
     username,
     password,
     confirm_password: password,
-    date_of_birth: birth,
+    date_of_birth: birth.split('_').reverse().join('-'),
     email,
     tou_agree: true,
     newsletter: false,
@@ -75,6 +75,7 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
       status: STATUS.ACCOUNT.SUCCESS,
       accountId: res.data.account.accountId,
       proxy: proxy.ip,
+      creationDate: getDate(),
     };
   }
 

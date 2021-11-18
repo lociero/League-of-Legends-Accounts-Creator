@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 import { clipboard } from 'electron';
 import fs from 'fs';
 import SocksProxyAgent from 'socks-proxy-agent';
@@ -43,7 +44,8 @@ export const getRandomBirth = () => {
   const year = date.getFullYear();
   const month = `${date.getMonth() + 1}`.padStart(2, '0');
   const day = `${date.getDate()}`.padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  // return `${year}-${month}-${day}`;
+  return `${day}_${month}_${year}`;
 };
 
 export const copyToClipboard = (text) => {
@@ -74,4 +76,17 @@ export const getAgent = ({ type, isAuth, username, password, ...rest }) => {
 
   const auth = isAuth ? `${username}:${password}@` : '';
   return agents[type]?.({ auth, ...rest });
+};
+
+export const parseTemplate = (options, map, fallback) => {
+  const { template, type } = options;
+  const templates = {
+    compact: '${server}:${username}:${password}',
+    full: '${server}:${username}:${password}:${email} acc_id: ${accountId} date_of_birth: ${birth} creation_date: ${creationDate} proxy: ${proxy}',
+  };
+  const get = (key, obj, fb = `$\{${key}}`) => obj[key] ?? fb;
+  return (templates[type] ?? template).replace(/\$\{.+?}/g, (match) => {
+    const key = match.substr(2, match.length - 3).trim();
+    return `${get(key, map, fallback)}`.trim();
+  });
 };

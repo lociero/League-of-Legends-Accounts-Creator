@@ -1,10 +1,10 @@
 import { promises as fs } from 'fs';
-import { readAndParse, getDate } from '../utils/utils.js';
+import { readAndParse, getDate, parseTemplate } from '../utils/utils.js';
 import { dirname, FILE_NAMES, STATUS } from '../constants/constants.js';
 
 export default async (accounts, state) => {
   const configPath = `${dirname}/${FILE_NAMES.CONFIG}`;
-  const { proxyList, ...configToSave } = state;
+  const { proxyList, proxyListTable, ...configToSave } = state;
   await fs.writeFile(configPath, JSON.stringify(configToSave, null, 2), 'utf-8');
 
   const successAccounts = accounts.filter(({ status }) => status === STATUS.ACCOUNT.SUCCESS);
@@ -24,19 +24,24 @@ export default async (accounts, state) => {
 
   await fs.writeFile(`${dirname}/${FILE_NAMES.CUSTOM_USERNAMES}`, usernamesToSave.join('\n'), 'utf-8');
 
-  const accountsToSave = successAccounts.map(({ server, username, password, email, birth, accountId, proxy }) => ({
-    full: `${server}:${username}:${password}:${email} acc_id: ${accountId} date_of_birth: ${birth} creation_date: ${getDate()} proxy: ${proxy}`,
-    compact: `${server}:${username}:${password}`,
+  const accountsToSave = successAccounts.map((accountInfo) => ({
+    full: parseTemplate({ type: 'full' }, accountInfo),
+    compact: parseTemplate({ type: 'compact' }, accountInfo),
+    custom: parseTemplate({ template: state.customTemplate }, accountInfo),
   }));
 
   const [{ server }] = accounts;
 
   const fullPath = `${dirname}/accounts/${server}_FULL_${getDate()}.txt`;
   const compactPath = `${dirname}/accounts/${server}_COMPACT_${getDate()}.txt`;
+  const customPath = `${dirname}/accounts/${server}_CUSTOM_${getDate()}.txt`;
   const fullInfo = await fs.readFile(fullPath, 'utf-8').catch(() => null);
   const compactInfo = await fs.readFile(compactPath, 'utf-8').catch(() => null);
+  const customInfo = await fs.readFile(customPath, 'utf-8').catch(() => null);
   const fullInfoToSave = [fullInfo, ...accountsToSave.map((info) => info.full)].filter(Boolean).join('\n');
   const compactInfoToSave = [compactInfo, ...accountsToSave.map((info) => info.compact)].filter(Boolean).join('\n');
-  await fs.writeFile(fullPath, fullInfoToSave, 'utf-8');
-  await fs.writeFile(compactPath, compactInfoToSave, 'utf-8');
+  const customInfoToSave = [customInfo, ...accountsToSave.map((info) => info.custom)].filter(Boolean).join('\n');
+  if (state.useFull) await fs.writeFile(fullPath, fullInfoToSave, 'utf-8');
+  if (state.useCompact) await fs.writeFile(compactPath, compactInfoToSave, 'utf-8');
+  if (state.useCustom) await fs.writeFile(customPath, customInfoToSave, 'utf-8');
 };

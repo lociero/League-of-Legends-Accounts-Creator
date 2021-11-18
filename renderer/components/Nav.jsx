@@ -5,6 +5,7 @@ import Captcha from '../containers/Captcha.jsx';
 import Proxy from '../containers/Proxy.jsx';
 import Checker from '../containers/Checker.jsx';
 import { TABS } from '../../constants/constants.js';
+import ExportSettings from './ExportSettings.jsx';
 
 const NavBar = () => (
   <Tabs defaultActiveKey={TABS.GENERAL} id="uncontrolled-tab-example">
@@ -16,6 +17,9 @@ const NavBar = () => (
     </Tab>
     <Tab eventKey={TABS.PROXY} title="PROXY">
       <Proxy />
+    </Tab>
+    <Tab eventKey={TABS.EXPORT_SETTINGS} title="EXPORT SETTINGS">
+      <ExportSettings />
     </Tab>
     <Tab eventKey={TABS.CHECKER} title="CHECKER">
       <Checker />

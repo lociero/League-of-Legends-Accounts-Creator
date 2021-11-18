@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 import { createGlobalState } from 'react-hooks-global-state';
 import fs from 'fs';
 import {
@@ -32,7 +33,12 @@ const initialState = {
   [STATE_NAMES.API_KEY]: '',
   [STATE_NAMES.DBC_USERNAME]: '',
   [STATE_NAMES.DBC_PASSWORD]: '',
-  proxyListTable: [],
+  [STATE_NAMES.PROXY_LIST_TABLE]: [],
+  [STATE_NAMES.CUSTOM_TEMPLATE]:
+    '${server}:${username}:${password}:${email}:${accountId}:${birth}:${creationDate} proxy: ${proxy}',
+  [STATE_NAMES.USE_COMPACT]: true,
+  [STATE_NAMES.USE_FULL]: true,
+  [STATE_NAMES.USE_CUSTOM]: false,
 };
 
 const config = isDev ? {} : JSON.parse(fs.readFileSync(`${dirname}/${FILE_NAMES.CONFIG}`));

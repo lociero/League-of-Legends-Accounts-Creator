@@ -34,6 +34,13 @@ export default () => {
     res.json(generatedAccounts.list);
   });
 
+  app.post('/generate_one', (req, res) => {
+    const { state } = req.body;
+    state.amount = 1;
+    const [generated] = generateData(state);
+    res.json(generated);
+  });
+
   app.delete('/clear', (req, res) => {
     proxyData.checked = [];
     res.json(proxyData);

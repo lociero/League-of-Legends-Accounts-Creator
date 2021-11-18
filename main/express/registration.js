@@ -12,6 +12,11 @@ export default async (account, captcha, proxy) => {
     const result = await signUp({ account, token, proxies: proxy });
     return result;
   } catch (e) {
-    return { ...account, status: STATUS.ACCOUNT.FAILED, errors: e.message, stack: e.stack };
+    return {
+      ...account,
+      status: STATUS.ACCOUNT.FAILED,
+      errors: e.message,
+      stack: e.stack,
+    };
   }
 };

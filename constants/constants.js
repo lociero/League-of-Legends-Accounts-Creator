@@ -30,6 +30,7 @@ export const TABS = {
   GENERAL: 'general',
   CAPTCHA: 'captcha',
   PROXY: 'proxy',
+  EXPORT_SETTINGS: 'export_settings',
   CHECKER: 'checker',
 };
 
@@ -82,6 +83,11 @@ export const STATE_NAMES = {
   API_KEY: 'apiKey',
   DBC_USERNAME: 'dbcUsername',
   DBC_PASSWORD: 'dbcPassword',
+  PROXY_LIST_TABLE: 'proxyListTable',
+  CUSTOM_TEMPLATE: 'customTemplate',
+  USE_COMPACT: 'useCompact',
+  USE_FULL: 'useFull',
+  USE_CUSTOM: 'useCustom',
 };
 
 export const LINKS = {
