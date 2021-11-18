@@ -34,13 +34,6 @@ export default () => {
     res.json(generatedAccounts.list);
   });
 
-  app.post('/generate_one', (req, res) => {
-    const { state } = req.body;
-    state.amount = 1;
-    const [generated] = generateData(state);
-    res.json(generated);
-  });
-
   app.delete('/clear', (req, res) => {
     proxyData.checked = [];
     res.json(proxyData);
@@ -103,14 +96,14 @@ export default () => {
     await Promise.map(
       accountsInProgress,
       async (account) => {
-        const result = await Promise.race(
-          [registration(account, captcha, proxyList)],
-          sleep(350 * 1000).then(() => ({
+        const result = await Promise.race([
+          registration(account, captcha, proxyList),
+          sleep(300 * 1000).then(() => ({
             ...account,
             status: STATUS.ACCOUNT.FAILED,
-            errors: 'TIMEOUT',
-          }))
-        );
+            errors: 'GENERAL_TIMEOUT',
+          })),
+        ]);
         accountsState.list.push(result);
       },
       { concurrency: 50 }

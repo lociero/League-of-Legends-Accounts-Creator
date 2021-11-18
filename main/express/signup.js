@@ -132,7 +132,7 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
 export default async ({ account, token, proxies }) => {
   const signUpCancelToken = axios.CancelToken.source();
   // captcha token is only viable for 120 seconds
-  sleep(2 * 60 * 1000).then(() => signUpCancelToken.cancel('SIGN_UP_TIMEOUT'));
+  sleep(2.5 * 60 * 1000).then(() => signUpCancelToken.cancel('SIGN_UP_TIMEOUT'));
 
   const proxiesn = _.shuffle(proxies);
   const config = {
