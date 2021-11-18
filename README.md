@@ -49,10 +49,8 @@ Juan Campillos // diagno******le@gmail.com
 
 ### TODO
 
-1. Custom export settings.
-2. Numbers in username gen.
-3. Tests coverage.
-4. If you need something, feel free to contact me.
+1. Tests coverage.
+2. If you need something, feel free to contact me.
 
 ### Contacts
 
