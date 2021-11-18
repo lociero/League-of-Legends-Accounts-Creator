@@ -11,12 +11,14 @@ import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import useGlobalState from '../state.js';
 import { sleep, parseProxies } from '../../utils/utils.js';
-import { LINKS, STATE_NAMES, LOCALHOST } from '../../constants/constants.js';
-import countries from '../../constants/countries.json';
+import { STATE_NAMES, LOCALHOST } from '../../constants/constants.js';
+import countriesByCode from '../../constants/countries.json';
+import ProxyLoader from '../../utils/proxy.js';
 
 const ProxyTopPanel = () => {
   const [useProxy, toggleProxy] = useGlobalState(STATE_NAMES.USE_PROXY);
   const [proxyList, updateProxyList] = useGlobalState(STATE_NAMES.PROXY_LIST);
+  const [proxyListTable, updateProxyListTable] = useGlobalState('proxyListTable');
 
   const [proxyCountry, updateProxyCountry] = useState('ALL');
   const [isCountriesLoading, updateCountriesLoading] = useState(false);
@@ -32,76 +34,23 @@ const ProxyTopPanel = () => {
     updateProxyCountry(e.target.value);
   };
 
-  const checkProxies = async () => {
+  const checkProxiesV2 = async () => {
     toggleProxy(true);
     toggleProxyCheckState((prev) => !prev);
-    const data = await axios.post(`${LOCALHOST}/proxycheck`, proxyList).then((res) => res.data);
+    const data = await axios.post(`${LOCALHOST}/proxycheck`, proxyListTable).then((res) => res.data);
     let { isChecking } = data;
     while (isChecking) {
       await sleep(5000);
       const checkedData = await axios.get(`${LOCALHOST}/ischecking`).then((res) => res.data);
       const { checked } = checkedData;
       isChecking = checkedData.isChecking;
-      const updatedList = _.unionBy(checked, proxyList, 'id');
+      const updatedList = _.unionBy(checked, proxyListTable, 'id');
       const sortedList = _.sortBy(updatedList, [(o) => o.id]);
-      updateProxyList(sortedList);
+      updateProxyListTable(sortedList);
     }
     toggleProxyCheckState((prev) => !prev);
   };
 
-  const downloadProxies = async () => {
-    try {
-      toggleProxyLoading(true);
-      const socks4 = await axios.get(`${LINKS.PROXIES_SOCKS4}&country=${proxyCountry}`).then((res) => res.data);
-      const socks4List = socks4
-        .split('\r\n')
-        .filter(Boolean)
-        .map((proxy) => `${proxy}:SOCKS4`);
-      const socks5 = await axios.get(`${LINKS.PROXIES_SOCKS5}&country=${proxyCountry}`).then((res) => res.data);
-      const socks5List = socks5
-        .split('\r\n')
-        .filter(Boolean)
-        .map((proxy) => `${proxy}:SOCKS5`);
-      const http = await axios.get(`${LINKS.PROXIES_HTTP}&country=${proxyCountry}`).then((res) => res.data);
-      const httpList = http
-        .split('\r\n')
-        .filter(Boolean)
-        .map((proxy) => `${proxy}:HTTP`);
-      const finalList = [...socks4List, ...socks5List, ...httpList].map((proxy, i) => {
-        const [ip, port, type] = proxy.split(':');
-        return {
-          id: proxyList.length > 0 ? _.last(proxyList).id + i + 1 : i + 1,
-          ip,
-          port,
-          type,
-          country: proxyCountry,
-        };
-      });
-      updateProxyList([...proxyList, ...finalList]);
-      toggleProxyLoading(false);
-    } catch (e) {
-      downloadProxies();
-    }
-  };
-
-  const loadAvailableCountries = async () => {
-    try {
-      const socks4 = await axios.get(LINKS.INFO_SOCKS4).then((res) => res.data.countries);
-      const socks5 = await axios.get(LINKS.INFO_SOCKS5).then((res) => res.data.countries);
-      const http = await axios.get(LINKS.INFO_HTTP).then((res) => res.data.countries);
-
-      return ['ALL', ..._.sortedUniq([...socks4, ...socks5, ...http].sort())];
-    } catch {
-      return loadAvailableCountries();
-    }
-  };
-
-  const handleUpdateCountries = async () => {
-    updateCountriesLoading(true);
-    const countriesList = await loadAvailableCountries();
-    updateAvailableCountries(countriesList);
-    updateCountriesLoading(false);
-  };
   const loadFile = async () => {
     const { dialog } = remote;
     const {
@@ -114,8 +63,26 @@ const ProxyTopPanel = () => {
       return;
     }
     const data = fs.readFileSync(filepath, 'utf-8');
+    const parsed = parseProxies(data);
+    updateProxyList(parsed);
+    updateProxyListTable(parsed);
+  };
 
-    updateProxyList(parseProxies(data));
+  const proxyLoader = React.useMemo(() => new ProxyLoader(), []);
+
+  const initProxyHandler = async () => {
+    updateCountriesLoading(true);
+    const { countries } = await proxyLoader.init();
+    updateAvailableCountries(countries);
+    updateCountriesLoading(false);
+  };
+
+  const downloadProxies = async () => {
+    toggleProxyLoading(true);
+    const proxies = await proxyLoader.download(proxyCountry);
+    updateProxyList(proxies);
+    updateProxyListTable(proxies);
+    toggleProxyLoading(false);
   };
   return (
     <Row className="m-2 justify-content-around align-items-center">
@@ -170,12 +137,13 @@ const ProxyTopPanel = () => {
           >
             {availableCountries.map((code) => (
               <option key={code} value={code}>
-                {countries[code]?.toUpperCase() ?? code}
+                {countriesByCode[code]?.toUpperCase() ?? code}
               </option>
             ))}
           </Form.Control>
           <InputGroup.Append>
-            <Button variant="outline-primary" onClick={handleUpdateCountries}>
+            {/* <Button variant="outline-primary" onClick={handleUpdateCountries}> */}
+            <Button variant="outline-primary" onClick={initProxyHandler}>
               {isCountriesLoading ? (
                 <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
               ) : (
@@ -208,7 +176,7 @@ const ProxyTopPanel = () => {
           <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> CHECKING
         </Button>
       ) : (
-        <Button variant="outline-primary" onClick={checkProxies} disabled={proxyList.length < 1}>
+        <Button variant="outline-primary" onClick={checkProxiesV2} disabled={proxyList.length < 1}>
           CHECK
         </Button>
       )}

@@ -1,15 +1,10 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-continue */
 import axios from 'axios';
 import _ from 'lodash';
-import { getAgent } from '../../utils/utils.js';
+import { getAgent, random, sleep } from '../../utils/utils.js';
 import { STATUS } from '../../constants/constants.js';
-
-// const errorToString = (err) => {
-//   if (typeof err === 'object') {
-//     const strings = Object.entries(err).map(([key, value]) => `${key}: ${value}`);
-//     return _.snakeCase(strings.join(' ')).toUpperCase() || 'UNKNOWN ERROR';
-//   }
-//   return _.snakeCase(err).toUpperCase() || 'UNKNOWN ERROR';
-// };
 
 const regions = {
   EUW: 'EUW1',
@@ -63,7 +58,7 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
     region: regions[server],
     campaign: 'league_of_legends',
     locale: locales[server],
-    token: `hcaptcha ${token}`,
+    token: `${token.mode} ${token.text}`,
   };
 
   const res = await client.post(apiUrl, body).catch((thrown) => {
@@ -84,11 +79,15 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
   }
 
   if (res.status === 409) {
+    const error = _.snakeCase(JSON.stringify(res.data?.fields)).toUpperCase();
+
     return {
       ...account,
       status: STATUS.ACCOUNT.FAILED,
       proxy: proxy.ip,
-      errors: _.snakeCase(JSON.stringify(res.data?.fields)).toUpperCase(),
+      errors: error,
+      token: res.data.token,
+      isUsernameNotUnique: error.includes('USERNAME'),
     };
   }
 
@@ -110,10 +109,11 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
       status: STATUS.ACCOUNT.FAILED,
       proxy: proxy.ip,
       errors: 'RATE_LIMITED',
+      isRateLimited: true,
     };
   }
 
-  if ([403, 404, 500, 502, 504].includes(res.status)) {
+  if (res.status >= 400) {
     return { status: false };
   }
 
@@ -128,14 +128,39 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
   };
 };
 
-export default async ({ account, token, proxies, signUpCancelToken }) => {
+export default async ({ account, token, proxies }) => {
+  const signUpCancelToken = axios.CancelToken.source();
+  // captcha token is only viable for 120 seconds
+  sleep(2 * 60 * 1000).then(() => signUpCancelToken.cancel('SIGN_UP_TIMEOUT'));
+
   const proxiesn = _.shuffle(proxies);
-  // eslint-disable-next-line no-restricted-syntax
-  for (const proxy of proxiesn) {
-    // eslint-disable-next-line no-await-in-loop
-    const result = await register({ account, token, proxy, signUpCancelToken });
-    if (result.status !== false) return result;
+  const config = {
+    token,
+    account,
+  };
+  for (let i = 0; i < proxiesn.length; i += 1) {
+    const proxy = proxiesn[i];
+
+    if (global.RATE_LIMITED_PROXIES.has(proxy.ip)) continue;
+
+    const result = await register({ account: config.account, token: config.token, proxy, signUpCancelToken });
+
+    if (result.isUsernameNotUnique) {
+      const newUsername = `${config.account.username}${random(0, 9)}`;
+      config.account.email = config.account.email.replace(config.account.username, newUsername);
+      config.account.username = newUsername;
+      config.token = { mode: 'Token', text: result.token };
+      i -= 1;
+      continue;
+    }
+    if (result.isRateLimited) global.RATE_LIMITED_PROXIES.add(proxy.ip);
+    if (result.status) return result;
   }
-  const result = await register({ account, token, proxy: { ip: 'LOCAL' }, signUpCancelToken });
+  const result = await register({
+    account: config.account,
+    token: config.token,
+    proxy: { ip: 'LOCAL' },
+    signUpCancelToken,
+  });
   return result;
 };

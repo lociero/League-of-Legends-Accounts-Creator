@@ -93,6 +93,7 @@ export const LINKS = {
   INFO_SOCKS4: 'https://api.proxyscrape.com/v2/?request=proxyinfo&protocol=socks4&timeout=10000&country=all',
   INFO_SOCKS5: 'https://api.proxyscrape.com/v2/?request=proxyinfo&protocol=socks5&timeout=10000&country=all',
   INFO_HTTP: 'https://api.proxyscrape.com/v2/?request=proxyinfo&protocol=http&timeout=10000&country=all',
+  OPENSPACE_SOCKS4: 'https://api.openproxy.space/list/8JcaCZTOJ3',
   CAPTCHA_SIGNUP: {
     [CAPTCHA_SERVICES.TWOCAPTCHA]: 'https://2captcha.com?from=8859803',
     [CAPTCHA_SERVICES.RUCAPTCHA]: 'https://rucaptcha.com?from=9296293',

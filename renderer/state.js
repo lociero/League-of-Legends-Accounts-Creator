@@ -32,6 +32,7 @@ const initialState = {
   [STATE_NAMES.API_KEY]: '',
   [STATE_NAMES.DBC_USERNAME]: '',
   [STATE_NAMES.DBC_PASSWORD]: '',
+  proxyListTable: [],
 };
 
 const config = isDev ? {} : JSON.parse(fs.readFileSync(`${dirname}/${FILE_NAMES.CONFIG}`));

@@ -7,7 +7,7 @@ export default async ({ captchaCancelToken }) => {
     cancelToken: captchaCancelToken.token,
     validateStatus: false,
   });
-  await sleep(random(5000, 350000));
+  await sleep(random(5000, 10000));
   await client.get('https://api.ipify.org?format=json').then((res) => res.data);
   return `eyJ`;
 };

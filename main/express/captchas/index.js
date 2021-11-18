@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { sleep } from '../../../utils/utils.js';
 import { CAPTCHA_SERVICES } from '../../../constants/constants.js';
 import solve2Captcha from './captcha2.js';
 import solveRuCaptcha from './ruCaptcha.js';
@@ -32,10 +33,14 @@ const captchaByType = {
   DEV_TEST: solveDevFakeCaptcha,
 };
 
-export default (options) =>
-  captchaByType[options.type]({ ...options, url: urls[options.server], siteKey }).catch((thrown) => {
-    if (axios.isCancel(thrown)) {
-      throw new Error(thrown.message);
-    }
-    throw new Error('CAPTCHA_NETWORK_ERROR');
+export default async (options) => {
+  const captchaCancelToken = axios.CancelToken.source();
+  sleep(5 * 60 * 1000).then(() => captchaCancelToken.cancel('CAPTCHA_TIMEOUT'));
+  const token = await captchaByType[options.type]({
+    ...options,
+    url: urls[options.server],
+    siteKey,
+    captchaCancelToken,
   });
+  return { mode: 'hcaptcha', text: token };
+};

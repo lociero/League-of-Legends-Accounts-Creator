@@ -6,6 +6,7 @@ import checkProxy from './checkProxy.js';
 import getCaptchaBalance from './captchas/getBalance.js';
 import registration from './registration.js';
 import { STATUS } from '../../constants/constants.js';
+import { sleep } from '../../utils/utils.js';
 
 const crlf = (text) => text.replace(/\r\n|\r(?!\n)|\n/g, '\n');
 
@@ -53,10 +54,13 @@ export default () => {
     await Promise.map(
       list,
       async (item) => {
-        const result = await checkProxy(item);
+        const result = await Promise.race([
+          checkProxy(item),
+          sleep(40000).then(() => ({ ...item, isWorking: STATUS.PROXY.NOT_WORKING })),
+        ]);
         proxyData.checked.push(result);
       },
-      { concurrency: 1000 }
+      { concurrency: 500 }
     );
     proxyData.isChecking = false;
   });
@@ -70,6 +74,8 @@ export default () => {
   });
 
   app.post('/signup', async (req, res) => {
+    global.RATE_LIMITED_PROXIES = new Set();
+
     const state = req.body;
     const accountsInProgress = generatedAccounts.list.map((acc) => ({ ...acc, status: STATUS.ACCOUNT.IN_PROGRESS }));
     res.json({ isGenerating: true, list: accountsInProgress });
@@ -90,7 +96,14 @@ export default () => {
     await Promise.map(
       accountsInProgress,
       async (account) => {
-        const result = await registration(account, captcha, proxyList);
+        const result = await Promise.race(
+          [registration(account, captcha, proxyList)],
+          sleep(350 * 1000).then(() => ({
+            ...account,
+            status: STATUS.ACCOUNT.FAILED,
+            errors: 'TIMEOUT',
+          }))
+        );
         accountsState.list.push(result);
       },
       { concurrency: 50 }
@@ -99,7 +112,10 @@ export default () => {
   });
 
   app.get('/signup', (_req, res) => {
-    res.json(accountsState);
+    res.json({
+      ...accountsState,
+      rateLimitedProxies: global.RATE_LIMITED_PROXIES.size,
+    });
   });
 
   app.post('/getbalance', async (req, res) => {

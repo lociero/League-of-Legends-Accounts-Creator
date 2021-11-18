@@ -16,6 +16,7 @@ const Generation = () => {
 
   const [isGeneratingAccs, toggleGenerating] = useState(false);
   const [isCreating, toggleCreating] = useState(false);
+  const [rateLimitedProxiesCount, updateRateLimitedProxiesCount] = useState(0);
 
   const successAccounts = accounts.filter(({ status }) => status === STATUS.ACCOUNT.SUCCESS);
   const finishedAccounts = accounts.filter(
@@ -59,11 +60,12 @@ const Generation = () => {
     while (isGenerating) {
       await sleep(5000);
       const currentAccountsState = await axios.get(`${LOCALHOST}/signup`).then((res) => res.data);
-      const { list } = currentAccountsState;
+      const { list, rateLimitedProxies } = currentAccountsState;
       isGenerating = currentAccountsState.isGenerating;
       const updatedList = _.unionBy(list, data.list, 'id');
       const sortedList = _.sortBy(updatedList, [(o) => o.id]);
       updateAccounts(sortedList);
+      updateRateLimitedProxiesCount(rateLimitedProxies);
     }
     toggleCreating(false);
     const { list } = await axios.get(`${LOCALHOST}/signup`).then((res) => res.data);
@@ -78,6 +80,9 @@ const Generation = () => {
         <p className="text-primary m-0 mr-2">GENERATED:{` ${accounts.length}`}</p>
         <p className="text-primary m-0 mr-2">FINISHED:{` ${finishedAccounts.length}/${accounts.length}`}</p>
         <p className="text-primary m-0 mr-2">SUCCESSFULLY CREATED:{` ${successAccounts.length}/${accounts.length}`}</p>
+        <p className="text-primary m-0 mr-2">RATE LIMITED PROXIES: {rateLimitedProxiesCount}</p>
+      </Row>
+      <Row className="pl-1">
         {!isCreating && successAccounts.length > 0 ? (
           <p className="text-primary m-0 mr-2 blink">SAVED TO: {`${dirname}\\accounts`}</p>
         ) : null}

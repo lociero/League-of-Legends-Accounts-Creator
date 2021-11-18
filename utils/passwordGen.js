@@ -5,9 +5,11 @@ import generator from 'generate-password';
 
 const genPass = (length = 10) => {
   const password = generator.generate({
-    length,
+    length: length < 8 ? 8 : length,
     numbers: true,
     strict: true,
+    symbols: true,
+    exclude: '\\:\'"',
     excludeSimilarCharacters: true,
   });
 
