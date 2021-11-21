@@ -22,7 +22,7 @@ const DateOfBirth = () => {
         </InputGroup.Prepend>
         <Form.Control
           hidden={birthType === DATE_OF_BIRTH_TYPES.RANDOM}
-          placeholder="YYYY-MM-DD"
+          placeholder="DD_MM_YYYY"
           aria-label="dateOfBirth"
           onChange={handleChange}
           value={birth}
