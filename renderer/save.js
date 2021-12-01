@@ -4,7 +4,7 @@ import { dirname, FILE_NAMES, STATUS } from '../constants/constants.js';
 
 export default async (accounts, state) => {
   const configPath = `${dirname}/${FILE_NAMES.CONFIG}`;
-  const { proxyList, proxyListTable, ...configToSave } = state;
+  const { proxyList, ...configToSave } = state;
   await fs.writeFile(configPath, JSON.stringify(configToSave, null, 2), 'utf-8');
 
   const successAccounts = accounts.filter(({ status }) => status === STATUS.ACCOUNT.SUCCESS);

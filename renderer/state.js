@@ -33,7 +33,6 @@ const initialState = {
   [STATE_NAMES.API_KEY]: '',
   [STATE_NAMES.DBC_USERNAME]: '',
   [STATE_NAMES.DBC_PASSWORD]: '',
-  [STATE_NAMES.PROXY_LIST_TABLE]: [],
   [STATE_NAMES.CUSTOM_TEMPLATE]:
     '${server}:${username}:${password}:${email}:${accountId}:${birth}:${creationDate} proxy: ${proxy}',
   [STATE_NAMES.USE_COMPACT]: true,

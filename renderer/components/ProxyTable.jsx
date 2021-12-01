@@ -4,10 +4,10 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import axios from 'axios';
 import useGlobalState from '../state.js';
-import { STATUS, LOCALHOST } from '../../constants/constants.js';
+import { STATUS, LOCALHOST, STATE_NAMES } from '../../constants/constants.js';
 
 const ProxyTable = () => {
-  const [proxyList, updateProxyList] = useGlobalState('proxyListTable');
+  const [proxyList, updateProxyList] = useGlobalState(STATE_NAMES.PROXY_LIST);
   const cleanTable = async () => {
     const { checked } = await axios.delete(`${LOCALHOST}/clear`).then((res) => res.data);
     updateProxyList(checked);

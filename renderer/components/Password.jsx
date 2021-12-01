@@ -26,7 +26,9 @@ const Username = () => {
       <InputGroup className="col-4 p-1">
         <InputGroup.Prepend>
           <InputGroup.Text>
-            {passwordSetType === PASSWORD_SETTINGS_TYPES.RANDOM ? 'PASSWORD LENGTH' : 'PASSWORD'}
+            {[PASSWORD_SETTINGS_TYPES.RANDOM, PASSWORD_SETTINGS_TYPES.NO_SYMBOLS].includes(passwordSetType)
+              ? 'PASSWORD LENGTH'
+              : 'PASSWORD'}
           </InputGroup.Text>
         </InputGroup.Prepend>
         {passwordSetType === PASSWORD_SETTINGS_TYPES.ONE_FOR_ALL ? (

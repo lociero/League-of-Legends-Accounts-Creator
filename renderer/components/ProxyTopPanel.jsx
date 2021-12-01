@@ -18,7 +18,7 @@ import ProxyLoader from '../../utils/proxy.js';
 const ProxyTopPanel = () => {
   const [useProxy, toggleProxy] = useGlobalState(STATE_NAMES.USE_PROXY);
   const [proxyList, updateProxyList] = useGlobalState(STATE_NAMES.PROXY_LIST);
-  const [proxyListTable, updateProxyListTable] = useGlobalState('proxyListTable');
+  // const [proxyListTable, updateProxyListTable] = useGlobalState('proxyListTable');
 
   const [proxyCountry, updateProxyCountry] = useState('ALL');
   const [isCountriesLoading, updateCountriesLoading] = useState(false);
@@ -37,16 +37,16 @@ const ProxyTopPanel = () => {
   const checkProxiesV2 = async () => {
     toggleProxy(true);
     toggleProxyCheckState((prev) => !prev);
-    const data = await axios.post(`${LOCALHOST}/proxycheck`, proxyListTable).then((res) => res.data);
+    const data = await axios.post(`${LOCALHOST}/proxycheck`, proxyList).then((res) => res.data);
     let { isChecking } = data;
     while (isChecking) {
       await sleep(5000);
       const checkedData = await axios.get(`${LOCALHOST}/ischecking`).then((res) => res.data);
       const { checked } = checkedData;
       isChecking = checkedData.isChecking;
-      const updatedList = _.unionBy(checked, proxyListTable, 'id');
+      const updatedList = _.unionBy(checked, proxyList, 'id');
       const sortedList = _.sortBy(updatedList, [(o) => o.id]);
-      updateProxyListTable(sortedList);
+      updateProxyList(sortedList);
     }
     toggleProxyCheckState((prev) => !prev);
   };
@@ -64,8 +64,9 @@ const ProxyTopPanel = () => {
     }
     const data = fs.readFileSync(filepath, 'utf-8');
     const parsed = parseProxies(data);
-    updateProxyList(parsed);
-    updateProxyListTable(parsed);
+    const newList = [...proxyList, ...parsed].map((proxy, i) => ({ ...proxy, id: i + 1 }));
+    updateProxyList(newList);
+    // updateProxyListTable(newList);
   };
 
   const proxyLoader = React.useMemo(() => new ProxyLoader(), []);
@@ -80,8 +81,9 @@ const ProxyTopPanel = () => {
   const downloadProxies = async () => {
     toggleProxyLoading(true);
     const proxies = await proxyLoader.download(proxyCountry);
-    updateProxyList(proxies);
-    updateProxyListTable(proxies);
+    const newList = [...proxyList, ...proxies].map((proxy, i) => ({ ...proxy, id: i + 1 }));
+    updateProxyList(newList);
+    // updateProxyListTable(newList);
     toggleProxyLoading(false);
   };
   return (

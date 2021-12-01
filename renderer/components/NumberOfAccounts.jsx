@@ -7,8 +7,8 @@ const NumberOfAccounts = () => {
   const [amount, updateAmount] = useGlobalState(STATE_NAMES.AMOUNT);
 
   const handleChange = (e) => {
-    if (+e.target.value > 2000) {
-      updateAmount(2000);
+    if (+e.target.value > 10000) {
+      updateAmount(10000);
       return;
     }
     updateAmount(e.target.value);

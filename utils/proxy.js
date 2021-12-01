@@ -100,7 +100,7 @@ class ProxyLoader {
   async download(proxyCountry) {
     const proxiesV1 = await getProxiesV1(proxyCountry).catch(() => []);
     const proxiesV2 = this.list.filter(({ country }) => (proxyCountry === 'ALL' ? true : country === proxyCountry));
-    const proxies = [...proxiesV1, ...proxiesV2].map((proxy, i) => ({ ...proxy, id: i + 1 }));
+    const proxies = [...proxiesV1, ...proxiesV2];
     return proxies;
   }
 }

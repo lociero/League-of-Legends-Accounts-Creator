@@ -24,6 +24,7 @@ const emailByType = {
 const passwordByType = {
   [PASSWORD_SETTINGS_TYPES.RANDOM]: (length) => generatePassword(length),
   [PASSWORD_SETTINGS_TYPES.ONE_FOR_ALL]: (_, pass) => pass,
+  [PASSWORD_SETTINGS_TYPES.NO_SYMBOLS]: (length) => generatePassword(length, false),
 };
 
 const birthByType = {

@@ -53,6 +53,7 @@ export const USERNAME_SETTINGS_TYPES = {
 export const PASSWORD_SETTINGS_TYPES = {
   RANDOM: 'RANDOM',
   ONE_FOR_ALL: 'ONE FOR ALL',
+  NO_SYMBOLS: 'NO SYMBOLS',
 };
 
 export const CAPTCHA_SERVICES = {
@@ -83,7 +84,6 @@ export const STATE_NAMES = {
   API_KEY: 'apiKey',
   DBC_USERNAME: 'dbcUsername',
   DBC_PASSWORD: 'dbcPassword',
-  PROXY_LIST_TABLE: 'proxyListTable',
   CUSTOM_TEMPLATE: 'customTemplate',
   USE_COMPACT: 'useCompact',
   USE_FULL: 'useFull',
