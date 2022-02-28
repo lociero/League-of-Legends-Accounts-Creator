@@ -3,26 +3,30 @@ import axios from 'axios';
 import { LINKS } from '../constants/constants.js';
 
 const getProxiesV2 = async () => {
-  const metas = await axios.get(`https://api.openproxy.space/list?skip=0&ts=${Date.now()}`).then((res) => res.data);
-  const info = metas.reduce(
-    (acc, meta) => {
-      if (meta.title.includes('SOCKS4')) {
-        return { ...acc, SOCKS4: [...acc.SOCKS4, meta.code] };
-      }
-      if (meta.title.includes('SOCKS5')) {
-        return { ...acc, SOCKS5: [...acc.SOCKS5, meta.code] };
-      }
-      return { ...acc, HTTP: [...acc.HTTP, meta.code] };
-    },
-    { SOCKS4: [], SOCKS5: [], HTTP: [] }
-  );
+  // const metas = await axios.get(`https://api.openproxy.space/list?skip=0&ts=${Date.now()}`).then((res) => res.data);
+  // const info = metas.reduce(
+  //   (acc, meta) => {
+  //     if (meta.title.includes('SOCKS4')) {
+  //       return { ...acc, SOCKS4: [...acc.SOCKS4, meta.code] };
+  //     }
+  //     if (meta.title.includes('SOCKS5')) {
+  //       return { ...acc, SOCKS5: [...acc.SOCKS5, meta.code] };
+  //     }
+  //     return { ...acc, HTTP: [...acc.HTTP, meta.code] };
+  //   },
+  //   { SOCKS4: [], SOCKS5: [], HTTP: [] }
+  // );
 
-  const availableProtocols = Object.keys(info);
-  const codes = availableProtocols.reduce((acc, protocol) => ({ ...acc, [protocol]: info[protocol].shift() }), {});
+  // const availableProtocols = Object.keys(info);
+  // const codes = availableProtocols.reduce((acc, protocol) => ({ ...acc, [protocol]: info[protocol].shift() }), {});
 
-  const socks4 = await axios.get(`https://api.openproxy.space/list/${codes.SOCKS4}`).then((res) => res.data.data);
-  const socks5 = await axios.get(`https://api.openproxy.space/list/${codes.SOCKS5}`).then((res) => res.data.data);
-  const http = await axios.get(`https://api.openproxy.space/list/${codes.HTTP}`).then((res) => res.data.data);
+  // const socks4 = await axios.get(`https://api.openproxy.space/list/${codes.SOCKS4}`).then((res) => res.data.data);
+  // const socks5 = await axios.get(`https://api.openproxy.space/list/${codes.SOCKS5}`).then((res) => res.data.data);
+  // const http = await axios.get(`https://api.openproxy.space/list/${codes.HTTP}`).then((res) => res.data.data);
+
+  const socks4 = await axios.get(`https://api.openproxy.space/lists/socks4`).then((res) => res.data.data);
+  const socks5 = await axios.get(`https://api.openproxy.space/lists/socks5`).then((res) => res.data.data);
+  const http = await axios.get(`https://api.openproxy.space/lists/http`).then((res) => res.data.data);
 
   const normalizeProxies = (proxy, type) => ({
     ...proxy,
@@ -43,6 +47,7 @@ const getProxiesV2 = async () => {
 
   const finalList = [...socks4List, ...socks5List, ...httpList];
   const countries = [...new Set(finalList.map(({ country }) => country))];
+  console.log('finalList:', finalList);
   return { list: finalList, countries };
 };
 
