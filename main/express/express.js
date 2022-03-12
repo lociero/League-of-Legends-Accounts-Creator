@@ -106,7 +106,7 @@ export default () => {
         ]);
         accountsState.list.push(result);
       },
-      { concurrency: 50 }
+      { concurrency: 40 }
     );
     accountsState.isGenerating = false;
   });

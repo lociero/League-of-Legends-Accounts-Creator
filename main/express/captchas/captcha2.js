@@ -9,6 +9,18 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
     validateStatus: false,
   });
 
+  // debug =)
+  // client.interceptors.response.use(
+  //   (response) => {
+  //     console.log('fine?', response.data);
+  //     return response;
+  //   },
+  //   (error) => {
+  //     console.log(error.response);
+  //     return Promise.reject(error);
+  //   }
+  // );
+
   const balance = await client
     .get(`https://2captcha.com/res.php?${querystring.stringify({ key: apiKey, action: 'getbalance' })}`)
     .then((res) => res.data);
@@ -39,7 +51,7 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
     throw new Error(captchaIDres);
   }
 
-  await sleep(5000);
+  await sleep(20000);
 
   const resQuery = querystring.stringify({
     key: apiKey,

@@ -39,7 +39,7 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
     throw new Error(captchaIDres);
   }
 
-  await sleep(5000);
+  await sleep(20000);
 
   const resQuery = querystring.stringify({
     key: apiKey,
