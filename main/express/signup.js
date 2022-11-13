@@ -36,7 +36,7 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
   const apiUrl = 'https://signup-api.leagueoflegends.com/v1/accounts';
 
   const client = axios.create({
-    timeout: 20000,
+    timeout: 10000,
     headers: {
       'User-Agent':
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36',
@@ -74,8 +74,9 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
       ...account,
       status: STATUS.ACCOUNT.SUCCESS,
       accountId: res.data.account.accountId,
-      proxy: proxy.ip,
+      proxy: proxy.actualIp,
       creationDate: getDate(),
+      puuid: res.data.account.sub,
     };
   }
 
@@ -99,7 +100,7 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
     return {
       ...account,
       status: STATUS.ACCOUNT.FAILED,
-      proxy: proxy.ip,
+      proxy: proxy.actualIp,
       errors: 'SIGN_UP_API_IS_DOWN',
     };
   }
@@ -108,7 +109,7 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
     return {
       ...account,
       status: STATUS.ACCOUNT.FAILED,
-      proxy: proxy.ip,
+      proxy: proxy.actualIp,
       errors: 'RATE_LIMITED',
       isRateLimited: true,
     };
@@ -121,7 +122,7 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
   return {
     ...account,
     status: STATUS.ACCOUNT.FAILED,
-    proxy: proxy.ip,
+    proxy: proxy.actualIp,
     errors: `If you see that, send this msg to me please on discord: ${JSON.stringify({
       data: res.data,
       status: res.status,
@@ -132,7 +133,7 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
 export default async ({ account, token, proxies }) => {
   const signUpCancelToken = axios.CancelToken.source();
   // captcha token is only viable for 120 seconds
-  sleep(2.5 * 60 * 1000).then(() => signUpCancelToken.cancel('SIGN_UP_TIMEOUT'));
+  sleep(3 * 60 * 1000).then(() => signUpCancelToken.cancel('SIGN_UP_TIMEOUT'));
 
   const proxiesn = _.shuffle(proxies);
   const config = {
@@ -142,7 +143,7 @@ export default async ({ account, token, proxies }) => {
   for (let i = 0; i < proxiesn.length; i += 1) {
     const proxy = proxiesn[i];
 
-    if (global.RATE_LIMITED_PROXIES.has(proxy.ip)) continue;
+    if (global.RATE_LIMITED_PROXIES.has(proxy.actualIp) && !proxy.isRotating) continue;
 
     const result = await register({ account: config.account, token: config.token, proxy, signUpCancelToken });
 
@@ -154,13 +155,20 @@ export default async ({ account, token, proxies }) => {
       i -= 1;
       continue;
     }
-    if (result.isRateLimited) global.RATE_LIMITED_PROXIES.add(proxy.ip);
+    if (result.isRateLimited && !proxy.isRotating) {
+      global.RATE_LIMITED_PROXIES.add(proxy.actualIp);
+      sleep(1000 * 60 * 5).then(() => global.RATE_LIMITED_PROXIES.delete(proxy.actualIp));
+    }
     if (result.status) return result;
+    if (proxy.isRotating) {
+      i -= 1;
+      continue;
+    }
   }
   const result = await register({
     account: config.account,
     token: config.token,
-    proxy: { ip: 'LOCAL' },
+    proxy: { actualIp: 'LOCAL' },
     signUpCancelToken,
   });
   return result;

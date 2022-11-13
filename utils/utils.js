@@ -11,17 +11,25 @@ export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const crlf = (text) => text.replace(/\r\n|\r(?!\n)|\n/g, '\n');
 
-export const parseProxies = (text) => {
+export const parseProxies = (text, type, isRotating) => {
   try {
     const list = crlf(text).split('\n').filter(Boolean);
     const proxies = list.map((proxy, i) => {
-      const [meta, auth] = proxy.split('@');
-      const [ip, port, type] = meta.split(':');
-      const [username, password] = auth ? auth.split(':') : [];
+      const [ip, port, username, password] = proxy.split(':');
       const country = 'N/A';
-      return { id: i + 1, country, ip, port, type: type?.toUpperCase(), username, password, isAuth: Boolean(auth) };
+      return {
+        id: i + 1,
+        country,
+        ip,
+        port,
+        type,
+        username,
+        password,
+        isAuth: Boolean(username && password),
+        isRotating,
+      };
     });
-    return proxies.filter(({ type }) => ['SOCKS4', 'SOCKS5', 'HTTP', 'HTTPS'].includes(type));
+    return proxies;
   } catch (e) {
     return [];
   }

@@ -11,7 +11,7 @@ const Checker = () => (
           SLC Checker - Reborn is an automated League of Legends account checker.
           <br /> It has been made with simplicity and the customer needs in mind.
         </Card.Text>
-        <Button href="https://slc-r.com/discord" variant="secondary">
+        <Button href="https://slc-r.net/discord" variant="secondary">
           Discord
         </Button>
       </Card.Body>

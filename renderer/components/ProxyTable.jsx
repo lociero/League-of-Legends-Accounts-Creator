@@ -29,6 +29,10 @@ const ProxyTable = () => {
       dataField: 'ip',
     },
     {
+      text: 'ACTUAL IP',
+      dataField: 'actualIp',
+    },
+    {
       text: 'PORT',
       dataField: 'port',
     },

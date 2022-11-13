@@ -1,7 +1,8 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import ReactTooltip from 'react-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDonate } from '@fortawesome/free-solid-svg-icons';
 import { faDiscord, faTelegram, faPaypal, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { copyToClipboard } from '../../utils/utils.js';
 
@@ -23,9 +24,14 @@ const Footer = () => {
         <a href="https://github.com/lociero/League-of-Legends-Accounts-Creator">
           <FontAwesomeIcon icon={faGithub} size="2x" color="grey" className="ml-1" />
         </a>
-        <a href="https://www.paypal.me/lociero">
-          <FontAwesomeIcon icon={faPaypal} size="2x" color="grey" className="ml-1" />
-        </a>
+        <FontAwesomeIcon
+          style={{ cursor: 'pointer' }}
+          icon={faDonate}
+          size="2x"
+          color="grey"
+          className="ml-1"
+          onClick={() => console.log('modal soon')}
+        />
       </span>
     </Container>
   );

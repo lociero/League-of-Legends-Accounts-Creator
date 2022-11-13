@@ -45,7 +45,6 @@ const genData = (state) => {
       const id = i + 1;
       return { id, server: state.serverName, username, password, email, birth, status: 'GENERATED' };
     });
-
   return config;
 };
 

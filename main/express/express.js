@@ -56,11 +56,11 @@ export default () => {
       async (item) => {
         const result = await Promise.race([
           checkProxy(item),
-          sleep(40000).then(() => ({ ...item, isWorking: STATUS.PROXY.NOT_WORKING })),
+          sleep(30000).then(() => ({ ...item, isWorking: STATUS.PROXY.NOT_WORKING })),
         ]);
         proxyData.checked.push(result);
       },
-      { concurrency: 500 }
+      { concurrency: 100 }
     );
     proxyData.isChecking = false;
   });
@@ -73,9 +73,8 @@ export default () => {
     res.send(global.errors);
   });
 
+  global.RATE_LIMITED_PROXIES = new Set();
   app.post('/signup', async (req, res) => {
-    global.RATE_LIMITED_PROXIES = new Set();
-
     const state = req.body;
     const accountsInProgress = generatedAccounts.list.map((acc) => ({ ...acc, status: STATUS.ACCOUNT.IN_PROGRESS }));
     res.json({ isGenerating: true, list: accountsInProgress });
@@ -106,7 +105,7 @@ export default () => {
         ]);
         accountsState.list.push(result);
       },
-      { concurrency: 40 }
+      { concurrency: 50 }
     );
     accountsState.isGenerating = false;
   });
