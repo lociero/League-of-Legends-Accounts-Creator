@@ -75,7 +75,6 @@ export default () => {
 
   global.RATE_LIMITED_PROXIES = new Set();
   app.post('/stop_creation', (req, res) => {
-    console.log('WE_ARE_STOPPING');
     accountsState.isStopped = true;
     res.json({ stopped: true });
   });
