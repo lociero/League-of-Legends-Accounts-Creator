@@ -203,7 +203,7 @@ const ProxyTopPanel = () => {
             type="switch"
             custom
             id="isRotating"
-            label="ROTATING"
+            label="ROTATING PROXY"
             onChange={() => toggleRotating((prev) => !prev)}
             checked={isRotating}
           />
