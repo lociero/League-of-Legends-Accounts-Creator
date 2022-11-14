@@ -22,7 +22,7 @@ export default () => {
   );
 
   const proxyData = { isChecking: false, list: [], checked: [] };
-  const accountsState = { isGenerating: false, list: [] };
+  const accountsState = { isGenerating: false, isStopped: false, list: [] };
   const generatedAccounts = { list: [] };
   const currentState = { state: {} };
 
@@ -74,7 +74,14 @@ export default () => {
   });
 
   global.RATE_LIMITED_PROXIES = new Set();
+  app.post('/stop_creation', (req, res) => {
+    console.log('WE_ARE_STOPPING');
+    accountsState.isStopped = true;
+    res.json({ stopped: true });
+  });
+
   app.post('/signup', async (req, res) => {
+    accountsState.isStopped = false;
     const state = req.body;
     const accountsInProgress = generatedAccounts.list.map((acc) => ({ ...acc, status: STATUS.ACCOUNT.IN_PROGRESS }));
     res.json({ isGenerating: true, list: accountsInProgress });
@@ -95,6 +102,14 @@ export default () => {
     await Promise.map(
       accountsInProgress,
       async (account) => {
+        if (accountsState.isStopped) {
+          accountsState.list.push({
+            ...account,
+            status: STATUS.ACCOUNT.FAILED,
+            errors: 'CREATION_WAS_STOPPED',
+          });
+          return;
+        }
         const result = await Promise.race([
           registration(account, captcha, proxyList),
           sleep(300 * 1000).then(() => ({
@@ -105,8 +120,10 @@ export default () => {
         ]);
         accountsState.list.push(result);
       },
-      { concurrency: 50 }
+      { concurrency: 2 }
     );
+
+    accountsState.isStopped = false;
     accountsState.isGenerating = false;
   });
 
@@ -114,6 +131,7 @@ export default () => {
     res.json({
       ...accountsState,
       rateLimitedProxies: global.RATE_LIMITED_PROXIES.size,
+      isCreationStopped: accountsState.isStopped,
     });
   });
 

@@ -18,6 +18,8 @@ const Generation = () => {
   const [isCreating, toggleCreating] = useState(false);
   const [rateLimitedProxiesCount, updateRateLimitedProxiesCount] = useState(0);
 
+  const [isStopped, toggleStopped] = useState(false);
+
   const successAccounts = accounts.filter(({ status }) => status === STATUS.ACCOUNT.SUCCESS);
   const finishedAccounts = accounts.filter(
     ({ status }) => ![STATUS.ACCOUNT.GENERATED, STATUS.ACCOUNT.IN_PROGRESS].includes(status)
@@ -27,6 +29,11 @@ const Generation = () => {
     const [value] = useGlobalState(key);
     return { ...acc, [key]: value };
   }, {});
+
+  const stopCreation = async () => {
+    toggleStopped(true);
+    await axios.post(`${LOCALHOST}/stop_creation`);
+  };
 
   const generateConfig = async () => {
     toggleGenerating(true);
@@ -60,7 +67,8 @@ const Generation = () => {
     while (isGenerating) {
       await sleep(5000);
       const currentAccountsState = await axios.get(`${LOCALHOST}/signup`).then((res) => res.data);
-      const { list, rateLimitedProxies } = currentAccountsState;
+      const { list, rateLimitedProxies, isCreationStopped } = currentAccountsState;
+      toggleStopped(isCreationStopped);
       isGenerating = currentAccountsState.isGenerating;
       const updatedList = _.unionBy(list, data.list, 'id');
       const sortedList = _.sortBy(updatedList, [(o) => o.id]);
@@ -104,8 +112,14 @@ const Generation = () => {
           )}
 
           {isCreating ? (
-            <Button variant="outline-secondary" className="col-6" disabled>
-              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> CREATING
+            <Button variant="outline-danger" className="col-6" disabled={isStopped} onClick={() => stopCreation()}>
+              {isStopped ? (
+                <>
+                  <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> STOPPING
+                </>
+              ) : (
+                'STOP CREATION'
+              )}
             </Button>
           ) : (
             <Button
