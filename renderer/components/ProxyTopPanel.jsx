@@ -186,7 +186,7 @@ const ProxyTopPanel = () => {
             Paid proxies are highly recommended! <Alert.Link href="https://iproyal.com?r=megaded">IPROYAL</Alert.Link> /{' '}
             <Alert.Link href="https://app.proxy-cheap.com/r/0TMQxQ">PROXYCHEAP</Alert.Link> <br />
             <strong>Formats:</strong> ip:port / ip:port:username:password <br />
-            <strong>Old one doesnt work.</strong>
+            <strong>Do not forget to check proxies before creation.</strong>
           </Alert>
           <InputGroup className="col-5 p-1">
             <InputGroup.Prepend>
