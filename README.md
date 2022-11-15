@@ -9,9 +9,9 @@
 1. [Open last release.](https://github.com/lociero/League-of-Legends-Accounts-Creator/releases/latest)
 2. Download unzip and run `acc-creator-react.<version>.exe`.
 3. Configure your settings (server, amount, ..., captcha, proxy).
-4. Generate your list (it does not create accounts yet so u can check if u did all right).
+4. Generate your list (it does not create accounts yet so you can check if you did all right).
 5. Start creation.
-6. Created accounts are saving to `./accounts` directory in 2 formats FULL and COMPACT.
+6. Created accounts are saved to `./accounts` directory in 2 formats FULL and COMPACT.
 
 ### Settings
 
