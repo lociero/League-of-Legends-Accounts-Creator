@@ -119,7 +119,7 @@ export default () => {
         ]);
         accountsState.list.push(result);
       },
-      { concurrency: 2 }
+      { concurrency: 50 }
     );
 
     accountsState.isStopped = false;

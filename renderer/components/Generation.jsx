@@ -1,18 +1,30 @@
 /* eslint-disable no-await-in-loop */
 import React, { useState } from 'react';
-import { remote } from 'electron';
-import { Button, ProgressBar, Container, Spinner, Row, ButtonGroup } from 'react-bootstrap';
+import { remote, shell } from 'electron';
+import { Button, ProgressBar, Container, Spinner, Row, ButtonGroup, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 import _ from 'lodash';
 import AccountsTable from './AccountsTable.jsx';
 import useGlobalState from '../state.js';
 import save from '../save.js';
 import { STATE_NAMES, LOCALHOST, dirname, STATUS, isDev } from '../../constants/constants.js';
-import { sleep } from '../../utils/utils.js';
+import { sleep, parseTemplate, copyToClipboard } from '../../utils/utils.js';
 
 const Generation = () => {
   const [accounts, updateAccounts] = useState([]);
   // const [accounts, updateAccounts] = useGlobalState('accounts');
+  const [show, setShow] = useState(false);
+  const [customTemplate] = useGlobalState(STATE_NAMES.CUSTOM_TEMPLATE);
+
+  const [isCopied, toggleCopied] = useState(false);
+
+  const handleCopy = (text) => {
+    copyToClipboard(text);
+    toggleCopied((prev) => !prev);
+  };
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const [isGeneratingAccs, toggleGenerating] = useState(false);
   const [isCreating, toggleCreating] = useState(false);
@@ -84,7 +96,7 @@ const Generation = () => {
   };
   return (
     <>
-      <Row className="p-1">
+      <Row className="pl-1">
         <p className="text-primary m-0 mr-2">GENERATED:{` ${accounts.length}`}</p>
         <p className="text-primary m-0 mr-2">FINISHED:{` ${finishedAccounts.length}/${accounts.length}`}</p>
         <p className="text-primary m-0 mr-2">SUCCESSFULLY CREATED:{` ${successAccounts.length}/${accounts.length}`}</p>
@@ -92,7 +104,17 @@ const Generation = () => {
       </Row>
       <Row className="pl-1">
         {!isCreating && successAccounts.length > 0 ? (
-          <p className="text-primary m-0 mr-2 blink">SAVED TO: {`${dirname}\\accounts`}</p>
+          <>
+            <p className="text-primary m-0 mr-2">
+              SAVED TO: <a href="#" onClick={() => shell.openPath(`${dirname}\\accounts`)}>{`${dirname}\\accounts`}</a>
+            </p>
+            <p className="text-primary m-0 mr-2">
+              WASNT SAVED?{' '}
+              <a href="#" onClick={handleShow}>
+                CLICK ME
+              </a>
+            </p>
+          </>
         ) : null}
       </Row>
       <AccountsTable accounts={accounts} />
@@ -132,6 +154,42 @@ const Generation = () => {
             </Button>
           )}
         </ButtonGroup>
+        <Modal centered show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              EMERGENCY SAVE <br />
+              [CUSTOM EXPORT TEMPLATE IS USED]
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Control
+              as="textarea"
+              rows={6}
+              style={{ resize: 'none', whiteSpace: 'pre' }}
+              disabled
+              value={successAccounts.map((account) => parseTemplate({ template: customTemplate }, account)).join('\n')}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            {isCopied ? (
+              <Button disabled variant="outline-secondary" onPointerLeave={() => toggleCopied((prev) => !prev)}>
+                COPIED
+              </Button>
+            ) : (
+              <Button
+                variant="outline-secondary"
+                onClick={() => {
+                  const text = successAccounts
+                    .map((account) => parseTemplate({ template: customTemplate }, account))
+                    .join('\n');
+                  handleCopy(text);
+                }}
+              >
+                COPY
+              </Button>
+            )}
+          </Modal.Footer>
+        </Modal>
       </Container>
     </>
   );
