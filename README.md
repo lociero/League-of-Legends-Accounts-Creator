@@ -1,4 +1,4 @@
-![Example](https://i.ibb.co/vPC39dC/image.png)
+![Example](https://i.ibb.co/qBrdmmc/image.png)
 
 ### Requirements
 
@@ -11,7 +11,7 @@
 3. Configure your settings (server, amount, ..., captcha, proxy).
 4. Generate your list (it does not create accounts yet so you can check if you did all right).
 5. Start creation.
-6. Created accounts are saved to `./accounts` directory in 2 formats FULL and COMPACT.
+6. Created accounts are saved to `./accounts` directory in 3 formats FULL and COMPACT and CUSTOM.
 
 ### Settings
 
