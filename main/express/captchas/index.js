@@ -7,6 +7,7 @@ import solveDBC from './dbc.js';
 import solveAntiCaptcha from './anticaptcha.js';
 import solveCapMonster from './capmonster.js';
 import solveDevFakeCaptcha from './devFakeCaptcha.js';
+import solveCapSolver from './capsolver.js';
 
 // const googleKey = '6Lc3HAsUAAAAACsN7CgY9MMVxo2M09n_e4heJEiZ';
 const siteKey = 'a010c060-9eb5-498c-a7b9-9204c881f9dc';
@@ -30,6 +31,7 @@ const captchaByType = {
   [CAPTCHA_SERVICES.DBC]: solveDBC,
   [CAPTCHA_SERVICES.ANTICAPTCHA]: solveAntiCaptcha,
   [CAPTCHA_SERVICES.CAPMONSTER]: solveCapMonster,
+  [CAPTCHA_SERVICES.CAPSOLVER]: solveCapSolver,
   DEV_TEST: solveDevFakeCaptcha,
 };
 

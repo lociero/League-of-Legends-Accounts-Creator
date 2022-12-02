@@ -60,9 +60,9 @@ export const CAPTCHA_SERVICES = {
   TWOCAPTCHA: '2CAPTCHA',
   RUCAPTCHA: 'RUCAPTCHA',
   DBC: 'DEATH BY CAPTCHA',
-  // DBC: 'DEATH BY CAPTCHA [DISABLED]',
   ANTICAPTCHA: 'ANTI-CAPTCHA',
   CAPMONSTER: 'CAPMONSTER.CLOUD',
+  CAPSOLVER: 'CAPSOLVER',
 };
 
 export const STATE_NAMES = {
@@ -106,6 +106,7 @@ export const LINKS = {
     [CAPTCHA_SERVICES.DBC]: 'https://deathbycaptcha.com',
     [CAPTCHA_SERVICES.ANTICAPTCHA]: 'http://getcaptchasolution.com/3ddik9kzvd',
     [CAPTCHA_SERVICES.CAPMONSTER]: 'https://capmonster.cloud/',
+    [CAPTCHA_SERVICES.CAPSOLVER]: 'https://dashboard.capsolver.com/passport/register?inviteCode=0ZyAex_d1l3H',
   },
 };
 

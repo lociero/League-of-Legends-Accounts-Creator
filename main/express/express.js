@@ -94,6 +94,18 @@ export default () => {
       username: state.username,
       password: state.password,
     };
+
+    let captchaError;
+    const balance = await getCaptchaBalance({ ...captcha, currentCaptcha: captcha.type });
+    if (balance === 'TRY AGAIN PLEASE') {
+      captchaError = 'CHECK_YOUR_CAPTCHA_COFNIG';
+    }
+    if (`${balance}`.includes('_')) {
+      captchaError = balance;
+    }
+    if (Number(balance) <= 0) {
+      captchaError = 'CAPTCHA_ZERO_BALANCE';
+    }
     const proxyList = state.useProxy
       ? proxyData.checked.filter(({ isWorking }) => isWorking === STATUS.PROXY.WORKING)
       : [];
@@ -106,6 +118,14 @@ export default () => {
             ...account,
             status: STATUS.ACCOUNT.FAILED,
             errors: 'CREATION_WAS_STOPPED',
+          });
+          return;
+        }
+        if (captchaError) {
+          accountsState.list.push({
+            ...account,
+            status: STATUS.ACCOUNT.FAILED,
+            errors: captchaError,
           });
           return;
         }

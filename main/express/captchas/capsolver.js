@@ -1,15 +1,20 @@
 /* eslint-disable no-await-in-loop */
 import axios from 'axios';
+import https from 'https';
 import { sleep } from '../../../utils/utils.js';
 
 export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
   const client = axios.create({
     cancelToken: captchaCancelToken.token,
     validateStatus: false,
+    // weird thing
+    httpsAgent: new https.Agent({
+      rejectUnauthorized: false,
+    }),
   });
 
   // const { balance, errorId, errorCode } = await client
-  //   .post('https://api.capmonster.cloud/getBalance', {
+  //   .post('https://api.capsolver.com/getBalance', {
   //     clientKey: apiKey,
   //   })
   //   .then((res) => res.data);
@@ -24,7 +29,7 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
 
   // await sleep(5000);
 
-  const requestUrl = 'https://api.capmonster.cloud/createTask';
+  const requestUrl = 'https://api.capsolver.com/createTask';
   const reqBody = {
     clientKey: apiKey,
     task: {
@@ -32,7 +37,7 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
       websiteURL: url,
       websiteKey: siteKey,
     },
-    softId: 42,
+    appId: '0C32E629-157E-4073-9045-98936BAA6500',
   };
   const task = await client.post(requestUrl, reqBody).then((res) => res.data);
   const { taskId } = task;
@@ -43,7 +48,7 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
 
   await sleep(5000);
 
-  const requestTokenUrl = 'https://api.capmonster.cloud/getTaskResult';
+  const requestTokenUrl = 'https://api.capsolver.com/getTaskResult';
   const tokenBody = {
     clientKey: apiKey,
     taskId,

@@ -9,14 +9,14 @@ export default async ({ username, password, siteKey, url, captchaCancelToken }) 
     validateStatus: false,
   });
 
-  const { balance } = await client
-    .get(`http://api.dbcapi.me/api?${querystring.stringify({ username, password })}`)
-    .then((res) => res.data);
-  if (balance <= 0) {
-    throw new Error('CAPTCHA_ZERO_BALANCE');
-  }
+  // const { balance } = await client
+  //   .get(`http://api.dbcapi.me/api?${querystring.stringify({ username, password })}`)
+  //   .then((res) => res.data);
+  // if (balance <= 0) {
+  //   throw new Error('CAPTCHA_ZERO_BALANCE');
+  // }
 
-  await sleep(5000);
+  // await sleep(5000);
 
   const payload = querystring.stringify({
     username,

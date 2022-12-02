@@ -8,21 +8,21 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
     validateStatus: false,
   });
 
-  const { balance, errorId, errorCode } = await client
-    .post('https://api.anti-captcha.com/getBalance', {
-      clientKey: apiKey,
-    })
-    .then((res) => res.data);
+  // const { balance, errorId, errorCode } = await client
+  //   .post('https://api.anti-captcha.com/getBalance', {
+  //     clientKey: apiKey,
+  //   })
+  //   .then((res) => res.data);
 
-  if (errorId > 0) {
-    throw new Error(errorCode);
-  }
+  // if (errorId > 0) {
+  //   throw new Error(errorCode);
+  // }
 
-  if (balance <= 0) {
-    throw new Error('CAPTCHA_ZERO_BALANCE');
-  }
+  // if (balance <= 0) {
+  //   throw new Error('CAPTCHA_ZERO_BALANCE');
+  // }
 
-  await sleep(5000);
+  // await sleep(5000);
 
   const requestUrl = 'https://api.anti-captcha.com/createTask';
   const reqBody = {

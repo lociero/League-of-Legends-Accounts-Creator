@@ -21,19 +21,19 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
   //   }
   // );
 
-  const balance = await client
-    .get(`https://2captcha.com/res.php?${querystring.stringify({ key: apiKey, action: 'getbalance' })}`)
-    .then((res) => res.data);
+  // const balance = await client
+  //   .get(`https://2captcha.com/res.php?${querystring.stringify({ key: apiKey, action: 'getbalance' })}`)
+  //   .then((res) => res.data);
 
-  if (balance === 'ERROR_WRONG_USER_KEY') {
-    throw new Error(balance);
-  }
+  // if (balance === 'ERROR_WRONG_USER_KEY') {
+  //   throw new Error(balance);
+  // }
 
-  if (balance <= 0) {
-    throw new Error('CAPTCHA_ZERO_BALANCE');
-  }
+  // if (balance <= 0) {
+  //   throw new Error('CAPTCHA_ZERO_BALANCE');
+  // }
 
-  await sleep(5000);
+  // await sleep(5000);
 
   const inQuery = querystring.stringify({
     key: apiKey,

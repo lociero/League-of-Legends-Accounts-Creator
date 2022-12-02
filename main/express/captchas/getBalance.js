@@ -1,5 +1,6 @@
 import axios from 'axios';
 import querystring from 'querystring';
+import https from 'https';
 import { CAPTCHA_SERVICES } from '../../../constants/constants.js';
 
 const mapping = {
@@ -49,6 +50,21 @@ const mapping = {
   [CAPTCHA_SERVICES.CAPMONSTER]: async (apiKey) => {
     const data = await axios
       .post('https://api.capmonster.cloud/getBalance', { clientKey: apiKey })
+      .then((res) => res.data)
+      .catch((err) => err.response.data);
+    return data.balance ?? data.errorCode;
+  },
+  [CAPTCHA_SERVICES.CAPSOLVER]: async (apiKey) => {
+    const data = await axios
+      .post(
+        'https://api.capsolver.com/getBalance',
+        { clientKey: apiKey },
+        {
+          httpsAgent: new https.Agent({
+            rejectUnauthorized: false,
+          }),
+        }
+      )
       .then((res) => res.data)
       .catch((err) => err.response.data);
     return data.balance ?? data.errorCode;
