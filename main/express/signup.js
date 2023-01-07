@@ -17,6 +17,12 @@ const regions = {
   LAN: 'LA1',
   LAS: 'LA2',
   JP: 'JP1',
+  PH: 'PH2',
+  SG: 'SG2',
+  TH: 'TH2',
+  TW: 'TW2',
+  // VN: 'VN2',
+  VN: null,
 };
 
 const locales = {
@@ -27,9 +33,14 @@ const locales = {
   TR: 'tr',
   RU: 'ru',
   OCE: 'en',
-  LAN: 'en',
-  LAS: 'en',
+  LAN: 'es',
+  LAS: 'es',
   JP: 'ja',
+  PH: 'en',
+  SG: 'en',
+  TH: 'th',
+  TW: 'zh-Hant',
+  VN: 'vi',
 };
 
 const register = async ({ account, token, proxy, signUpCancelToken }) => {

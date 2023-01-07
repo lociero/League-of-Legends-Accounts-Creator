@@ -13,16 +13,21 @@ import solveCapSolver from './capsolver.js';
 const siteKey = 'a010c060-9eb5-498c-a7b9-9204c881f9dc';
 
 const urls = {
-  EUW: 'https://signup.euw.leagueoflegends.com/en/signup/',
-  EUNE: 'https://signup.eune.leagueoflegends.com/en/signup/',
-  NA: 'https://signup.na.leagueoflegends.com/en/signup/',
-  BR: 'https://signup.br.leagueoflegends.com/pt/signup/index#/',
-  TR: 'https://signup.tr.leagueoflegends.com/tr/signup/index',
-  RU: 'https://signup.ru.leagueoflegends.com/ru/signup/index#/',
-  OCE: 'https://signup.oce.leagueoflegends.com/en/signup/index/',
-  LAN: 'https://signup.lan.leagueoflegends.com/en/signup/index#/',
-  LAS: 'https://signup.las.leagueoflegends.com/en/signup/index#/',
-  JP: 'https://signup.jp.leagueoflegends.com/ja/signup/index#/',
+  EUW: 'https://signup.leagueoflegends.com/en-gb/signup/index#/',
+  EUNE: 'https://signup.leagueoflegends.com/en-pl/signup/index#/',
+  NA: 'https://signup.leagueoflegends.com/en-us/signup/index#/',
+  BR: 'https://signup.leagueoflegends.com/pt-br/signup/index#/',
+  TR: 'https://signup.leagueoflegends.com/tr-tr/signup/index#/',
+  RU: 'https://signup.leagueoflegends.com/ru-ru/signup/index#/',
+  OCE: 'https://signup.leagueoflegends.com/en-au/signup/index#/',
+  LAN: 'https://signup.leagueoflegends.com/es-mx/signup/index#/',
+  LAS: 'https://signup.leagueoflegends.com/es-ar/signup/index#/',
+  JP: 'https://signup.leagueoflegends.com/ja-jp/signup/index#/',
+  PH: 'https://signup.leagueoflegends.com/en-ph/signup/index#/',
+  SG: 'https://signup.leagueoflegends.com/en-sg/signup/index#/',
+  TH: 'https://signup.leagueoflegends.com/th-th/signup/index#/',
+  TW: 'https://signup.leagueoflegends.com/zh-tw/signup/index#/',
+  VN: 'https://lienminh.vnggames.com/dang-ky/#/',
 };
 
 const captchaByType = {

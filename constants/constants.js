@@ -24,6 +24,11 @@ export const SERVERS = {
   LAN: 'LAN',
   LAS: 'LAS',
   JP: 'JP',
+  PH: 'PH',
+  SG: 'SG',
+  TH: 'TH',
+  TW: 'TW',
+  VN: 'VN',
 };
 
 export const TABS = {

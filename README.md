@@ -15,12 +15,12 @@
 
 ### Settings
 
-1. Server. Supported: EUW, EUNE, NA, BR, TR, RU, OCE, LAN, LAS, JP.
+1. Server. Supported: EUW, EUNE, NA, BR, TR, RU, OCE, LAN, LAS, JP, PH, SG, TH, TW, VN.
 2. Email. (Custom emails, custom domains, random domains)
 3. Username. (Custom list, Random)
 4. Password. (Length, One for all)
 5. Date of Birth. (Random, One for all)
-6. Proxy. (Own proxy list / free proxies from proxyscrape.com)
+6. Proxy. (Own proxy list / free proxies from proxyscrape.com / Rotating proxies support)
 
 
 ### If you want to build it by yourself
