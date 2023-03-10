@@ -3,33 +3,24 @@ import axios from 'axios';
 import querystring from 'querystring';
 import { sleep } from '../../../utils/utils.js';
 
-export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
+export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, userAgent }) => {
   const client = axios.create({
     cancelToken: captchaCancelToken.token,
     validateStatus: false,
   });
 
-  // const balance = await client
-  //   .get(`https://rucaptcha.com/res.php?${querystring.stringify({ key: apiKey, action: 'getbalance' })}`)
-  //   .then((res) => res.data);
-
-  // if (balance === 'ERROR_WRONG_USER_KEY') {
-  //   throw new Error(balance);
-  // }
-
-  // if (balance <= 0) {
-  //   throw new Error('CAPTCHA_ZERO_BALANCE');
-  // }
-
-  // await sleep(5000);
-
-  const inQuery = querystring.stringify({
+  const queries = {
     key: apiKey,
     method: 'hcaptcha',
     sitekey: siteKey,
     pageurl: url,
+    invisible: 1,
+    data: rqdata,
+    userAgent,
     soft_id: 2694,
-  });
+  };
+
+  const inQuery = querystring.stringify(queries);
   const requestUrl = `http://rucaptcha.com/in.php?${inQuery}`;
   const captchaIDres = await client.post(requestUrl).then((res) => res.data);
 
@@ -57,5 +48,5 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
   }
 
   const [, result] = token.split('|');
-  return result ?? token;
+  return { token: result ?? token, userAgent };
 };

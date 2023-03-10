@@ -64,7 +64,6 @@ export const PASSWORD_SETTINGS_TYPES = {
 export const CAPTCHA_SERVICES = {
   TWOCAPTCHA: '2CAPTCHA',
   RUCAPTCHA: 'RUCAPTCHA',
-  DBC: 'DEATH BY CAPTCHA',
   ANTICAPTCHA: 'ANTI-CAPTCHA',
   CAPMONSTER: 'CAPMONSTER.CLOUD',
   CAPSOLVER: 'CAPSOLVER',
@@ -87,8 +86,6 @@ export const STATE_NAMES = {
   PASSWORD_ONE_FOR_ALL: 'passwordOneForAll',
   CURRENT_CAPTCHA: 'currentCaptcha',
   API_KEY: 'apiKey',
-  DBC_USERNAME: 'dbcUsername',
-  DBC_PASSWORD: 'dbcPassword',
   CUSTOM_TEMPLATE: 'customTemplate',
   USE_COMPACT: 'useCompact',
   USE_FULL: 'useFull',
@@ -108,7 +105,6 @@ export const LINKS = {
   CAPTCHA_SIGNUP: {
     [CAPTCHA_SERVICES.TWOCAPTCHA]: 'https://2captcha.com?from=8859803',
     [CAPTCHA_SERVICES.RUCAPTCHA]: 'https://rucaptcha.com?from=9296293',
-    [CAPTCHA_SERVICES.DBC]: 'https://deathbycaptcha.com',
     [CAPTCHA_SERVICES.ANTICAPTCHA]: 'http://getcaptchasolution.com/3ddik9kzvd',
     [CAPTCHA_SERVICES.CAPMONSTER]: 'https://capmonster.cloud/',
     [CAPTCHA_SERVICES.CAPSOLVER]: 'https://dashboard.capsolver.com/passport/register?inviteCode=0ZyAex_d1l3H',

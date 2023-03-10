@@ -43,19 +43,8 @@ const locales = {
   VN: 'vi',
 };
 
-const register = async ({ account, token, proxy, signUpCancelToken }) => {
+const register = async ({ account, token, proxy, client }) => {
   const apiUrl = 'https://signup-api.leagueoflegends.com/v1/accounts';
-
-  const client = axios.create({
-    timeout: 10000,
-    headers: {
-      'User-Agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36',
-    },
-    httpsAgent: getAgent(proxy),
-    cancelToken: signUpCancelToken.token,
-    validateStatus: false,
-  });
 
   const { username, password, birth, email, server } = account;
   const body = {
@@ -67,7 +56,8 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
     tou_agree: true,
     newsletter: false,
     region: regions[server],
-    campaign: 'league_of_legends',
+    campaign: '',
+    product_id: 'league_of_legends',
     locale: locales[server],
     token: `${token.mode} ${token.text}`,
   };
@@ -78,7 +68,22 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
     }
   });
 
-  if (!res) return { status: false };
+  if (!res) {
+    return {
+      ...account,
+      status: STATUS.ACCOUNT.FAILED,
+      proxy: proxy.actualIp,
+      errors: 'SIGN_UP_API_ERROR',
+    };
+  }
+
+  const rawCookies = res.headers['set-cookie'];
+  const cookies = rawCookies
+    .map((rawCookie) => {
+      const cookie = rawCookie.split(';')[0];
+      return `${cookie};`;
+    })
+    .join(' ');
 
   if (res.status === 200) {
     return {
@@ -97,16 +102,22 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
     return {
       ...account,
       status: STATUS.ACCOUNT.FAILED,
-      proxy: proxy.ip,
+      proxy: proxy.actualIp,
       errors: error,
       token: res.data.token,
       isUsernameNotUnique: error.includes('USERNAME'),
+      cookies,
     };
   }
 
   if (res.status === 503) {
     if (!res.data?.description) {
-      return { status: false };
+      return {
+        ...account,
+        status: STATUS.ACCOUNT.FAILED,
+        proxy: proxy.actualIp,
+        errors: 'SIGN_UP_API_ERROR',
+      };
     }
     return {
       ...account,
@@ -127,7 +138,12 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
   }
 
   if (res.status >= 400) {
-    return { status: false };
+    return {
+      ...account,
+      status: STATUS.ACCOUNT.FAILED,
+      proxy: proxy.actualIp,
+      errors: 'SIGN_UP_API_ERROR',
+    };
   }
 
   return {
@@ -141,46 +157,56 @@ const register = async ({ account, token, proxy, signUpCancelToken }) => {
   };
 };
 
-export default async ({ account, token, proxies }) => {
-  const signUpCancelToken = axios.CancelToken.source();
-  // captcha token is only viable for 120 seconds
-  sleep(3 * 60 * 1000).then(() => signUpCancelToken.cancel('SIGN_UP_TIMEOUT'));
-
-  const proxiesn = _.shuffle(proxies);
+export default async ({ account, token, proxy, cookies }) => {
   const config = {
-    token,
     account,
+    token,
   };
-  for (let i = 0; i < proxiesn.length; i += 1) {
-    const proxy = proxiesn[i];
 
-    if (global.RATE_LIMITED_PROXIES.has(proxy.actualIp) && !proxy.isRotating) continue;
-
-    const result = await register({ account: config.account, token: config.token, proxy, signUpCancelToken });
-
-    if (result.isUsernameNotUnique) {
-      const newUsername = `${config.account.username}${random(0, 9)}`;
-      config.account.email = config.account.email.replace(config.account.username, newUsername);
-      config.account.username = newUsername;
-      config.token = { mode: 'Token', text: result.token };
-      i -= 1;
-      continue;
-    }
-    if (result.isRateLimited && !proxy.isRotating) {
-      global.RATE_LIMITED_PROXIES.add(proxy.actualIp);
-      sleep(1000 * 60 * 5).then(() => global.RATE_LIMITED_PROXIES.delete(proxy.actualIp));
-    }
-    if (result.status) return result;
-    if (proxy.isRotating) {
-      i -= 1;
-      continue;
-    }
-  }
-  const result = await register({
-    account: config.account,
-    token: config.token,
-    proxy: { actualIp: 'LOCAL' },
-    signUpCancelToken,
+  const cancelToken = axios.CancelToken.source();
+  sleep(2 * 60 * 1000).then(() => cancelToken.cancel('SIGNUP_TIMEOUT'));
+  const client = axios.create({
+    timeout: 10000,
+    headers: {
+      'user-agent': token.userAgent,
+      Cookie: cookies,
+    },
+    httpsAgent: getAgent(proxy),
+    cancelToken: cancelToken.token,
+    validateStatus: false,
   });
+
+  let result = await register({ account: config.account, token: config.token, proxy, client });
+
+  if (result.isUsernameNotUnique) {
+    const newUsername = `${config.account.username}${random(0, 9)}`;
+    config.account.email = config.account.email.replace(config.account.username, newUsername);
+    config.account.username = newUsername;
+    config.token = { mode: 'Token', text: result.token };
+
+    const newCancelToken = axios.CancelToken.source();
+    sleep(2 * 60 * 1000).then(() => newCancelToken.cancel('SIGNUP_TIMEOUT'));
+    const newClient = axios.create({
+      timeout: 10000,
+      headers: {
+        'user-agent': token.userAgent,
+        Cookie: result.cookies,
+      },
+      httpsAgent: getAgent(proxy),
+      cancelToken: cancelToken.token,
+      validateStatus: false,
+    });
+    result = await register({
+      account: config.account,
+      token: config.token,
+      proxy,
+      client: newClient,
+    });
+  }
+  if (result.isRateLimited && !proxy.isRotating) {
+    global.RATE_LIMITED_PROXIES.add(proxy.actualIp);
+    sleep(1000 * 60 * 5).then(() => global.RATE_LIMITED_PROXIES.delete(proxy.actualIp));
+  }
+
   return result;
 };

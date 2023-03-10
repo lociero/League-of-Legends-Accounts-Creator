@@ -27,6 +27,7 @@ const ExportSettings = () => {
       birth: getRandomBirth(),
       creationDate: getDate(),
       proxy: '123.123.123.123',
+      puuid: 'fb544f59-ddfe-57eb-88eb-fda61c4d8cd4',
     }),
     []
   );
@@ -39,7 +40,7 @@ const ExportSettings = () => {
     <Container fluid>
       <Alert variant="secondary">
         You can change the export format by creating your own template. Token should be inside ${'{}'} brackets. <br />
-        Available tokens: server, username, password, email, accountId, birth, creationDate, proxy.
+        Available tokens: server, username, password, email, accountId, birth, creationDate, proxy, puuid.
       </Alert>
       <Row>
         <Col xs={12}>

@@ -7,8 +7,6 @@ import { STATE_NAMES, CAPTCHA_SERVICES, LINKS, LOCALHOST, isDev } from '../../co
 const Captcha = () => {
   const [currentCaptcha, updateCurrentCaptcha] = useGlobalState(STATE_NAMES.CURRENT_CAPTCHA);
   const [apiKey, updateApiKey] = useGlobalState(STATE_NAMES.API_KEY);
-  const [dbcUsername, updateDbcUsername] = useGlobalState(STATE_NAMES.DBC_USERNAME);
-  const [dbcPassword, updateDbcPassword] = useGlobalState(STATE_NAMES.DBC_PASSWORD);
   const [balance, updateBalance] = useState('');
   const [isChecking, toggleCheckingBalance] = useState('');
 
@@ -19,21 +17,12 @@ const Captcha = () => {
   const handleApiKeyChange = (e) => {
     updateApiKey(e.target.value);
   };
-  const handleUsernameChange = (e) => {
-    updateDbcUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    updateDbcPassword(e.target.value);
-  };
 
   const checkBalance = async () => {
     toggleCheckingBalance((prev) => !prev);
     const body = {
       currentCaptcha,
       apiKey,
-      username: dbcUsername,
-      password: dbcPassword,
     };
     const data = await axios
       .post(`${LOCALHOST}/getbalance`, body)
@@ -72,22 +61,12 @@ const Captcha = () => {
         </InputGroup>
       </Row>
       <Row>
-        {currentCaptcha === CAPTCHA_SERVICES.DBC ? (
-          <InputGroup className="col-6 p-1">
-            <InputGroup.Prepend>
-              <InputGroup.Text>DBC CREDENTIALS</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control placeholder="USERNAME" value={dbcUsername} onChange={handleUsernameChange} />
-            <Form.Control placeholder="PASSWORD" value={dbcPassword} type="password" onChange={handlePasswordChange} />
-          </InputGroup>
-        ) : (
-          <InputGroup className="col-6 p-1">
-            <InputGroup.Prepend>
-              <InputGroup.Text>API KEY</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control placeholder="ENTER YOUR API KEY" value={apiKey} onChange={handleApiKeyChange} />
-          </InputGroup>
-        )}
+        <InputGroup className="col-6 p-1">
+          <InputGroup.Prepend>
+            <InputGroup.Text>API KEY</InputGroup.Text>
+          </InputGroup.Prepend>
+          <Form.Control placeholder="ENTER YOUR API KEY" value={apiKey} onChange={handleApiKeyChange} />
+        </InputGroup>
       </Row>
       <Row>
         <InputGroup className="col-6 p-1">

@@ -2,38 +2,29 @@
 import axios from 'axios';
 import { sleep } from '../../../utils/utils.js';
 
-export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
+export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, userAgent }) => {
   const client = axios.create({
     cancelToken: captchaCancelToken.token,
     validateStatus: false,
   });
 
-  // const { balance, errorId, errorCode } = await client
-  //   .post('https://api.anti-captcha.com/getBalance', {
-  //     clientKey: apiKey,
-  //   })
-  //   .then((res) => res.data);
-
-  // if (errorId > 0) {
-  //   throw new Error(errorCode);
-  // }
-
-  // if (balance <= 0) {
-  //   throw new Error('CAPTCHA_ZERO_BALANCE');
-  // }
-
-  // await sleep(5000);
-
   const requestUrl = 'https://api.anti-captcha.com/createTask';
+
   const reqBody = {
     clientKey: apiKey,
     task: {
       type: 'HCaptchaTaskProxyless',
       websiteURL: url,
       websiteKey: siteKey,
+      isInvisible: true,
+      userAgent,
+      enterprisePayload: {
+        rqdata,
+      },
     },
     softId: 942,
   };
+
   const task = await client.post(requestUrl, reqBody).then((res) => res.data);
   const { taskId } = task;
 
@@ -65,5 +56,5 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
   }
 
   const token = taskState.solution.gRecaptchaResponse;
-  return token;
+  return { token, userAgent };
 };

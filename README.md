@@ -2,7 +2,7 @@
 
 ### Requirements
 
-1. Captcha subscription : [2Captcha](http://2captcha.com/?from=8859803) / [RuCaptcha](https://rucaptcha.com?from=9296293) / [Death By Captcha](https://www.deathbycaptcha.com/) / [Anti-Captcha](http://getcaptchasolution.com/3ddik9kzvd) / [CapMonster.Cloud](https://capmonster.cloud/) / [Capsolver](https://dashboard.capsolver.com/passport/register?inviteCode=0ZyAex_d1l3H)
+1. Captcha subscription : [CapMonster.Cloud (recommended)](https://capmonster.cloud/) / [2Captcha](http://2captcha.com/?from=8859803) / [RuCaptcha](https://rucaptcha.com?from=9296293) / [Anti-Captcha](http://getcaptchasolution.com/3ddik9kzvd) / [Capsolver](https://dashboard.capsolver.com/passport/register?inviteCode=0ZyAex_d1l3H)
 
 ### How to use
 

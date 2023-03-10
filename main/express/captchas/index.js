@@ -42,12 +42,12 @@ const captchaByType = {
 
 export default async (options) => {
   const captchaCancelToken = axios.CancelToken.source();
-  sleep(5 * 60 * 1000).then(() => captchaCancelToken.cancel('CAPTCHA_TIMEOUT'));
-  const token = await captchaByType[options.type]({
+  sleep(3 * 60 * 1000).then(() => captchaCancelToken.cancel('CAPTCHA_TIMEOUT'));
+  const { token, userAgent } = await captchaByType[options.type]({
     ...options,
     url: urls[options.server],
     siteKey,
     captchaCancelToken,
   });
-  return { mode: 'hcaptcha', text: token };
+  return { mode: 'hcaptcha', text: token, userAgent };
 };

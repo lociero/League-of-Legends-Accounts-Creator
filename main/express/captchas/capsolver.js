@@ -3,7 +3,7 @@ import axios from 'axios';
 import https from 'https';
 import { sleep } from '../../../utils/utils.js';
 
-export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
+export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, userAgent }) => {
   const client = axios.create({
     cancelToken: captchaCancelToken.token,
     validateStatus: false,
@@ -36,9 +36,15 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
       type: 'HCaptchaTaskProxyless',
       websiteURL: url,
       websiteKey: siteKey,
+      isInvisible: true,
+      enterprisePayload: {
+        rqdata,
+      },
+      userAgent,
     },
     appId: '0C32E629-157E-4073-9045-98936BAA6500',
   };
+
   const task = await client.post(requestUrl, reqBody).then((res) => res.data);
   const { taskId } = task;
 
@@ -69,5 +75,5 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken }) => {
   }
 
   const token = taskState.solution.gRecaptchaResponse;
-  return token;
+  return { token, userAgent };
 };
