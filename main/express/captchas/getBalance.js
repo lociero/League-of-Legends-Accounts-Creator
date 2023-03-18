@@ -28,18 +28,6 @@ const mapping = {
       .catch((err) => err.response.data);
     return data.request;
   },
-  [CAPTCHA_SERVICES.DBC]: async (_apiKey, username, password) => {
-    const query = querystring.stringify({ username, password });
-    const data = await axios
-      .get(`http://api.dbcapi.me/api?${query}`)
-      .then((res) => res.data)
-      .catch((err) => err.response.data);
-    if (!data.balance) {
-      throw new Error();
-    }
-    const balance = (data.balance / 100).toFixed(5);
-    return balance;
-  },
   [CAPTCHA_SERVICES.ANTICAPTCHA]: async (apiKey) => {
     const data = await axios
       .post('https://api.anti-captcha.com/getBalance', { clientKey: apiKey })
@@ -71,9 +59,9 @@ const mapping = {
   },
 };
 
-export default async ({ currentCaptcha, apiKey, username, password }) => {
+export default async ({ currentCaptcha, apiKey }) => {
   try {
-    const result = await mapping[currentCaptcha](apiKey, username, password);
+    const result = await mapping[currentCaptcha](apiKey);
     return result;
   } catch {
     return 'TRY AGAIN PLEASE';

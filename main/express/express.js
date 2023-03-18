@@ -91,8 +91,6 @@ export default () => {
     const captcha = {
       type: state.currentCaptcha,
       apiKey: state.apiKey,
-      username: state.username,
-      password: state.password,
     };
 
     let captchaError;

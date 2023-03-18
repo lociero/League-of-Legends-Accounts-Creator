@@ -55,12 +55,12 @@ const Generation = () => {
   };
 
   const startCreation = async () => {
-    const captchaKeysProvided = ![state.apiKey, state.dbcUsername, state.dbcPassword].every((key) => key.length === 0);
+    const captchaKeysProvided = state.apiKey.length !== 0;
     if (!captchaKeysProvided) {
       const messageBoxOptions = {
         type: 'error',
         title: 'Captcha apikey is missing',
-        message: 'You need api key from some captcha service.\nOpen CAPTCHA tab for more information.',
+        message: 'You did not provide the captcha api key.\nOpen CAPTCHA tab for more information.',
       };
       remote.dialog.showMessageBox(messageBoxOptions);
       return;
@@ -69,8 +69,6 @@ const Generation = () => {
     const body = {
       currentCaptcha: state.currentCaptcha,
       apiKey: state.apiKey,
-      username: state.dbcUsername,
-      password: state.dbcPassword,
       useProxy: state.useProxy,
     };
     const data = await axios.post(`${LOCALHOST}/signup`, body).then((res) => res.data);
