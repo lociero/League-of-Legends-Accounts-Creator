@@ -5,7 +5,6 @@ export default async (userAgent, proxy) => {
   const cancelToken = axios.CancelToken.source();
   sleep(1 * 30 * 1000).then(() => cancelToken.cancel('RQDATA_REQUEST_TIMEOUT'));
   const client = axios.create({
-    timeout: 10000,
     headers: {
       'User-Agent': userAgent,
     },
@@ -13,8 +12,15 @@ export default async (userAgent, proxy) => {
     cancelToken: cancelToken.token,
     validateStatus: false,
   });
-  const res = await client.get('https://signup-api.leagueoflegends.com/v1/config');
-  if (!res?.data?.captcha?.hcaptcha) {
+
+  const res = await client.get('https://signup-api.leagueoflegends.com/v1/config').catch((thrown) => {
+    if (axios.isCancel(thrown)) {
+      throw new Error(thrown.message);
+    }
+    throw new Error('RQDATA_REQUEST_FAILED');
+  });
+
+  if (!res?.data?.captcha?.hcaptcha || !res?.headers?.['set-cookie']) {
     throw new Error('RQDATA_REQUEST_FAILED');
   }
   const { rqdata } = res.data.captcha.hcaptcha;
