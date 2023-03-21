@@ -46,7 +46,6 @@ const locales = {
 
 const register = async ({ account, token, proxy, client }) => {
   const apiUrl = 'https://signup-api.leagueoflegends.com/v1/accounts';
-  console.log('token:', token.text.slice(0, 100));
 
   const { username, password, birth, email, server } = account;
   const body = {
