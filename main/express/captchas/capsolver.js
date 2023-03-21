@@ -33,11 +33,12 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, userAg
   const reqBody = {
     clientKey: apiKey,
     task: {
-      type: 'HCaptchaTaskProxyless',
+      type: 'HCaptchaEnterpriseTaskProxyLess',
       websiteURL: url,
       websiteKey: siteKey,
       isInvisible: true,
       enterprisePayload: {
+        isEnterprise: true,
         rqdata,
       },
       userAgent,

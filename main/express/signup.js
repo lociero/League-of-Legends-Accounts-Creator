@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-continue */
@@ -45,6 +46,7 @@ const locales = {
 
 const register = async ({ account, token, proxy, client }) => {
   const apiUrl = 'https://signup-api.leagueoflegends.com/v1/accounts';
+  console.log('token:', token.text.slice(0, 100));
 
   const { username, password, birth, email, server } = account;
   const body = {
@@ -158,11 +160,6 @@ const register = async ({ account, token, proxy, client }) => {
 };
 
 export default async ({ account, token, proxy, cookies }) => {
-  const config = {
-    account,
-    token,
-  };
-
   const cancelToken = axios.CancelToken.source();
   sleep(2 * 60 * 1000).then(() => cancelToken.cancel('SIGNUP_TIMEOUT'));
   const client = axios.create({
@@ -176,33 +173,40 @@ export default async ({ account, token, proxy, cookies }) => {
     validateStatus: false,
   });
 
-  let result = await register({ account: config.account, token: config.token, proxy, client });
+  const result = await register({ account, token, proxy, client });
 
   if (result.isUsernameNotUnique) {
-    const newUsername = `${config.account.username}${random(0, 9)}`;
-    config.account.email = config.account.email.replace(config.account.username, newUsername);
-    config.account.username = newUsername;
-    config.token = { mode: 'Token', text: result.token };
-
-    const newCancelToken = axios.CancelToken.source();
-    sleep(2 * 60 * 1000).then(() => newCancelToken.cancel('SIGNUP_TIMEOUT'));
-    const newClient = axios.create({
-      timeout: 10000,
-      headers: {
-        'user-agent': token.userAgent,
-        Cookie: result.cookies,
-      },
-      httpsAgent: getAgent(proxy),
-      cancelToken: cancelToken.token,
-      validateStatus: false,
-    });
-    result = await register({
-      account: config.account,
-      token: config.token,
-      proxy,
-      client: newClient,
-    });
+    const newUsername = `${account.username}${random(0, 9)}`;
+    account.email = account.email.replace(account.username, newUsername);
+    account.username = newUsername;
   }
+  // let result = await register({ account: config.account, token: config.token, proxy, client });
+
+  // if (result.isUsernameNotUnique) {
+  //   const newUsername = `${config.account.username}${random(0, 9)}`;
+  //   config.account.email = config.account.email.replace(config.account.username, newUsername);
+  //   config.account.username = newUsername;
+  //   config.token = { mode: 'Token', text: result.token };
+
+  //   const newCancelToken = axios.CancelToken.source();
+  //   sleep(2 * 60 * 1000).then(() => newCancelToken.cancel('SIGNUP_TIMEOUT'));
+  //   const newClient = axios.create({
+  //     timeout: 10000,
+  //     headers: {
+  //       'user-agent': token.userAgent,
+  //       Cookie: result.cookies,
+  //     },
+  //     httpsAgent: getAgent(proxy),
+  //     cancelToken: cancelToken.token,
+  //     validateStatus: false,
+  //   });
+  //   result = await register({
+  //     account: config.account,
+  //     token: config.token,
+  //     proxy,
+  //     client: newClient,
+  //   });
+  // }
   if (result.isRateLimited && !proxy.isRotating) {
     global.RATE_LIMITED_PROXIES.add(proxy.actualIp);
     sleep(1000 * 60 * 5).then(() => global.RATE_LIMITED_PROXIES.delete(proxy.actualIp));
