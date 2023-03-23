@@ -5,8 +5,9 @@ import generateData from '../dataGeneration.js';
 import checkProxy from './checkProxy.js';
 import getCaptchaBalance from './captchas/getBalance.js';
 import registration from './registration.js';
-import { STATUS } from '../../constants/constants.js';
+import { isDev, STATUS } from '../../constants/constants.js';
 import { sleep } from '../../utils/utils.js';
+import save from '../save.js';
 
 const crlf = (text) => text.replace(/\r\n|\r(?!\n)|\n/g, '\n');
 
@@ -74,6 +75,7 @@ export default () => {
   });
 
   global.RATE_LIMITED_PROXIES = new Set();
+  global.USED_USERNAMES = new Set();
   app.post('/stop_creation', (req, res) => {
     accountsState.isStopped = true;
     res.json({ stopped: true });
@@ -142,6 +144,7 @@ export default () => {
 
     accountsState.isStopped = false;
     accountsState.isGenerating = false;
+    if (!isDev) save(accountsState.list, state, global.USED_USERNAMES);
   });
 
   app.get('/signup', (_req, res) => {

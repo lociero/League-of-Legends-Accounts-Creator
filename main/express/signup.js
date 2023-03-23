@@ -175,6 +175,7 @@ export default async ({ account, token, proxy, cookies }) => {
   const result = await register({ account, token, proxy, client });
 
   if (result.isUsernameNotUnique) {
+    global.USED_USERNAMES.add(account.username);
     const newUsername = `${account.username}${random(0, 9)}`;
     account.email = account.email.replace(account.username, newUsername);
     account.username = newUsername;

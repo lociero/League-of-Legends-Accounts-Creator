@@ -6,8 +6,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import AccountsTable from './AccountsTable.jsx';
 import useGlobalState from '../state.js';
-import save from '../save.js';
-import { STATE_NAMES, LOCALHOST, dirname, STATUS, isDev } from '../../constants/constants.js';
+import { STATE_NAMES, LOCALHOST, dirname, STATUS } from '../../constants/constants.js';
 import { sleep, parseTemplate, copyToClipboard } from '../../utils/utils.js';
 
 const Generation = () => {
@@ -66,12 +65,8 @@ const Generation = () => {
       return;
     }
     toggleCreating(true);
-    const body = {
-      currentCaptcha: state.currentCaptcha,
-      apiKey: state.apiKey,
-      useProxy: state.useProxy,
-    };
-    const data = await axios.post(`${LOCALHOST}/signup`, body).then((res) => res.data);
+
+    const data = await axios.post(`${LOCALHOST}/signup`, state).then((res) => res.data);
     updateAccounts(data.list);
     let { isGenerating } = data;
     while (isGenerating) {
@@ -86,11 +81,11 @@ const Generation = () => {
       updateRateLimitedProxiesCount(rateLimitedProxies);
     }
     toggleCreating(false);
-    const { list } = await axios.get(`${LOCALHOST}/signup`).then((res) => res.data);
+    // const { list } = await axios.get(`${LOCALHOST}/signup`).then((res) => res.data);
 
-    if (!isDev) {
-      save(list, state);
-    }
+    // if (!isDev) {
+    //   save(list, state);
+    // }
   };
   return (
     <>
