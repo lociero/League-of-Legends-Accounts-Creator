@@ -183,8 +183,10 @@ const ProxyTopPanel = () => {
         </Modal.Header>
         <Modal.Body>
           <Alert variant="secondary">
-            Paid proxies are highly recommended! <Alert.Link href="https://iproyal.com?r=megaded">IPROYAL</Alert.Link> /{' '}
-            <Alert.Link href="https://app.proxy-cheap.com/r/0TMQxQ">PROXYCHEAP</Alert.Link> <br />
+            Paid proxies are highly recommended! <br />
+            Also I recommend to use 1 specific country. <br />
+            Link 1: <Alert.Link href="https://iproyal.com?r=megaded">IPROYAL</Alert.Link> <br />
+            Link 2: <Alert.Link href="https://app.proxy-cheap.com/r/0TMQxQ">PROXYCHEAP</Alert.Link> <br />
             <strong>Formats:</strong> ip:port / ip:port:username:password <br />
             <strong>Do not forget to check proxies before creation.</strong>
           </Alert>
