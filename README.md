@@ -40,6 +40,9 @@ You can create only 10 accounts at once from 1 ip. If you need more use proxies.
 ### I'm using free proxies and have a bad success creation rate, why?
 Free proxies are super unstable. I highly recommend paid ones like [IpRoyal](https://iproyal.com?r=megaded) and [ProxyCheap](https://app.proxy-cheap.com/r/0TMQxQ). Or you can use your own ofc. I recommend rotating proxies, on proxy list generation use 1 specific country please and if you want to know creation ip use session(sticky ip) option. Use at least 1 different proxy for 5 accounts to not be rate limited.
 
+### VN accounts are not created properly. What should I do?
+You should have Vietnam ip to create VN accounts.
+
 ## If you want to build it by yourself
 
 ```bash
