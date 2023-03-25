@@ -229,7 +229,6 @@ const ProxyTopPanel = () => {
               variant="outline-secondary"
               onClick={async () => {
                 const url = clipboard.readText();
-                console.log('URL:', url);
                 const data = await axios
                   .get(url)
                   .then((res) => res.data)
