@@ -37,18 +37,31 @@ export default async (account, captcha, proxies) => {
     result = await registration(account, captcha, { actualIp: 'LOCAL' }, userAgent);
     return result;
   }
-  for (let i = 0, tries = 1; i < proxiesn.length; i += 1, tries += 1) {
+  for (let i = 0, tries = 1; i < proxiesn.length; i += 1) {
     if (tries > 5) {
       break;
     }
     const proxy = proxiesn[i];
 
-    if (global.RATE_LIMITED_PROXIES.has(proxy.actualIp) && !proxy.isRotating) continue;
+    if (global.RATE_LIMITED_PROXIES.has(proxy.actualIp) && !proxy.isRotating) {
+      continue;
+    }
+    tries += 1;
 
     result = await registration(account, captcha, proxy, userAgent);
     if (result.status === STATUS.ACCOUNT.SUCCESS) {
       return result;
     }
+
+    if (proxy.isRotating) {
+      i -= 1;
+    }
   }
-  return result;
+  return (
+    result ?? {
+      ...account,
+      status: STATUS.ACCOUNT.FAILED,
+      errors: 'NO_PROXIES_LEFT',
+    }
+  );
 };
