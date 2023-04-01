@@ -21,7 +21,7 @@ const check = async (proxy) => {
   });
 
   if (res?.status === 200) {
-    return { ...proxy, isWorking: STATUS.PROXY.WORKING, actualIp: res.data.ip };
+    return { ...proxy, isWorking: STATUS.PROXY.WORKING, actualIp: `${res.data.ip}${proxy.isRotating ? '*' : ''}` };
   }
   throw new Error('ahhhhh wireeee');
 };
