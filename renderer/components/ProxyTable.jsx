@@ -50,6 +50,11 @@ const ProxyTable = () => {
       dataField: 'password',
     },
     {
+      text: 'IS ROTATING',
+      dataField: 'isRotating',
+      formatter: (cell) => (cell ? 'TRUE' : 'FALSE'),
+    },
+    {
       text: 'IS WORKING',
       dataField: 'isWorking',
       sort: true,
