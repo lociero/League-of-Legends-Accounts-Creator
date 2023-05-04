@@ -1787,9 +1787,6 @@ const masks = `@0-00.usa.cc
 @xoxy.net
 @xperiae5.com
 @xrho.com
-@xwaretech.com
-@xwaretech.info
-@xwaretech.net
 @xww.ro
 @xxi2.com
 @xxlocanto.us
