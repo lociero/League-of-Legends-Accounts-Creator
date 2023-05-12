@@ -38,8 +38,8 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, userAg
       websiteKey: siteKey,
       isInvisible: true,
       enterprisePayload: {
-        isEnterprise: true,
         rqdata,
+        data: rqdata,
       },
       userAgent,
     },

@@ -37,7 +37,7 @@ export default async (account, captcha, proxies) => {
     result = await registration(account, captcha, { actualIp: 'LOCAL' }, userAgent);
     return result;
   }
-  for (let i = 0, tries = 1; i < proxiesn.length; i += 1) {
+  for (let i = 0, tries = 5; i < proxiesn.length; i += 1) {
     if (tries > 5) {
       break;
     }
@@ -49,6 +49,7 @@ export default async (account, captcha, proxies) => {
     tries += 1;
 
     result = await registration(account, captcha, proxy, userAgent);
+    console.log(result);
     if (result.status === STATUS.ACCOUNT.SUCCESS) {
       return result;
     }

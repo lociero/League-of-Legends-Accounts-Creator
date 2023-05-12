@@ -80,7 +80,7 @@ const register = async ({ account, token, proxy, client }) => {
 
   const rawCookies = res.headers['set-cookie'];
   const cookies = rawCookies
-    .map((rawCookie) => {
+    ?.map((rawCookie) => {
       const cookie = rawCookie.split(';')[0];
       return `${cookie};`;
     })
@@ -117,7 +117,7 @@ const register = async ({ account, token, proxy, client }) => {
         ...account,
         status: STATUS.ACCOUNT.FAILED,
         proxy: proxy.actualIp,
-        errors: 'SIGN_UP_API_ERROR',
+        errors: `SIGN_UP_API_ERROR ${res.status}`,
       };
     }
     return {
@@ -143,7 +143,7 @@ const register = async ({ account, token, proxy, client }) => {
       ...account,
       status: STATUS.ACCOUNT.FAILED,
       proxy: proxy.actualIp,
-      errors: 'SIGN_UP_API_ERROR',
+      errors: `SIGN_UP_API_ERROR ${res.status}`,
     };
   }
 
