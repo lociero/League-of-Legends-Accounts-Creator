@@ -131,7 +131,7 @@ export default () => {
         }
         const result = await Promise.race([
           registration(account, captcha, proxyList),
-          sleep(300 * 1000).then(() => ({
+          sleep(600 * 1000).then(() => ({
             ...account,
             status: STATUS.ACCOUNT.FAILED,
             errors: 'GENERAL_TIMEOUT',
