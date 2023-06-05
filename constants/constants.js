@@ -29,6 +29,7 @@ export const SERVERS = {
   TH: 'TH',
   TW: 'TW',
   VN: 'VN',
+  PBE: 'PBE',
 };
 
 export const TABS = {

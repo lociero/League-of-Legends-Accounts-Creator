@@ -27,6 +27,7 @@ const urls = {
   TH: 'https://signup.leagueoflegends.com/th-th/signup/index#/',
   TW: 'https://signup.leagueoflegends.com/zh-tw/signup/index#/',
   VN: 'https://lienminh.vnggames.com/dang-ky/#/',
+  PBE: 'https://signup.leagueoflegends.com/en-be/signup/index#/',
 };
 
 const captchaByType = {

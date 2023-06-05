@@ -24,6 +24,7 @@ const regions = {
   TW: 'TW2',
   // VN: 'VN2',
   VN: null,
+  PBE: 'PBE1',
 };
 
 const locales = {
@@ -42,6 +43,7 @@ const locales = {
   TH: 'th',
   TW: 'zh-Hant',
   VN: 'vi',
+  PBE: 'en',
 };
 
 const register = async ({ account, token, proxy, client }) => {
