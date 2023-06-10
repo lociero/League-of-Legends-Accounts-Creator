@@ -79,7 +79,7 @@ Juan Campillos // diagno******le@gmail.com
 I rarely reply to simple hello messages or meta questions like `Are you here?` Please do not waste your time it will help both of us. I will answer as fast as I can if you provided enough info. Cheers.
 
 ```
-Discord: megaded#1529
+Discord: megaded
 Email: omgoole@ya.ru
 ```
 
