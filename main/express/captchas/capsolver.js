@@ -3,7 +3,7 @@ import axios from 'axios';
 import https from 'https';
 import { sleep } from '../../../utils/utils.js';
 
-export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, userAgent }) => {
+export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, userAgent, proxy }) => {
   const client = axios.create({
     cancelToken: captchaCancelToken.token,
     validateStatus: false,
@@ -13,27 +13,10 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, userAg
     }),
   });
 
-  // const { balance, errorId, errorCode } = await client
-  //   .post('https://api.capsolver.com/getBalance', {
-  //     clientKey: apiKey,
-  //   })
-  //   .then((res) => res.data);
-
-  // if (errorId > 0) {
-  //   throw new Error(errorCode);
-  // }
-
-  // if (balance <= 0) {
-  //   throw new Error('CAPTCHA_ZERO_BALANCE');
-  // }
-
-  // await sleep(5000);
-
   const requestUrl = 'https://api.capsolver.com/createTask';
   const reqBody = {
     clientKey: apiKey,
     task: {
-      type: 'HCaptchaEnterpriseTaskProxyLess',
       websiteURL: url,
       websiteKey: siteKey,
       isInvisible: true,
@@ -45,6 +28,15 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, userAg
     },
     appId: '0C32E629-157E-4073-9045-98936BAA6500',
   };
+
+  if (proxy.ip) {
+    reqBody.task.type = 'HCaptchaEnterpriseTask';
+    reqBody.task.proxy = proxy.isAuth
+      ? `${proxy.type.toLowerCase()}:${proxy.ip}:${proxy.port}:${proxy.username}:${proxy.password}`
+      : `${proxy.type.toLowerCase()}:${proxy.ip}:${proxy.port}`;
+  } else {
+    reqBody.task.type = 'HCaptchaEnterpriseTaskProxyLess';
+  }
 
   const task = await client.post(requestUrl, reqBody).then((res) => res.data);
   const { taskId } = task;
