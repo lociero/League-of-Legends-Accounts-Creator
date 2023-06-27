@@ -68,6 +68,7 @@ export const CAPTCHA_SERVICES = {
   ANTICAPTCHA: 'ANTI-CAPTCHA',
   CAPMONSTER: 'CAPMONSTER.CLOUD',
   CAPSOLVER: 'CAPSOLVER',
+  DBC: 'DEATH BY CAPTCHA',
 };
 
 export const STATE_NAMES = {
@@ -109,6 +110,7 @@ export const LINKS = {
     [CAPTCHA_SERVICES.ANTICAPTCHA]: 'http://getcaptchasolution.com/3ddik9kzvd',
     [CAPTCHA_SERVICES.CAPMONSTER]: 'https://capmonster.cloud/',
     [CAPTCHA_SERVICES.CAPSOLVER]: 'https://dashboard.capsolver.com/passport/register?inviteCode=0ZyAex_d1l3H',
+    [CAPTCHA_SERVICES.DBC]: 'https://deathbycaptcha.com/register?refid=1237003608',
   },
 };
 

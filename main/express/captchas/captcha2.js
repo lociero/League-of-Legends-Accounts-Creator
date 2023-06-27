@@ -3,7 +3,7 @@ import axios from 'axios';
 import querystring from 'querystring';
 import { sleep } from '../../../utils/utils.js';
 
-export default async ({ apiKey, siteKey, url, captchaCancelToken, userAgent, rqdata }) => {
+export default async ({ apiKey, siteKey, url, captchaCancelToken, userAgent, rqdata, proxy }) => {
   const client = axios.create({
     cancelToken: captchaCancelToken.token,
     validateStatus: false,
@@ -28,11 +28,16 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken, userAgent, rqd
     pageurl: url,
     invisible: 1,
     data: rqdata,
-    // proxy: proxy.ip ? `${proxy.username}:${proxy.password}@${proxy.ip}:${proxy.port}` : null,
-    // proxytype: proxy.type,
     userAgent,
     soft_id: 2622,
   };
+
+  if (proxy.ip) {
+    queries.proxy = proxy.isAuth
+      ? `${proxy.username}:${proxy.password}@${proxy.ip}:${proxy.port}`
+      : `${proxy.ip}:${proxy.port}`;
+    queries.proxytype = proxy.type;
+  }
 
   const inQuery = querystring.stringify(queries);
   const requestUrl = `http://2captcha.com/in.php?${inQuery}`;

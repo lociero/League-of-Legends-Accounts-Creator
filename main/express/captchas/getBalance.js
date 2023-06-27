@@ -57,6 +57,19 @@ const mapping = {
       .catch((err) => err.response.data);
     return data.balance ?? data.errorCode;
   },
+  [CAPTCHA_SERVICES.DBC]: async (apiKey) => {
+    const [username, password] = apiKey.split(':');
+    const query = querystring.stringify({ username, password });
+    const data = await axios
+      .get(`http://api.dbcapi.me/api?${query}`)
+      .then((res) => res.data)
+      .catch((err) => err.response.data);
+    if (!data.balance) {
+      throw new Error();
+    }
+    const balance = (data.balance / 100).toFixed(5);
+    return balance;
+  },
 };
 
 export default async ({ currentCaptcha, apiKey }) => {

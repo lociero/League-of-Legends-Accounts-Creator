@@ -3,26 +3,18 @@ import axios from 'axios';
 import querystring from 'querystring';
 import { sleep } from '../../../utils/utils.js';
 
-export default async ({ username, password, siteKey, url, captchaCancelToken }) => {
+export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, /* proxy, */ userAgent }) => {
   const client = axios.create({
     cancelToken: captchaCancelToken.token,
     validateStatus: false,
   });
 
-  // const { balance } = await client
-  //   .get(`http://api.dbcapi.me/api?${querystring.stringify({ username, password })}`)
-  //   .then((res) => res.data);
-  // if (balance <= 0) {
-  //   throw new Error('CAPTCHA_ZERO_BALANCE');
-  // }
-
-  // await sleep(5000);
-
+  const [username, password] = apiKey.split(':');
   const payload = querystring.stringify({
     username,
     password,
     type: 7,
-    hcaptcha_params: JSON.stringify({ sitekey: siteKey, pageurl: url }),
+    hcaptcha_params: JSON.stringify({ sitekey: siteKey, pageurl: url, rqdata }),
   });
 
   let status = await client.post('http://api.dbcapi.me/api/captcha', payload).then((res) => res.data);
@@ -45,5 +37,5 @@ export default async ({ username, password, siteKey, url, captchaCancelToken }) 
     throw new Error('DBC_CAPTCHA_ERROR');
   }
 
-  return status.text;
+  return { token: status.text, userAgent };
 };

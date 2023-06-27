@@ -65,7 +65,11 @@ const Captcha = () => {
           <InputGroup.Prepend>
             <InputGroup.Text>API KEY</InputGroup.Text>
           </InputGroup.Prepend>
-          <Form.Control placeholder="ENTER YOUR API KEY" value={apiKey} onChange={handleApiKeyChange} />
+          <Form.Control
+            placeholder="ENTER YOUR API KEY / USERNAME:PASSWORD (DBC)"
+            value={apiKey}
+            onChange={handleApiKeyChange}
+          />
         </InputGroup>
       </Row>
       <Row>
