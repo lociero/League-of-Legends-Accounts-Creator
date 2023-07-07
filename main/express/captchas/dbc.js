@@ -9,11 +9,12 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, /* pro
     validateStatus: false,
   });
 
-  const [username, password] = apiKey.split(':');
+  const [username, password] = apiKey.split(':').map((str) => str.trim());
   const payload = querystring.stringify({
     username,
     password,
     type: 7,
+    vendor_id: 1237003608,
     hcaptcha_params: JSON.stringify({ sitekey: siteKey, pageurl: url, rqdata }),
   });
 
