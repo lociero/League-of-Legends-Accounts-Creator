@@ -28,7 +28,7 @@ const check = async (proxy) => {
 
 export default async (proxy) => {
   const result = await Promise.any(
-    Array(5)
+    Array(3)
       .fill()
       .map(() => check(proxy))
   ).catch(() => ({
