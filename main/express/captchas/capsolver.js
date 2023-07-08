@@ -30,12 +30,12 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, userAg
   };
 
   if (proxy.ip) {
-    reqBody.task.type = 'HCaptchaEnterpriseTask';
+    reqBody.task.type = 'HCaptchaTask';
     reqBody.task.proxy = proxy.isAuth
       ? `${proxy.type.toLowerCase()}:${proxy.ip}:${proxy.port}:${proxy.username}:${proxy.password}`
       : `${proxy.type.toLowerCase()}:${proxy.ip}:${proxy.port}`;
   } else {
-    reqBody.task.type = 'HCaptchaEnterpriseTaskProxyLess';
+    reqBody.task.type = 'HCaptchaTaskProxyLess';
   }
 
   const task = await client.post(requestUrl, reqBody).then((res) => res.data);
