@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { sleep } from '../../../utils/utils.js';
 
-export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, userAgent }) => {
+export default async ({ apiKey, siteKey, url, captchaCancelToken, proxy, rqdata, userAgent }) => {
   const client = axios.create({
     cancelToken: captchaCancelToken.token,
     validateStatus: false,
@@ -55,6 +55,6 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, userAg
     }
   }
 
-  const token = taskState.solution.gRecaptchaResponse;
-  return { token, userAgent };
+  const { gRecaptchaResponse, userAgent: ua } = taskState.solution;
+  return { token: gRecaptchaResponse, userAgent: ua };
 };
