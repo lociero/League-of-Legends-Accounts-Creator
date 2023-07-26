@@ -4,7 +4,7 @@
 
 - Captcha subscription:
   - [Capsolver (recommended)](https://dashboard.capsolver.com/passport/register?inviteCode=0ZyAex_d1l3H)
-  - [CapMonster.Cloud (recommended)](https://capmonster.cloud/)
+  - [CapMonster.Cloud](https://capmonster.cloud/)
   - [Death By Captcha](https://deathbycaptcha.com/register?refid=1237003608)
   - [2Captcha](http://2captcha.com/?from=8859803)
   - [RuCaptcha](https://rucaptcha.com?from=9296293)
