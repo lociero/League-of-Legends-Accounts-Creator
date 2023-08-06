@@ -29,6 +29,7 @@ const urls = {
   TW: 'https://signup.leagueoflegends.com/zh-tw/signup/index#/',
   VN: 'https://lienminh.vnggames.com/dang-ky/#/',
   PBE: 'https://signup.leagueoflegends.com/en-be/signup/index#/',
+  default: 'https://auth.riotgames.com/login',
 };
 
 const captchaByType = {
@@ -43,10 +44,11 @@ const captchaByType = {
 
 export default async (options) => {
   const captchaCancelToken = axios.CancelToken.source();
-  sleep(3 * 60 * 1000).then(() => captchaCancelToken.cancel('CAPTCHA_TIMEOUT'));
+  sleep(5 * 60 * 1000).then(() => captchaCancelToken.cancel('CAPTCHA_TIMEOUT'));
   const { token, userAgent } = await captchaByType[options.type]({
     ...options,
-    url: urls[options.server],
+    // url: urls[options.server],
+    url: urls.default,
     siteKey,
     captchaCancelToken,
   });
