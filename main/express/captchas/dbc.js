@@ -14,7 +14,7 @@ export default async ({ apiKey, siteKey, url, captchaCancelToken, rqdata, /* pro
     username,
     password,
     type: 7,
-    vendor_id: 1237003608,
+    'vendor-id': 1237003608,
     hcaptcha_params: JSON.stringify({ sitekey: siteKey, pageurl: url, rqdata }),
   });
 
