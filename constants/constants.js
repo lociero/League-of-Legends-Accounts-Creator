@@ -16,6 +16,7 @@ export const EMAIL_MASKS = [...emailMasks];
 export const SERVERS = {
   EUW: 'EUW',
   EUNE: 'EUNE',
+  ME: 'ME',
   NA: 'NA',
   BR: 'BR',
   TR: 'TR',

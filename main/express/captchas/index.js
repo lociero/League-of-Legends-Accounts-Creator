@@ -15,6 +15,7 @@ const siteKey = 'a010c060-9eb5-498c-a7b9-9204c881f9dc';
 const urls = {
   EUW: 'https://signup.leagueoflegends.com/en-gb/signup/index#/',
   EUNE: 'https://signup.leagueoflegends.com/en-pl/signup/index#/',
+  ME: 'https://signup.leagueoflegends.com/en-us/signup/index#/',
   NA: 'https://signup.leagueoflegends.com/en-us/signup/index#/',
   BR: 'https://signup.leagueoflegends.com/pt-br/signup/index#/',
   TR: 'https://signup.leagueoflegends.com/tr-tr/signup/index#/',

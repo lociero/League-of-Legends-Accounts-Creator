@@ -10,6 +10,7 @@ import { STATUS } from '../../constants/constants.js';
 const regions = {
   EUW: 'EUW1',
   EUNE: 'EUN1',
+  ME: 'ME1',
   NA: 'NA1',
   BR: 'BR1',
   TR: 'TR1',
@@ -30,6 +31,7 @@ const regions = {
 const locales = {
   EUW: 'en',
   EUNE: 'en',
+  ME: 'en',
   NA: 'en',
   BR: 'pt',
   TR: 'tr',
