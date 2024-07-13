@@ -93,7 +93,7 @@ USDC: 0x5481f0Ccb95F7b4609D6BAC12d2d88d05981f04a
 ETH: 0x5481f0Ccb95F7b4609D6BAC12d2d88d05981f04a
 TRX: TTkAQtbMGrm2PwYcV4GYyAwXJjHDUeHXAb
 LTC: LeTefZ9e8gaf7nrhZtxMY8BsWud8oDssbT
-BINANCE: omgoole@ya.ru
+TON: UQDgyubNPGPZ2rCMepee9Ebb3J3NleSqiHjCPuM5KGjQw-Pz
 ```
 
 ### Peace & Love for everyone! ❤️
