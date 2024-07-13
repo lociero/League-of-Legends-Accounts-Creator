@@ -139,7 +139,7 @@ const ProxyTopPanel = () => {
             </Form.Control>
             <InputGroup.Append>
               {/* <Button variant="outline-primary" onClick={handleUpdateCountries}> */}
-              <Button variant="outline-primary" onClick={initProxyHandler}>
+              <Button disabled variant="outline-primary" onClick={initProxyHandler}>
                 {isCountriesLoading ? (
                   <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
                 ) : (
@@ -156,15 +156,7 @@ const ProxyTopPanel = () => {
             data-tip
           />
           <ReactTooltip id="free_proxy_info" effect="solid" place="right">
-            <p className="m-0">
-              Update to load availabe countries
-              <br />
-              You can add different countries one by one
-              <br />
-              Added something extra? Clean table
-              <br />
-              Dont forget to check proxies before creation
-            </p>
+            <p className="m-0">Free proxies are disabled. Use the paid ones with ADD PROXIES button.</p>
           </ReactTooltip>
         </Row>
         {isProxyChecking ? (
