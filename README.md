@@ -3,10 +3,10 @@
 ## Requirements
 
 - Captcha subscription:
-  - [CapMonster.Cloud (recommended)](https://capmonster.cloud/)
+  - [CapMonster.Cloud](https://capmonster.cloud/)
+  - [2Captcha](http://2captcha.com/?from=8859803)
   - [Capsolver](https://dashboard.capsolver.com/passport/register?inviteCode=0ZyAex_d1l3H)
   - [Death By Captcha](https://deathbycaptcha.com/register?refid=1237003608)
-  - [2Captcha](http://2captcha.com/?from=8859803)
   - [RuCaptcha](https://rucaptcha.com?from=9296293)
   - [Anti-Captcha](http://getcaptchasolution.com/3ddik9kzvd)
 
@@ -21,12 +21,12 @@
 
 ## Settings
 
-1. Server. Supported: EUW, EUNE, NA, BR, TR, RU, OCE, LAN, LAS, JP, PH, SG, TH, TW, VN.
+1. ~~Server. Supported: EUW, EUNE, NA, BR, TR, RU, OCE, LAN, LAS, JP, PH, SG, TH, TW, VN.~~ (Can't choose anymore. If you have any info about it, contact me.)
 2. Email. (Custom emails, custom domains, random domains)
 3. Username. (Custom list, Random)
 4. Password. (Length, One for all)
 5. Date of Birth. (Random, One for all)
-6. Proxy. (Own proxy list / free proxies from proxyscrape.com / Rotating proxies support)
+6. Proxy. (Use only static ips, or sticky/session ip for rotating ones)
 
 ## FAQ
 ### Is it free?
