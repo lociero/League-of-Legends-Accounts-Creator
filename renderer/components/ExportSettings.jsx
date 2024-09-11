@@ -19,11 +19,10 @@ const ExportSettings = () => {
 
   const exampleAccount = React.useMemo(
     () => ({
-      server: 'EUW',
+      server: 'GENERAL',
       username: genName(7, 8),
       password: genPass(10),
       email: 'example@rito.pls',
-      accountId: 1234567890,
       birth: getRandomBirth(),
       creationDate: getDate(),
       proxy: '123.123.123.123',
@@ -40,7 +39,7 @@ const ExportSettings = () => {
     <Container fluid>
       <Alert variant="secondary">
         You can change the export format by creating your own template. Token should be inside ${'{}'} brackets. <br />
-        Available tokens: server, username, password, email, accountId, birth, creationDate, proxy, puuid.
+        Available tokens: server, username, password, email, birth, creationDate, proxy, puuid.
       </Alert>
       <Row>
         <Col xs={12}>

@@ -32,7 +32,7 @@ const initialState = {
   [STATE_NAMES.CURRENT_CAPTCHA]: CAPTCHA_SERVICES.CAPMONSTER,
   [STATE_NAMES.API_KEY]: '',
   [STATE_NAMES.CUSTOM_TEMPLATE]:
-    '${server}:${username}:${password}:${email}:${accountId}:${birth}:${creationDate}:${proxy}:${puuid}',
+    '${server}:${username}:${password}:${email}:${birth}:${creationDate}:${proxy}:${puuid}',
   [STATE_NAMES.USE_COMPACT]: true,
   [STATE_NAMES.USE_FULL]: true,
   [STATE_NAMES.USE_CUSTOM]: false,
