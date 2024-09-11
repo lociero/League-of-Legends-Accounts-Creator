@@ -14,23 +14,7 @@ export const isDev = process.env.NODE_ENV === 'development';
 export const EMAIL_MASKS = [...emailMasks];
 
 export const SERVERS = {
-  EUW: 'EUW',
-  EUNE: 'EUNE',
-  ME: 'ME',
-  NA: 'NA',
-  BR: 'BR',
-  TR: 'TR',
-  RU: 'RU',
-  OCE: 'OCE',
-  LAN: 'LAN',
-  LAS: 'LAS',
-  JP: 'JP',
-  PH: 'PH',
-  SG: 'SG',
-  TH: 'TH',
-  TW: 'TW',
-  VN: 'VN',
-  PBE: 'PBE',
+  GENERAL: 'GENERAL',
 };
 
 export const TABS = {
