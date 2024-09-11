@@ -10,7 +10,7 @@ import solveCapSolver from './capsolver.js';
 import solveDBC from './dbc.js';
 
 // const googleKey = '6Lc3HAsUAAAAACsN7CgY9MMVxo2M09n_e4heJEiZ';
-const siteKey = 'a010c060-9eb5-498c-a7b9-9204c881f9dc';
+// const siteKey = 'a010c060-9eb5-498c-a7b9-9204c881f9dc';
 
 const urls = {
   EUW: 'https://signup.leagueoflegends.com/en-gb/signup/index#/',
@@ -30,7 +30,7 @@ const urls = {
   TW: 'https://signup.leagueoflegends.com/zh-tw/signup/index#/',
   VN: 'https://lienminh.vnggames.com/dang-ky/#/',
   PBE: 'https://signup.leagueoflegends.com/en-be/signup/index#/',
-  default: 'https://auth.riotgames.com/login',
+  default: 'https://authenticate.riotgames.com/',
 };
 
 const captchaByType = {
@@ -50,7 +50,6 @@ export default async (options) => {
     ...options,
     // url: urls[options.server],
     url: urls.default,
-    siteKey,
     captchaCancelToken,
   });
   return { mode: 'hcaptcha', text: token, userAgent };

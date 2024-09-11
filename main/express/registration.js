@@ -9,9 +9,9 @@ import getConfig from './getConfig.js';
 
 const registration = async (account, captcha, proxy, userAgent) => {
   try {
-    const { rqdata, cookies } = await getConfig(userAgent, proxy);
+    const { rqdata, cookies, siteKey } = await getConfig(userAgent, proxy);
 
-    const token = await solveCaptcha({ ...captcha, server: account.server, rqdata, userAgent, proxy });
+    const token = await solveCaptcha({ ...captcha, server: account.server, rqdata, userAgent, proxy, siteKey });
 
     if (!token.text.includes('eyJ')) {
       throw new Error(token.text);
