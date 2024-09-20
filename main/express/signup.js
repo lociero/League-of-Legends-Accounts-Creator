@@ -44,6 +44,16 @@ const register = async ({ account, token, proxy, client }) => {
       };
     }
 
+    if (res?.data?.type === 'error') {
+      return {
+        ...account,
+        status: STATUS.ACCOUNT.FAILED,
+        proxy: `${proxy.actualIp} [${res.data.country}]`,
+        errors: res.data.error.toUpperCase(),
+        isRateLimited: res.data.error === 'user_rate_limited',
+      };
+    }
+
     return {
       ...account,
       status: STATUS.ACCOUNT.FAILED,

@@ -30,7 +30,8 @@ const urls = {
   TW: 'https://signup.leagueoflegends.com/zh-tw/signup/index#/',
   VN: 'https://lienminh.vnggames.com/dang-ky/#/',
   PBE: 'https://signup.leagueoflegends.com/en-be/signup/index#/',
-  default: 'https://authenticate.riotgames.com/',
+  default:
+    'https://authenticate.riotgames.com/?client_id=accountodactyl-prod&locale=en_US&method=riot_identity&platform=web',
 };
 
 const captchaByType = {
