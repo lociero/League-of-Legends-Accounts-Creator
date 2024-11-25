@@ -1,5 +1,9 @@
 # League of Legends Accounts Creator
 
+## News  
+[25th Nov 2024]:  
+For about 5 years I tried to maintain this creator in working condition even tho I didn't have much time for that and a lot of small bugs / features weren't fixed or implemented, I'm sorry for that :). Also I don't see any reason to keep on doing for many reasons. Times have changed. No captcha solver is able to solve riot captcha anymore due to legal pressure from hCaptcha. I want to thank everyone for your kind words and help during all this time but this repository won't be updated anymore.  
+Peace ❤️
 ## Requirements
 
 - Captcha subscription:
